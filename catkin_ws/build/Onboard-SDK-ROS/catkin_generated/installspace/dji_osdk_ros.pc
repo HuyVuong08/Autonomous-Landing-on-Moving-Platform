@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install
+
+Name: dji_osdk_ros
+Description: Description of dji_osdk_ros
+Version: 4.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime geometry_msgs nav_msgs std_msgs nmea_msgs

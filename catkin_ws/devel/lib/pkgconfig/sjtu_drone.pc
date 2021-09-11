@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
+
+Name: sjtu_drone
+Description: Description of sjtu_drone
+Version: 0.0.0
+Cflags: -I/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/include
+Libs: -L${prefix}/lib 
+Requires: roscpp rospy image_transport std_msgs sensor_msgs geometry_msgs message_runtime gazebo_ros

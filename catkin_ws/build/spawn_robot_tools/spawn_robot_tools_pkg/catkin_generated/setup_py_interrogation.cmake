@@ -1,0 +1,7 @@
+set(spawn_robot_tools_pkg_SETUP_PY_SETUP_MODULE "distutils.core")
+set(spawn_robot_tools_pkg_SETUP_PY_VERSION "0.0.0")
+set(spawn_robot_tools_pkg_SETUP_PY_SCRIPTS "")
+set(spawn_robot_tools_pkg_SETUP_PY_PACKAGES "spawn_robot_tools_pkg")
+set(spawn_robot_tools_pkg_SETUP_PY_PACKAGE_DIRS "src/spawn_robot_tools_pkg")
+set(spawn_robot_tools_pkg_SETUP_PY_MODULES "")
+set(spawn_robot_tools_pkg_SETUP_PY_MODULE_DIRS "")

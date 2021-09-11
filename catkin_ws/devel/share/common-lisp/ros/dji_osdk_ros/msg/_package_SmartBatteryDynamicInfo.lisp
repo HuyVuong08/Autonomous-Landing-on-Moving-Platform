@@ -1,0 +1,22 @@
+(cl:in-package dji_osdk_ros-msg)
+(cl:export '(BATTERYINDEX-VAL
+          BATTERYINDEX
+          CURRENTVOLTAGE-VAL
+          CURRENTVOLTAGE
+          CURRENTELECTRIC-VAL
+          CURRENTELECTRIC
+          FULLCAPACITY-VAL
+          FULLCAPACITY
+          REMAINEDCAPACITY-VAL
+          REMAINEDCAPACITY
+          BATTERYTEMPERATURE-VAL
+          BATTERYTEMPERATURE
+          CELLCOUNT-VAL
+          CELLCOUNT
+          BATTERYCAPACITYPERCENT-VAL
+          BATTERYCAPACITYPERCENT
+          BATTERYSTATE-VAL
+          BATTERYSTATE
+          SOP-VAL
+          SOP
+))
