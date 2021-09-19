@@ -1,2 +1,2 @@
-Onboard-SDK-ROS:parrot_ardrone/ardrone_as:parrot_ardrone/custom_teleop:parrot_ardrone/drone_construct:parrot_ardrone/drone_demo:parrot_ardrone/sjtu-drone:spawn_robot_tools/spawn_robot_tools_pkg
--DCATKIN_DEVEL_PREFIX=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install -G Unix Makefiles
+parrot_ardrone/ardrone_as:parrot_ardrone/custom_teleop:parrot_ardrone/drone_construct:parrot_ardrone/drone_demo:parrot_ardrone/sjtu_drone
+-DCATKIN_DEVEL_PREFIX=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install -G Unix Makefiles
