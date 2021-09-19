@@ -24,3 +24,7 @@ echo 'Installing Dependencies for Building Packages...'
 sudo apt-get install -y python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
 sudo rosdep init
 rosdep update
+
+source /opt/ros/noetic/setup.bash
+sudo apt-get install ros-noetic-rqt
+sudo apt-get install ros-noetic-rqt-common-plugins

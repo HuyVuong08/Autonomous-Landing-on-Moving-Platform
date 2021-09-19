@@ -2,8 +2,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/plugin_ros_sonar_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/plugin_ros_sonar_autogen.dir/ParseCache.txt"
   "plugin_ros_sonar_autogen"
-  "/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/plugins/libplugin_ros_sonar.pdb"
-  "/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/plugins/libplugin_ros_sonar.so"
+  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/plugins/libplugin_ros_sonar.pdb"
+  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/plugins/libplugin_ros_sonar.so"
   "CMakeFiles/plugin_ros_sonar.dir/src/plugin_ros_sonar.cpp.o"
 )
 

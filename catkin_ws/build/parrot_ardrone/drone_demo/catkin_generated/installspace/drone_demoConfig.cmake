@@ -67,14 +67,14 @@ set(drone_demo_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(drone_demo_SOURCE_PREFIX /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/drone_demo)
-  set(drone_demo_DEVEL_PREFIX /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
+  set(drone_demo_SOURCE_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/drone_demo)
+  set(drone_demo_DEVEL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
   set(drone_demo_INSTALL_PREFIX "")
   set(drone_demo_PREFIX ${drone_demo_DEVEL_PREFIX})
 else()
   set(drone_demo_SOURCE_PREFIX "")
   set(drone_demo_DEVEL_PREFIX "")
-  set(drone_demo_INSTALL_PREFIX /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
+  set(drone_demo_INSTALL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
   set(drone_demo_PREFIX ${drone_demo_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install/lib;/opt/ros/noetic/lib)
+    foreach(path /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

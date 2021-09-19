@@ -1,4 +1,4 @@
-prefix=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install
+prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install
 
 Name: drone_demo
 Description: Description of drone_demo
