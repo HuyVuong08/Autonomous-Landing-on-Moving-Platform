@@ -34,7 +34,7 @@ class ArdroneAS(object):
         
         success = True
         
-        for i in xrange(1, goal.nseconds):
+        for i in range(1, goal.nseconds):
             
             # check if there are a preemption request
             if self._as.is_preempt_requested():
