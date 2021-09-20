@@ -102,16 +102,6 @@ namespace message_traits
 
 
 template <class ContainerAllocator>
-struct IsMessage< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> >
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsMessage< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> const>
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
 struct IsFixedSize< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> >
   : FalseType
   { };
@@ -119,6 +109,16 @@ struct IsFixedSize< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> >
 template <class ContainerAllocator>
 struct IsFixedSize< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> const>
   : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> >
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::ardrone_as::ArdroneActionGoal_<ContainerAllocator> const>
+  : TrueType
   { };
 
 template <class ContainerAllocator>

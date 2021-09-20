@@ -1,20 +1,20 @@
 
 "use strict";
 
-let ArdroneResult = require('./ArdroneResult.js');
-let ArdroneGoal = require('./ArdroneGoal.js');
-let ArdroneFeedback = require('./ArdroneFeedback.js');
-let ArdroneAction = require('./ArdroneAction.js');
 let ArdroneActionGoal = require('./ArdroneActionGoal.js');
-let ArdroneActionResult = require('./ArdroneActionResult.js');
+let ArdroneFeedback = require('./ArdroneFeedback.js');
+let ArdroneGoal = require('./ArdroneGoal.js');
 let ArdroneActionFeedback = require('./ArdroneActionFeedback.js');
+let ArdroneResult = require('./ArdroneResult.js');
+let ArdroneAction = require('./ArdroneAction.js');
+let ArdroneActionResult = require('./ArdroneActionResult.js');
 
 module.exports = {
-  ArdroneResult: ArdroneResult,
-  ArdroneGoal: ArdroneGoal,
-  ArdroneFeedback: ArdroneFeedback,
-  ArdroneAction: ArdroneAction,
   ArdroneActionGoal: ArdroneActionGoal,
-  ArdroneActionResult: ArdroneActionResult,
+  ArdroneFeedback: ArdroneFeedback,
+  ArdroneGoal: ArdroneGoal,
   ArdroneActionFeedback: ArdroneActionFeedback,
+  ArdroneResult: ArdroneResult,
+  ArdroneAction: ArdroneAction,
+  ArdroneActionResult: ArdroneActionResult,
 };

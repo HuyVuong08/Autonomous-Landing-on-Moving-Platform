@@ -78,7 +78,15 @@ class MoveSquareClass(object):
 
         # define the seconds to move in each side of the square (which is taken from the goal) and the seconds to turn
         sideSeconds = 4
+<<<<<<< HEAD
         turnSeconds = 3.039
+=======
+<<<<<<< HEAD
+        turnSeconds = 1.8 # Time to rotate pi/2 radian
+=======
+        turnSeconds = 3.039 # Time to rotate pi/2 radian | set speed + acceleration throttle + set time
+>>>>>>> b81fb5e2a7a4343c00098d8cb8a722c0d8435612
+>>>>>>> 2c08e37c1cfe88b5425c14f11074ef2b9b1a08f0
         stablizeSeconds = 2
 
         speed_d = 15 # degree/second

@@ -21,7 +21,7 @@
 (defmethod ardrone_as::ArdroneResult
   (:init
    (&key
-    ((:allPictures __allPictures) ())
+    ((:allPictures __allPictures) (let (r) (dotimes (i 0) (push (instance sensor_msgs::CompressedImage :init) r)) r))
     )
    (send-super :init)
    (setq _allPictures __allPictures)
