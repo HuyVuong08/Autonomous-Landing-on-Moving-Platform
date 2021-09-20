@@ -1,4 +1,4 @@
-prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
+prefix=/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
 
 Name: spawn_robot_tools_pkg
 Description: Description of spawn_robot_tools_pkg

@@ -1,11 +1,11 @@
 file(REMOVE_RECURSE
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneAction.js"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionFeedback.js"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionGoal.js"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionResult.js"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneFeedback.js"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneGoal.js"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneResult.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneAction.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionFeedback.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionGoal.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionResult.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneFeedback.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneGoal.js"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneResult.js"
   "CMakeFiles/ardrone_as_generate_messages_nodejs"
 )
 

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build
+CMAKE_BINARY_DIR = /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build
 
 # Utility rule file for drone_keyboard_autogen.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving
 include parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/progress.make
 
 parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic UIC for target drone_keyboard"
-	cd /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone && /usr/bin/cmake -E cmake_autogen /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/AutogenInfo.json ""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic UIC for target drone_keyboard"
+	cd /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone && /usr/bin/cmake -E cmake_autogen /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/AutogenInfo.json ""
 
 drone_keyboard_autogen: parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen
 drone_keyboard_autogen: parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/build.make
@@ -68,10 +68,10 @@ parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/build: drone_key
 .PHONY : parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/build
 
 parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/clean:
-	cd /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone && $(CMAKE_COMMAND) -P CMakeFiles/drone_keyboard_autogen.dir/cmake_clean.cmake
+	cd /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone && $(CMAKE_COMMAND) -P CMakeFiles/drone_keyboard_autogen.dir/cmake_clean.cmake
 .PHONY : parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/clean
 
 parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/depend:
-	cd /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : parrot_ardrone/sjtu-drone/CMakeFiles/drone_keyboard_autogen.dir/depend
 

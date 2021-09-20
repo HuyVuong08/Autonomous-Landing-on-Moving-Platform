@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/plugin_ros_init.cpp
+/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/plugin_ros_init.cpp
 gazebo/rendering/rendering.hh
-/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/gazebo/rendering/rendering.hh
+/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/gazebo/rendering/rendering.hh
 gazebo/gazebo.hh
-/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/gazebo/gazebo.hh
+/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/gazebo/gazebo.hh
 ros/ros.h
-/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/ros/ros.h
+/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/ros/ros.h
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h

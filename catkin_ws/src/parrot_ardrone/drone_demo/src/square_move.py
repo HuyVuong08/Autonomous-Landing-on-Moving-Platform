@@ -75,7 +75,7 @@ class MoveSquareClass(object):
 
         # define the seconds to move in each side of the square (which is taken from the goal) and the seconds to turn
         sideSeconds = 4
-        turnSeconds = 3.039 # Time to rotate pi/2 radian
+        turnSeconds = 1.8 # Time to rotate pi/2 radian
         stablizeSeconds = 2
 
         i = 0

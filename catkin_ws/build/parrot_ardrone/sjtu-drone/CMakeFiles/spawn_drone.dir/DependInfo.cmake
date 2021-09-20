@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/spawn_drone.cpp" "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/spawn_drone.dir/src/spawn_drone.cpp.o"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/spawn_drone.cpp" "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/spawn_drone.dir/src/spawn_drone.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -38,7 +38,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/OGRE"
   "/usr/include/OGRE/Terrain"
   "/usr/include/OGRE/Paging"
-  "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/include"
+  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/include"
   "/usr/include/simbody"
   "/usr/include/ignition/math6"
   "/usr/include/ignition/transport8"
