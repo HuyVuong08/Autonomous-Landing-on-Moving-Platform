@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install
-
-Name: ardrone_as
-Description: Description of ardrone_as
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: rospy actionlib_msgs
