@@ -38,6 +38,7 @@ CTRL-C to quit
 """
 
 moveBindings = {
+        # vel x, y, z, theta(angular z)
         'i':(1,0,0,0),
         'o':(1,0,0,-1),
         'j':(0,0,0,1),

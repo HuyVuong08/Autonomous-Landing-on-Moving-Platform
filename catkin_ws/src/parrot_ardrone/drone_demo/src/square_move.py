@@ -8,10 +8,8 @@ from geometry_msgs.msg import Twist
 class MoveSquareClass(object):
 
     def __init__(self):
-
         self.ctrl_c = False
         self.rate = rospy.Rate(10)
-
 
     def publish_once_in_cmd_vel(self, cmd):
         """
@@ -49,6 +47,11 @@ class MoveSquareClass(object):
         self._move_msg.angular.z = 0.0
         self.publish_once_in_cmd_vel(self._move_msg)
 
+    def convert_degree_to_rad(self, speed_deg, angle_deg):
+        self.angular_speed_r = speed_deg * 3.1415927 / 180
+        self.angle_r = angle_deg * 3.1415927 / 180
+        return [self.angular_speed_r, self.angle_r]
+
     def move_square(self):
         # this callback is called when the action server is called.
         # this is the function that computes the Fibonacci sequence
@@ -75,8 +78,17 @@ class MoveSquareClass(object):
 
         # define the seconds to move in each side of the square (which is taken from the goal) and the seconds to turn
         sideSeconds = 4
-        turnSeconds = 3.039 # Time to rotate pi/2 radian | set speed + acceleration throttle + set time
+        turnSeconds = 3.039
         stablizeSeconds = 2
+
+        speed_d = 15 # degree/second
+        angle_d = 90 # degree
+
+        # Convert speed and angle from degree to radians
+        self.convert_degree_to_rad(speed_d, angle_d)
+
+        rospy.loginfo(self.angular_speed_r)
+        rospy.loginfo(self.angle_r)
 
         i = 0
         for i in range(0, 4):
