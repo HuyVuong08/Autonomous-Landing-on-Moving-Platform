@@ -39,7 +39,7 @@ class MoveSquareClass(object):
     def turn_drone(self):
         rospy.loginfo("Turning...")
         self._move_msg.linear.x = 0.0
-        self._move_msg.angular.z = 1.0
+        self._move_msg.angular.z = 1.0 # 1rad/s
         self.publish_once_in_cmd_vel(self._move_msg)
 
     # function that makes the drone move forward
@@ -75,18 +75,18 @@ class MoveSquareClass(object):
 
         # define the seconds to move in each side of the square (which is taken from the goal) and the seconds to turn
         sideSeconds = 4
-        turnSeconds = 3.039 # Time to rotate pi/2 radian
+        turnSeconds = 3.039 # Time to rotate pi/2 radian | set speed + acceleration throttle + set time
         stablizeSeconds = 2
 
         i = 0
         for i in range(0, 4):
 
             # Logic that makes the robot move forward and turn
-            self.move_forward_drone()
+            self.move_forward_drone() # set speed 1m/s
             time.sleep(sideSeconds)
             self.stop_drone()
             time.sleep(stablizeSeconds)
-            self.turn_drone()
+            self.turn_drone() #set speed 1rad/s
             time.sleep(turnSeconds)
             self.stop_drone()
             time.sleep(stablizeSeconds)
