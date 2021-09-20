@@ -1,12 +1,12 @@
 file(REMOVE_RECURSE
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneAction.js"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionFeedback.js"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionGoal.js"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionResult.js"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneFeedback.js"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneGoal.js"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneResult.js"
   "CMakeFiles/ardrone_as_generate_messages_nodejs"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneGoal.js"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionResult.js"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionGoal.js"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneFeedback.js"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneActionFeedback.js"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneAction.js"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as/msg/ArdroneResult.js"
 )
 
 # Per-language clean rules from dependency scanning.

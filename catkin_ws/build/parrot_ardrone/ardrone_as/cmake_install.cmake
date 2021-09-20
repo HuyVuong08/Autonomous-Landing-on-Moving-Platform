@@ -1,8 +1,8 @@
-# Install script for directory: /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as
+# Install script for directory: /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,77 +38,77 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/action" TYPE FILE FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/action/Ardrone.action")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/action" TYPE FILE FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/action/Ardrone.action")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/msg" TYPE FILE FILES
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneAction.msg"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneActionGoal.msg"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneActionResult.msg"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneActionFeedback.msg"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneGoal.msg"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneResult.msg"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneFeedback.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneAction.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneActionGoal.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneActionResult.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneActionFeedback.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneGoal.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneResult.msg"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/ardrone_as/msg/ArdroneFeedback.msg"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/cmake" TYPE FILE FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_as-msg-paths.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/cmake" TYPE FILE FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_as-msg-paths.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include/ardrone_as")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include/ardrone_as")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/roseus/ros/ardrone_as")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/roseus/ros/ardrone_as")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/common-lisp/ros/ardrone_as")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/common-lisp/ros/ardrone_as")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/gennodejs/ros/ardrone_as")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  execute_process(COMMAND "/usr/bin/python3" -m compileall "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib/python3/dist-packages/ardrone_as")
+  execute_process(COMMAND "/usr/bin/python2" -m compileall "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib/python2.7/dist-packages/ardrone_as")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib/python3/dist-packages/ardrone_as")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib/python2.7/dist-packages/ardrone_as")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_as.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_as.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/cmake" TYPE FILE FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_as-msg-extras.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/cmake" TYPE FILE FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_as-msg-extras.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as/cmake" TYPE FILE FILES
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_asConfig.cmake"
-    "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_asConfig-version.cmake"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_asConfig.cmake"
+    "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/ardrone_as/catkin_generated/installspace/ardrone_asConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE FILE FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE FILE FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/launch")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/launch")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/action")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/action")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE DIRECTORY FILES "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/scripts")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ardrone_as" TYPE DIRECTORY FILES "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/ardrone_as/scripts")
 endif()
 

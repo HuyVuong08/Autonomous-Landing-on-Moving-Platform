@@ -4,23 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/spawn_drone.cpp" "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/spawn_drone.dir/src/spawn_drone.cpp.o"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/src/spawn_drone.cpp" "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/build/parrot_ardrone/sjtu-drone/CMakeFiles/spawn_drone.dir/src/spawn_drone.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
-  "BOOST_ALL_NO_LIB"
-  "BOOST_ATOMIC_DYN_LINK"
-  "BOOST_DATE_TIME_DYN_LINK"
-  "BOOST_FILESYSTEM_DYN_LINK"
-  "BOOST_IOSTREAMS_DYN_LINK"
-  "BOOST_PROGRAM_OPTIONS_DYN_LINK"
-  "BOOST_REGEX_DYN_LINK"
-  "BOOST_SYSTEM_DYN_LINK"
-  "BOOST_TEST_DYN_LINK"
-  "BOOST_THREAD_DYN_LINK"
-  "LIBBULLET_VERSION=2.88"
+  "LIBBULLET_VERSION=2.87"
   "LIBBULLET_VERSION_GT_282"
   "ROSCONSOLE_BACKEND_LOG4CXX"
   "ROS_BUILD_SHARED_LIBS=1"
@@ -30,25 +20,23 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "parrot_ardrone/sjtu-drone/spawn_drone_autogen/include"
-  "/opt/ros/noetic/include"
-  "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
-  "/usr/include/gazebo-11"
+  "/opt/ros/melodic/include"
+  "/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
+  "/usr/include/gazebo-9"
   "/usr/include/bullet"
-  "/usr/include/sdformat-9.5"
+  "/usr/include/simbody"
+  "/usr/include/sdformat-6.0"
+  "/usr/include/ignition/math4"
   "/usr/include/OGRE"
   "/usr/include/OGRE/Terrain"
   "/usr/include/OGRE/Paging"
-  "/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/include"
-  "/usr/include/simbody"
-  "/usr/include/ignition/math6"
-  "/usr/include/ignition/transport8"
-  "/usr/include/ignition/msgs5"
-  "/usr/include/ignition/common3"
-  "/usr/include/ignition/fuel_tools4"
-  "/usr/include/eigen3"
-  "/usr/include/sdformat-9.5/sdf/.."
-  "/usr/include/ignition/cmake2"
+  "/usr/include/ignition/transport4"
+  "/usr/include/ignition/msgs1"
+  "/usr/include/ignition/common1"
+  "/usr/include/ignition/fuel_tools1"
+  "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone/include"
   "/usr/include/uuid"
+  "/usr/include/x86_64-linux-gnu"
   )
 
 # Targets to which this target links.

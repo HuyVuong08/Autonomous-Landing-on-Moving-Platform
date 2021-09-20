@@ -1,4 +1,4 @@
-prefix=/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/install
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install
 
 Name: sjtu_drone
 Description: Description of sjtu_drone

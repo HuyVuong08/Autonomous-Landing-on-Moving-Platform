@@ -67,14 +67,14 @@ set(drone_construct_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(drone_construct_SOURCE_PREFIX /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/drone_construct)
-  set(drone_construct_DEVEL_PREFIX /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
+  set(drone_construct_SOURCE_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/drone_construct)
+  set(drone_construct_DEVEL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
   set(drone_construct_INSTALL_PREFIX "")
   set(drone_construct_PREFIX ${drone_construct_DEVEL_PREFIX})
 else()
   set(drone_construct_SOURCE_PREFIX "")
   set(drone_construct_DEVEL_PREFIX "")
-  set(drone_construct_INSTALL_PREFIX /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
+  set(drone_construct_INSTALL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
   set(drone_construct_PREFIX ${drone_construct_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/install/lib;/opt/ros/noetic/lib)
+    foreach(path /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(drone_construct_LIBRARIES ${drone_construct_LIBRARIES})
 
   _list_append_unique(drone_construct_LIBRARY_DIRS ${${drone_construct_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(drone_construct_EXPORTED_TARGETS ${${drone_construct_dep}_EXPORTED_TARGETS})
+  list(APPEND drone_construct_EXPORTED_TARGETS ${${drone_construct_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "")

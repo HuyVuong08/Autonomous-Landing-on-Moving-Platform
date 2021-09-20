@@ -67,14 +67,14 @@ set(sjtu_drone_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(sjtu_drone_SOURCE_PREFIX /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone)
-  set(sjtu_drone_DEVEL_PREFIX /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
+  set(sjtu_drone_SOURCE_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/parrot_ardrone/sjtu-drone)
+  set(sjtu_drone_DEVEL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
   set(sjtu_drone_INSTALL_PREFIX "")
   set(sjtu_drone_PREFIX ${sjtu_drone_DEVEL_PREFIX})
 else()
   set(sjtu_drone_SOURCE_PREFIX "")
   set(sjtu_drone_DEVEL_PREFIX "")
-  set(sjtu_drone_INSTALL_PREFIX /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
+  set(sjtu_drone_INSTALL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
   set(sjtu_drone_PREFIX ${sjtu_drone_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/install/lib;/opt/ros/noetic/lib)
+    foreach(path /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(sjtu_drone_LIBRARIES ${sjtu_drone_LIBRARIES})
 
   _list_append_unique(sjtu_drone_LIBRARY_DIRS ${${sjtu_drone_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(sjtu_drone_EXPORTED_TARGETS ${${sjtu_drone_dep}_EXPORTED_TARGETS})
+  list(APPEND sjtu_drone_EXPORTED_TARGETS ${${sjtu_drone_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "")

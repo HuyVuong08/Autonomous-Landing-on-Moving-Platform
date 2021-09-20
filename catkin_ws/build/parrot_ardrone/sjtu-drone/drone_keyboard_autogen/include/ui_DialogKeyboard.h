@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'DialogKeyboard.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.8
+** Created by: Qt User Interface Compiler version 5.9.5
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,12 @@
 #define UI_DIALOGKEYBOARD_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QVBoxLayout>
 
@@ -28,20 +31,20 @@ public:
     void setupUi(QDialog *DialogKeyboard)
     {
         if (DialogKeyboard->objectName().isEmpty())
-            DialogKeyboard->setObjectName(QString::fromUtf8("DialogKeyboard"));
+            DialogKeyboard->setObjectName(QStringLiteral("DialogKeyboard"));
         DialogKeyboard->resize(360, 229);
         DialogKeyboard->setMaximumSize(QSize(701, 411));
         verticalLayout = new QVBoxLayout(DialogKeyboard);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         label = new QLabel(DialogKeyboard);
-        label->setObjectName(QString::fromUtf8("label"));
+        label->setObjectName(QStringLiteral("label"));
         label->setPixmap(QPixmap(QString::fromUtf8(":/drone_keyboard/drone_keyboard.png")));
         label->setScaledContents(true);
 
         verticalLayout->addWidget(label);
 
         buttonBox = new QDialogButtonBox(DialogKeyboard);
-        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setObjectName(QStringLiteral("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
@@ -57,7 +60,7 @@ public:
 
     void retranslateUi(QDialog *DialogKeyboard)
     {
-        DialogKeyboard->setWindowTitle(QApplication::translate("DialogKeyboard", "Keyboard controller", nullptr));
+        DialogKeyboard->setWindowTitle(QApplication::translate("DialogKeyboard", "Keyboard controller", Q_NULLPTR));
         label->setText(QString());
     } // retranslateUi
 
