@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
+
+Name: tf_velocity_estimator
+Description: Description of tf_velocity_estimator
+Version: 0.0.0
+Cflags: -I/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

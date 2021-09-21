@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
+
+Name: ar_helipad
+Description: Description of ar_helipad
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
