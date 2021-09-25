@@ -67,14 +67,14 @@ set(tf_velocity_estimator_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(tf_velocity_estimator_SOURCE_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/tf_velocity_estimator)
-  set(tf_velocity_estimator_DEVEL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
+  set(tf_velocity_estimator_SOURCE_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/tf_velocity_estimator)
+  set(tf_velocity_estimator_DEVEL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
   set(tf_velocity_estimator_INSTALL_PREFIX "")
   set(tf_velocity_estimator_PREFIX ${tf_velocity_estimator_DEVEL_PREFIX})
 else()
   set(tf_velocity_estimator_SOURCE_PREFIX "")
   set(tf_velocity_estimator_DEVEL_PREFIX "")
-  set(tf_velocity_estimator_INSTALL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
+  set(tf_velocity_estimator_INSTALL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
   set(tf_velocity_estimator_PREFIX ${tf_velocity_estimator_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(tf_velocity_estimator_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include " STREQUAL " ")
+if(NOT "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include " STREQUAL " ")
   set(tf_velocity_estimator_INCLUDE_DIRS "")
-  set(_include_dirs "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include")
+  set(_include_dirs "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -110,7 +110,7 @@ if(NOT "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/c
         message(FATAL_ERROR "Project 'tf_velocity_estimator' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'tf_velocity_estimator' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/tf_velocity_estimator/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'tf_velocity_estimator' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/tf_velocity_estimator/${idir}'.  ${_report}")
     endif()
     _list_append_unique(tf_velocity_estimator_INCLUDE_DIRS ${include})
   endforeach()
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/huy/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(tf_velocity_estimator_LIBRARIES ${tf_velocity_estimator_LIBRARIES})
 
   _list_append_unique(tf_velocity_estimator_LIBRARY_DIRS ${${tf_velocity_estimator_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(tf_velocity_estimator_EXPORTED_TARGETS ${${tf_velocity_estimator_dep}_EXPORTED_TARGETS})
+  list(APPEND tf_velocity_estimator_EXPORTED_TARGETS ${${tf_velocity_estimator_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "tf_velocity_estimator-msg-extras.cmake")

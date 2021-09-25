@@ -54,41 +54,6 @@ struct ControllerState_
 
 
 
-// reducing the odds to have name collisions with Windows.h 
-#if defined(_WIN32) && defined(MOTORS)
-  #undef MOTORS
-#endif
-#if defined(_WIN32) && defined(ATTITUDE)
-  #undef ATTITUDE
-#endif
-#if defined(_WIN32) && defined(VELOCITY)
-  #undef VELOCITY
-#endif
-#if defined(_WIN32) && defined(POSITION)
-  #undef POSITION
-#endif
-#if defined(_WIN32) && defined(TURNRATE)
-  #undef TURNRATE
-#endif
-#if defined(_WIN32) && defined(HEADING)
-  #undef HEADING
-#endif
-#if defined(_WIN32) && defined(CLIMBRATE)
-  #undef CLIMBRATE
-#endif
-#if defined(_WIN32) && defined(HEIGHT)
-  #undef HEIGHT
-#endif
-#if defined(_WIN32) && defined(MOTORS_RUNNING)
-  #undef MOTORS_RUNNING
-#endif
-#if defined(_WIN32) && defined(FLYING)
-  #undef FLYING
-#endif
-#if defined(_WIN32) && defined(AIRBORNE)
-  #undef AIRBORNE
-#endif
-
   enum {
     MOTORS = 1u,
     ATTITUDE = 2u,
@@ -147,23 +112,6 @@ ros::message_operations::Printer< ::hector_uav_msgs::ControllerState_<ContainerA
 return s;
 }
 
-
-template<typename ContainerAllocator1, typename ContainerAllocator2>
-bool operator==(const ::hector_uav_msgs::ControllerState_<ContainerAllocator1> & lhs, const ::hector_uav_msgs::ControllerState_<ContainerAllocator2> & rhs)
-{
-  return lhs.header == rhs.header &&
-    lhs.source == rhs.source &&
-    lhs.mode == rhs.mode &&
-    lhs.state == rhs.state;
-}
-
-template<typename ContainerAllocator1, typename ContainerAllocator2>
-bool operator!=(const ::hector_uav_msgs::ControllerState_<ContainerAllocator1> & lhs, const ::hector_uav_msgs::ControllerState_<ContainerAllocator2> & rhs)
-{
-  return !(lhs == rhs);
-}
-
-
 } // namespace hector_uav_msgs
 
 namespace ros
@@ -173,17 +121,13 @@ namespace message_traits
 
 
 
+// BOOLTRAITS {'IsFixedSize': False, 'IsMessage': True, 'HasHeader': True}
+// {'std_msgs': ['/opt/ros/kinetic/share/std_msgs/cmake/../msg'], 'actionlib_msgs': ['/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg'], 'hector_uav_msgs': ['/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/msg', '/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/share/hector_uav_msgs/msg'], 'geometry_msgs': ['/opt/ros/kinetic/share/geometry_msgs/cmake/../msg']}
+
+// !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
 
 
-template <class ContainerAllocator>
-struct IsMessage< ::hector_uav_msgs::ControllerState_<ContainerAllocator> >
-  : TrueType
-  { };
 
-template <class ContainerAllocator>
-struct IsMessage< ::hector_uav_msgs::ControllerState_<ContainerAllocator> const>
-  : TrueType
-  { };
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::hector_uav_msgs::ControllerState_<ContainerAllocator> >
@@ -193,6 +137,16 @@ struct IsFixedSize< ::hector_uav_msgs::ControllerState_<ContainerAllocator> >
 template <class ContainerAllocator>
 struct IsFixedSize< ::hector_uav_msgs::ControllerState_<ContainerAllocator> const>
   : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::hector_uav_msgs::ControllerState_<ContainerAllocator> >
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::hector_uav_msgs::ControllerState_<ContainerAllocator> const>
+  : TrueType
   { };
 
 template <class ContainerAllocator>
@@ -235,40 +189,42 @@ struct Definition< ::hector_uav_msgs::ControllerState_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "Header header\n"
-"uint8 source\n"
-"\n"
-"uint8 mode\n"
-"uint8 MOTORS = 1\n"
-"uint8 ATTITUDE = 2\n"
-"uint8 VELOCITY = 4\n"
-"uint8 POSITION = 8\n"
-"uint8 TURNRATE = 16\n"
-"uint8 HEADING = 32\n"
-"uint8 CLIMBRATE = 64\n"
-"uint8 HEIGHT = 128\n"
-"\n"
-"uint8 state\n"
-"uint8 MOTORS_RUNNING = 1\n"
-"uint8 FLYING = 2\n"
-"uint8 AIRBORNE = 4\n"
-"\n"
-"================================================================================\n"
-"MSG: std_msgs/Header\n"
-"# Standard metadata for higher-level stamped data types.\n"
-"# This is generally used to communicate timestamped data \n"
-"# in a particular coordinate frame.\n"
-"# \n"
-"# sequence ID: consecutively increasing ID \n"
-"uint32 seq\n"
-"#Two-integer timestamp that is expressed as:\n"
-"# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n"
-"# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n"
-"# time-handling sugar is provided by the client library\n"
-"time stamp\n"
-"#Frame this data is associated with\n"
-"string frame_id\n"
-;
+    return "Header header\n\
+uint8 source\n\
+\n\
+uint8 mode\n\
+uint8 MOTORS = 1\n\
+uint8 ATTITUDE = 2\n\
+uint8 VELOCITY = 4\n\
+uint8 POSITION = 8\n\
+uint8 TURNRATE = 16\n\
+uint8 HEADING = 32\n\
+uint8 CLIMBRATE = 64\n\
+uint8 HEIGHT = 128\n\
+\n\
+uint8 state\n\
+uint8 MOTORS_RUNNING = 1\n\
+uint8 FLYING = 2\n\
+uint8 AIRBORNE = 4\n\
+\n\
+================================================================================\n\
+MSG: std_msgs/Header\n\
+# Standard metadata for higher-level stamped data types.\n\
+# This is generally used to communicate timestamped data \n\
+# in a particular coordinate frame.\n\
+# \n\
+# sequence ID: consecutively increasing ID \n\
+uint32 seq\n\
+#Two-integer timestamp that is expressed as:\n\
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n\
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n\
+# time-handling sugar is provided by the client library\n\
+time stamp\n\
+#Frame this data is associated with\n\
+# 0: no frame\n\
+# 1: global frame\n\
+string frame_id\n\
+";
   }
 
   static const char* value(const ::hector_uav_msgs::ControllerState_<ContainerAllocator>&) { return value(); }

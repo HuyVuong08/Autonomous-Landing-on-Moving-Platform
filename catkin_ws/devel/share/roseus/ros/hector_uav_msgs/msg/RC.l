@@ -35,18 +35,6 @@
 (intern "*BRAKE*" (find-package "HECTOR_UAV_MSGS::RC"))
 (shadow '*BRAKE* (find-package "HECTOR_UAV_MSGS::RC"))
 (defconstant hector_uav_msgs::RC::*BRAKE* 7)
-
-(defun hector_uav_msgs::RC-to-symbol (const)
-  (cond
-        ((= const 1) 'hector_uav_msgs::RC::*ROLL*)
-        ((= const 2) 'hector_uav_msgs::RC::*PITCH*)
-        ((= const 3) 'hector_uav_msgs::RC::*YAW*)
-        ((= const 4) 'hector_uav_msgs::RC::*STEER*)
-        ((= const 5) 'hector_uav_msgs::RC::*HEIGHT*)
-        ((= const 6) 'hector_uav_msgs::RC::*THRUST*)
-        ((= const 7) 'hector_uav_msgs::RC::*BRAKE*)
-        (t nil)))
-
 (defclass hector_uav_msgs::RC
   :super ros::object
   :slots (_header _status _valid _axis _axis_function _swit _swit_function ))
@@ -82,8 +70,8 @@
    (&optional __status)
    (if __status (setq _status __status)) _status)
   (:valid
-   (&optional (__valid :null))
-   (if (not (eq __valid :null)) (setq _valid __valid)) _valid)
+   (&optional __valid)
+   (if __valid (setq _valid __valid)) _valid)
   (:axis
    (&optional __axis)
    (if __axis (setq _axis __axis)) _axis)
@@ -213,6 +201,8 @@ uint32 seq
 # time-handling sugar is provided by the client library
 time stamp
 #Frame this data is associated with
+# 0: no frame
+# 1: global frame
 string frame_id
 
 ")

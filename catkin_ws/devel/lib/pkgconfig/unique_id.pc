@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
-
-Name: unique_id
-Description: Description of unique_id
-Version: 1.0.6
-Cflags: -I/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/unique_identifier/unique_id/include -I/usr/include
-Libs: -L${prefix}/lib 
-Requires: uuid_msgs

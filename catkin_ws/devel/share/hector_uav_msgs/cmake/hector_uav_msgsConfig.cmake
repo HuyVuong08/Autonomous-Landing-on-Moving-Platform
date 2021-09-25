@@ -67,14 +67,14 @@ set(hector_uav_msgs_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(hector_uav_msgs_SOURCE_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs)
-  set(hector_uav_msgs_DEVEL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
+  set(hector_uav_msgs_SOURCE_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs)
+  set(hector_uav_msgs_DEVEL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
   set(hector_uav_msgs_INSTALL_PREFIX "")
   set(hector_uav_msgs_PREFIX ${hector_uav_msgs_DEVEL_PREFIX})
 else()
   set(hector_uav_msgs_SOURCE_PREFIX "")
   set(hector_uav_msgs_DEVEL_PREFIX "")
-  set(hector_uav_msgs_INSTALL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
+  set(hector_uav_msgs_INSTALL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
   set(hector_uav_msgs_PREFIX ${hector_uav_msgs_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(hector_uav_msgs_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include;/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/include " STREQUAL " ")
+if(NOT "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include;/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/include " STREQUAL " ")
   set(hector_uav_msgs_INCLUDE_DIRS "")
-  set(_include_dirs "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include;/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/include")
+  set(_include_dirs "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include;/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/include")
   if(NOT "https://github.com/tu-darmstadt-ros-pkg/hector_quadrotor/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://github.com/tu-darmstadt-ros-pkg/hector_quadrotor/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://ros.org/wiki/hector_uav_msgs " STREQUAL " ")
@@ -110,7 +110,7 @@ if(NOT "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/c
         message(FATAL_ERROR "Project 'hector_uav_msgs' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'hector_uav_msgs' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'hector_uav_msgs' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_uav_msgs/${idir}'.  ${_report}")
     endif()
     _list_append_unique(hector_uav_msgs_INCLUDE_DIRS ${include})
   endforeach()
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/huy/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(hector_uav_msgs_LIBRARIES ${hector_uav_msgs_LIBRARIES})
 
   _list_append_unique(hector_uav_msgs_LIBRARY_DIRS ${${hector_uav_msgs_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(hector_uav_msgs_EXPORTED_TARGETS ${${hector_uav_msgs_dep}_EXPORTED_TARGETS})
+  list(APPEND hector_uav_msgs_EXPORTED_TARGETS ${${hector_uav_msgs_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "hector_uav_msgs-msg-extras.cmake")

@@ -67,14 +67,14 @@ set(hector_quadrotor_model_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(hector_quadrotor_model_SOURCE_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model)
-  set(hector_quadrotor_model_DEVEL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
+  set(hector_quadrotor_model_SOURCE_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model)
+  set(hector_quadrotor_model_DEVEL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel)
   set(hector_quadrotor_model_INSTALL_PREFIX "")
   set(hector_quadrotor_model_PREFIX ${hector_quadrotor_model_DEVEL_PREFIX})
 else()
   set(hector_quadrotor_model_SOURCE_PREFIX "")
   set(hector_quadrotor_model_DEVEL_PREFIX "")
-  set(hector_quadrotor_model_INSTALL_PREFIX /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
+  set(hector_quadrotor_model_INSTALL_PREFIX /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/install)
   set(hector_quadrotor_model_PREFIX ${hector_quadrotor_model_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(hector_quadrotor_model_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model/include;/usr/include " STREQUAL " ")
+if(NOT "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model/include;/usr/include " STREQUAL " ")
   set(hector_quadrotor_model_INCLUDE_DIRS "")
-  set(_include_dirs "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model/include;/usr/include")
+  set(_include_dirs "/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model/include;/usr/include")
   if(NOT "https://github.com/tu-darmstadt-ros-pkg/hector_quadrotor/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://github.com/tu-darmstadt-ros-pkg/hector_quadrotor/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://ros.org/wiki/hector_quadrotor_model " STREQUAL " ")
@@ -110,13 +110,13 @@ if(NOT "/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/c
         message(FATAL_ERROR "Project 'hector_quadrotor_model' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'hector_quadrotor_model' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'hector_quadrotor_model' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_model/${idir}'.  ${_report}")
     endif()
     _list_append_unique(hector_quadrotor_model_INCLUDE_DIRS ${include})
   endforeach()
 endif()
 
-set(libraries "hector_quadrotor_propulsion;hector_quadrotor_aerodynamics;/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0")
+set(libraries "hector_quadrotor_propulsion;hector_quadrotor_aerodynamics;/usr/lib/x86_64-linux-gnu/libboost_thread.so;/usr/lib/x86_64-linux-gnu/libboost_chrono.so;/usr/lib/x86_64-linux-gnu/libboost_system.so;/usr/lib/x86_64-linux-gnu/libboost_date_time.so;/usr/lib/x86_64-linux-gnu/libboost_atomic.so;/usr/lib/x86_64-linux-gnu/libpthread.so")
 foreach(library ${libraries})
   # keep build configuration keywords, target names and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/home/huy/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(hector_quadrotor_model_LIBRARIES ${hector_quadrotor_model_LIBRARIES})
 
   _list_append_unique(hector_quadrotor_model_LIBRARY_DIRS ${${hector_quadrotor_model_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(hector_quadrotor_model_EXPORTED_TARGETS ${${hector_quadrotor_model_dep}_EXPORTED_TARGETS})
+  list(APPEND hector_quadrotor_model_EXPORTED_TARGETS ${${hector_quadrotor_model_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "")

@@ -1,10 +1,10 @@
 
 "use strict";
 
-let Velocity = require('./Velocity.js');
 let PosesAndVelocities = require('./PosesAndVelocities.js');
+let Velocity = require('./Velocity.js');
 
 module.exports = {
-  Velocity: Velocity,
   PosesAndVelocities: PosesAndVelocities,
+  Velocity: Velocity,
 };

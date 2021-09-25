@@ -1,8 +1,8 @@
-prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
 
 Name: hector_quadrotor_interface
 Description: Description of hector_quadrotor_interface
 Version: 0.3.5
-Cflags: -I/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_interface/include
+Cflags: -I/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/src/hector_quadrotor/hector_quadrotor_interface/include
 Libs: -L${prefix}/lib -lhector_quadrotor_interface
 Requires: roscpp geometry_msgs sensor_msgs nav_msgs hector_uav_msgs std_srvs hardware_interface controller_interface

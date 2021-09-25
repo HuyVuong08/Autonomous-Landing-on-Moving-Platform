@@ -31,8 +31,8 @@
    (setq _enable __enable)
    self)
   (:enable
-   (&optional (__enable :null))
-   (if (not (eq __enable :null)) (setq _enable __enable)) _enable)
+   (&optional __enable)
+   (if __enable (setq _enable __enable)) _enable)
   (:serialization-length
    ()
    (+
@@ -68,8 +68,8 @@
    (setq _success __success)
    self)
   (:success
-   (&optional (__success :null))
-   (if (not (eq __success :null)) (setq _success __success)) _success)
+   (&optional __success)
+   (if __success (setq _success __success)) _success)
   (:serialization-length
    ()
    (+
@@ -107,17 +107,17 @@
 (setf (get hector_uav_msgs::EnableMotorsRequest :md5sum-) "6a0b406242562fc416b2c9c8a3efb051")
 (setf (get hector_uav_msgs::EnableMotorsRequest :datatype-) "hector_uav_msgs/EnableMotorsRequest")
 (setf (get hector_uav_msgs::EnableMotorsRequest :definition-)
-      "bool enable # enable or disable motors
+      "bool enable
 ---
-bool success # whether enabling or disabling was successful
+bool success
 ")
 
 (setf (get hector_uav_msgs::EnableMotorsResponse :md5sum-) "6a0b406242562fc416b2c9c8a3efb051")
 (setf (get hector_uav_msgs::EnableMotorsResponse :datatype-) "hector_uav_msgs/EnableMotorsResponse")
 (setf (get hector_uav_msgs::EnableMotorsResponse :definition-)
-      "bool enable # enable or disable motors
+      "bool enable
 ---
-bool success # whether enabling or disabling was successful
+bool success
 ")
 
 

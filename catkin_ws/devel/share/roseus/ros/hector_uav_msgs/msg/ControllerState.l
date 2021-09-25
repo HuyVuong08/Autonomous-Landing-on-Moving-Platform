@@ -47,22 +47,6 @@
 (intern "*AIRBORNE*" (find-package "HECTOR_UAV_MSGS::CONTROLLERSTATE"))
 (shadow '*AIRBORNE* (find-package "HECTOR_UAV_MSGS::CONTROLLERSTATE"))
 (defconstant hector_uav_msgs::ControllerState::*AIRBORNE* 4)
-
-(defun hector_uav_msgs::ControllerState-to-symbol (const)
-  (cond
-        ((= const 1) 'hector_uav_msgs::ControllerState::*MOTORS*)
-        ((= const 2) 'hector_uav_msgs::ControllerState::*ATTITUDE*)
-        ((= const 4) 'hector_uav_msgs::ControllerState::*VELOCITY*)
-        ((= const 8) 'hector_uav_msgs::ControllerState::*POSITION*)
-        ((= const 16) 'hector_uav_msgs::ControllerState::*TURNRATE*)
-        ((= const 32) 'hector_uav_msgs::ControllerState::*HEADING*)
-        ((= const 64) 'hector_uav_msgs::ControllerState::*CLIMBRATE*)
-        ((= const 128) 'hector_uav_msgs::ControllerState::*HEIGHT*)
-        ((= const 1) 'hector_uav_msgs::ControllerState::*MOTORS_RUNNING*)
-        ((= const 2) 'hector_uav_msgs::ControllerState::*FLYING*)
-        ((= const 4) 'hector_uav_msgs::ControllerState::*AIRBORNE*)
-        (t nil)))
-
 (defclass hector_uav_msgs::ControllerState
   :super ros::object
   :slots (_header _source _mode _state ))
@@ -172,6 +156,8 @@ uint32 seq
 # time-handling sugar is provided by the client library
 time stamp
 #Frame this data is associated with
+# 0: no frame
+# 1: global frame
 string frame_id
 
 ")

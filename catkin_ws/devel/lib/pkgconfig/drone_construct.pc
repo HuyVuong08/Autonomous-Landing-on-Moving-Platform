@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
-
-Name: drone_construct
-Description: Description of drone_construct
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

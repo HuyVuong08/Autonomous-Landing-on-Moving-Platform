@@ -21,8 +21,8 @@
 (defmethod tf_velocity_estimator::PosesAndVelocities
   (:init
    (&key
-    ((:latest_poses __latest_poses) ())
-    ((:latest_velocities __latest_velocities) ())
+    ((:latest_poses __latest_poses) (let (r) (dotimes (i 0) (push (instance geometry_msgs::PoseStamped :init) r)) r))
+    ((:latest_velocities __latest_velocities) (let (r) (dotimes (i 0) (push (instance tf_velocity_estimator::Velocity :init) r)) r))
     )
    (send-super :init)
    (setq _latest_poses __latest_poses)
@@ -111,6 +111,8 @@ uint32 seq
 # time-handling sugar is provided by the client library
 time stamp
 #Frame this data is associated with
+# 0: no frame
+# 1: global frame
 string frame_id
 
 ================================================================================

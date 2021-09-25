@@ -57,8 +57,8 @@ struct DataType< ::hector_uav_msgs::EnableMotors > {
 };
 
 
-// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotorsRequest> should match
-// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotors >
+// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotorsRequest> should match 
+// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotors > 
 template<>
 struct MD5Sum< ::hector_uav_msgs::EnableMotorsRequest>
 {
@@ -72,8 +72,8 @@ struct MD5Sum< ::hector_uav_msgs::EnableMotorsRequest>
   }
 };
 
-// service_traits::DataType< ::hector_uav_msgs::EnableMotorsRequest> should match
-// service_traits::DataType< ::hector_uav_msgs::EnableMotors >
+// service_traits::DataType< ::hector_uav_msgs::EnableMotorsRequest> should match 
+// service_traits::DataType< ::hector_uav_msgs::EnableMotors > 
 template<>
 struct DataType< ::hector_uav_msgs::EnableMotorsRequest>
 {
@@ -87,8 +87,8 @@ struct DataType< ::hector_uav_msgs::EnableMotorsRequest>
   }
 };
 
-// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotorsResponse> should match
-// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotors >
+// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotorsResponse> should match 
+// service_traits::MD5Sum< ::hector_uav_msgs::EnableMotors > 
 template<>
 struct MD5Sum< ::hector_uav_msgs::EnableMotorsResponse>
 {
@@ -102,8 +102,8 @@ struct MD5Sum< ::hector_uav_msgs::EnableMotorsResponse>
   }
 };
 
-// service_traits::DataType< ::hector_uav_msgs::EnableMotorsResponse> should match
-// service_traits::DataType< ::hector_uav_msgs::EnableMotors >
+// service_traits::DataType< ::hector_uav_msgs::EnableMotorsResponse> should match 
+// service_traits::DataType< ::hector_uav_msgs::EnableMotors > 
 template<>
 struct DataType< ::hector_uav_msgs::EnableMotorsResponse>
 {

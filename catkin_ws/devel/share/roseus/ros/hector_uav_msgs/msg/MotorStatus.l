@@ -44,11 +44,11 @@
        (if __header (setq _header (car __header)))
        _header)))
   (:on
-   (&optional (__on :null))
-   (if (not (eq __on :null)) (setq _on __on)) _on)
+   (&optional __on)
+   (if __on (setq _on __on)) _on)
   (:running
-   (&optional (__running :null))
-   (if (not (eq __running :null)) (setq _running __running)) _running)
+   (&optional __running)
+   (if __running (setq _running __running)) _running)
   (:voltage
    (&optional __voltage)
    (if __voltage (setq _voltage __voltage)) _voltage)
@@ -159,6 +159,8 @@ uint32 seq
 # time-handling sugar is provided by the client library
 time stamp
 #Frame this data is associated with
+# 0: no frame
+# 1: global frame
 string frame_id
 
 ")
