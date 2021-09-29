@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
-
-Name: aerial_local_planner
-Description: Description of aerial_local_planner
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
