@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
-
-Name: bebop_gazebo
-Description: Description of bebop_gazebo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp
