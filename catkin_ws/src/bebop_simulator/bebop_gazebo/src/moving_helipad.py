@@ -153,9 +153,8 @@ def modelStatesCallback(msg):
             model_state.pose = msg.pose[index_of_interest]
             twist = Twist()
             deltaT = (time.time() - time_start)
-            if(deltaT <= 30):
-                twist.linear.x = x_vel
-                twist.linear.y = y_vel
+            twist.linear.x = x_vel
+            twist.linear.y = y_vel
 
             if msg.twist[index_of_interest] != twist:
                 model_state.twist = twist
@@ -197,7 +196,6 @@ def modelStatesCallback(msg):
                 twist.linear.x = -x_vel
             else:
                 time_start = time.time() #Reset time counter
-
 
             if msg.twist[index_of_interest] != twist:
                 model_state.twist = twist
