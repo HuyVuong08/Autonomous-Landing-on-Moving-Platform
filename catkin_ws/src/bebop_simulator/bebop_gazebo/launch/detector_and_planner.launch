@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+ <include file="$(find ar_helipad)/launch/bebop_helipad_individual.launch"/>
+ <include file="$(find bebop_gazebo)/launch/startup_nodes.launch"/>
+</launch>
