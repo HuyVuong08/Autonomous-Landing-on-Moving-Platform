@@ -22,7 +22,7 @@
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <sstream>                     
+#include <sstream>
 
 static const std::string OPENCV_WINDOW = "Front Camera Image Window";
 
@@ -38,7 +38,7 @@ public:
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
-    image_sub_ = it_.subscribe("/bebop/image_raw", 1, 
+    image_sub_ = it_.subscribe("/bebop/image_raw", 1,
       &ImageConverter::imageCb, this);
     image_pub_ = it_.advertise("/image_converter/output_video", 1);
 
@@ -71,12 +71,11 @@ public:
     cv::imshow(OPENCV_WINDOW, cv_ptr->image);
     cv::waitKey(3);
 
-    static int image_count = 0;                                
-    std::stringstream sstream;                               
-    sstream << "my_image" << image_count << ".png" ;                  
-    ROS_ASSERT( cv::imwrite( sstream.str(),  cv_ptr->image ) );      
-    image_count++;                                      
-
+    //static int image_count = 0;
+    //std::stringstream sstream;
+    //sstream << "my_image" << image_count << ".png" ;
+    //ROS_ASSERT( cv::imwrite( sstream.str(),  cv_ptr->image ) );
+    //image_count++;
 
     // Output modified video stream
     image_pub_.publish(cv_ptr->toImageMsg());
