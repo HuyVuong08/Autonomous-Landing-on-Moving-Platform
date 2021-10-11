@@ -71,6 +71,7 @@ def tf_callback(tf2):
                     v.vy = dy / dt
                     v.vz = dz / dt
                     sliding_window_v.append(v)
+                    rospy.loginfo("sliding_window_no%s velocity: %s" % (sliding_window_no, sliding_window_v))
             else:
                 sliding_window_v.append(v)
     except Exception as e:
