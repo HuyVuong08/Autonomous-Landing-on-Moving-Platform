@@ -14,14 +14,18 @@ sliding_window = []
 sliding_window_v = []
 sliding_window_sz = 0
 latest_common_time = None
+sliding_window_no = 0
 
 def init():
     global targeted_tf, tf_, sliding_window_sz
     global p_v_pub, latest_common_time
     rospy.init_node('tf_velocity_estimator')
     targeted_tf = rospy.get_param('~targeted_tf', 'helipad')
+    rospy.loginfo("targeted_tf: %s" % (targeted_tf))
     sliding_window_sz = rospy.get_param('~sliding_window_sz', 10)
+    rospy.loginfo("sliding_window_sz: %s" % (sliding_window_sz))
     tf_ = TransformListener()
+    rospy.loginfo("tf_: %s" % (tf_))
     latest_common_time = rospy.Time.now()
     rospy.Subscriber('tf', TFMessage, tf_callback)
     p_v_pub = rospy.Publisher('tf_velocity_estimator/poses_velocities', PosesAndVelocities, queue_size=1)
@@ -32,6 +36,7 @@ def tf_callback(tf2):
     global targeted_tf, tf_
     global sliding_window_sz, sliding_window, sliding_window_v
     global p_v_pub, latest_common_time
+    global sliding_window_no
     try:
         t = tf_.getLatestCommonTime('/odom', targeted_tf)
         if latest_common_time < t:
@@ -48,6 +53,8 @@ def tf_callback(tf2):
             ps.pose.orientation.z = quaternion[2]
             ps.pose.orientation.w = quaternion[3]
             sliding_window.append(ps)
+            rospy.loginfo("sliding_window_no%s: \n%s" % (sliding_window_no, sliding_window))
+            sliding_window_no += 1
             if len(sliding_window) >= sliding_window_sz:
                 del sliding_window[0]
                 if len(sliding_window_v) >= sliding_window_sz:
@@ -76,4 +83,4 @@ def tf_callback(tf2):
         p_v_pub.publish(pvmsg)
 
 if __name__ == '__main__':
-    init() 
+    init()
