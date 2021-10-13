@@ -1,0 +1,8 @@
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel
+
+Name: summit_xl_pad
+Description: Description of summit_xl_pad
+Version: 1.0.0
+Cflags: -I/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: robotnik_msgs roscpp sensor_msgs geometry_msgs message_runtime

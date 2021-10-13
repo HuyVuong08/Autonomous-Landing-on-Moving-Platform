@@ -1,0 +1,8 @@
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel
+
+Name: cvg_sim_msgs
+Description: Description of cvg_sim_msgs
+Version: 0.0.0
+Cflags: -I/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime

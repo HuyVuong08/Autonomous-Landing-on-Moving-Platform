@@ -1,0 +1,8 @@
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/install
+
+Name: summit_moves
+Description: Description of summit_moves
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs

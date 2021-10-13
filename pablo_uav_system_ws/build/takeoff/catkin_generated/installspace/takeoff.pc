@@ -1,0 +1,8 @@
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/install
+
+Name: takeoff
+Description: Description of takeoff
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime

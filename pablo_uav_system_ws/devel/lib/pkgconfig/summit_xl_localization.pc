@@ -1,0 +1,8 @@
+prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel
+
+Name: summit_xl_localization
+Description: Description of summit_xl_localization
+Version: 0.0.3
+Cflags: -I/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/src/thirdparty/summit_xl/summit_xl_common/summit_xl_localization/include
+Libs: -L${prefix}/lib 
+Requires: robot_localization roscpp tf tf2 tf2_ros message_filters std_msgs std_srvs geometry_msgs nav_msgs sensor_msgs robotnik_msgs mavros_msgs
