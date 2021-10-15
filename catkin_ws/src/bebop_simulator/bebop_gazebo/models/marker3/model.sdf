@@ -31,8 +31,8 @@
                     <updateRate>4.0</updateRate>
                     <bodyName>base_link</bodyName>
                     <frameId>$(arg base_link_frame)</frameId>
-                    <topicName>/bebop/fix</topicName>
-                    <velocityTopicName>/bebop/fix_velocity</velocityTopicName>
+                    <topicName>/helipad/fix</topicName>
+                    <velocityTopicName>/helipad/fix_velocity</velocityTopicName>
                     <referenceLatitude>37.9707</referenceLatitude>
                     <referenceLongitude>23.7294</referenceLongitude>
                     <drift>5.0 5.0 5.0</drift>
