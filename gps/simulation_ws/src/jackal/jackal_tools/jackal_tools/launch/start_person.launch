@@ -1,0 +1,11 @@
+<launch>
+
+    <!-- Start Standing Person : Spawn, Init TF publish and Init KeyBoard Listener navigation -->
+    <include file="$(find person_sim)/launch/init_standing_person.launch" >
+        <arg name="x" default="5.0" />
+        <arg name="y" default="0.0" />
+        <arg name="z" default="0.0" />
+        <arg name="yaw" default="0.0" />
+    </include>
+
+</launch>

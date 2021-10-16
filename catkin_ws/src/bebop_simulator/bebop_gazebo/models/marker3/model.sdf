@@ -1,6 +1,19 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
     <model name="marker3">
+        <!--<plugin name="name_gps" filename="libhector_gazebo_ros_gps.so">-->
+            <!--<alwayson>1</alwayson>-->
+            <!--<updaterate>4.0</updaterate>-->
+            <!--<bodyname>basefootprint</bodyname>-->
+            <!--<topicname>helipad/fix</topicname>-->
+            <!--<velocitytopicname>helipad/fix_velocity</velocitytopicname>-->
+            <!--<referenceLatitude>37.9707</referenceLatitude>-->
+            <!--<referenceLongitude>23.7294</referenceLongitude>-->
+            <!--<drift>5.0 5.0 5.0</drift>-->
+            <!--<gaussiannoise>0.01 0.01 0.01</gaussiannoise>-->
+            <!--<velocitydrift>0 0 0</velocitydrift>-->
+            <!--<velocitygaussiannoise>0.05 0.05 0.05</velocitygaussiannoise>-->
+        <!--</plugin>-->
         <link name="link">
             <gravity>0</gravity>
             <collision name="collision_marker3">
@@ -26,21 +39,6 @@
                     </script>
                 </material>
             </visual>
-            <sensor type="gps" name="gps_sensor">
-                <plugin name="bebop_gps_sim" filename="libhector_gazebo_ros_gps.so">
-                    <updateRate>4.0</updateRate>
-                    <bodyName>base_link</bodyName>
-                    <frameId>$(arg base_link_frame)</frameId>
-                    <topicName>/helipad/fix</topicName>
-                    <velocityTopicName>/helipad/fix_velocity</velocityTopicName>
-                    <referenceLatitude>37.9707</referenceLatitude>
-                    <referenceLongitude>23.7294</referenceLongitude>
-                    <drift>5.0 5.0 5.0</drift>
-                    <gaussianNoise>0.01 0.01 0.01</gaussianNoise>
-                    <velocityDrift>0 0 0</velocityDrift>
-                    <velocityGaussianNoise>0.05 0.05 0.05</velocityGaussianNoise>
-                </plugin>
-            </sensor>
         </link>
     </model>
 </sdf>

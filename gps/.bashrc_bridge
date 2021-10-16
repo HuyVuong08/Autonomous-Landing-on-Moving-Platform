@@ -1,0 +1,7 @@
+source /opt/ros/melodic/setup.bash
+source /opt/ros/crystal/local_setup.bash
+
+source /home/simulations/ros2_sims_ws/install/setup.bash
+
+source /home/user/catkin_ws/devel/setup.bash
+source /home/user/ros2_ws/install/local_setup.bash

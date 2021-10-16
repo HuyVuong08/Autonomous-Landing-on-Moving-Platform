@@ -1,0 +1,9 @@
+<launch>
+ <!-- -->
+  <node pkg="image_view" type="stereo_view" name="" respawn="true" output="screen">
+    <!-- Remp to slash to make it empty, otherwise ros doesnt allow empty remappings, but we need it to avoid its value is stereo"-->
+    <remap from="stereo" to="/"/>
+    <remap from="image" to="image_rect"/>
+  </node>
+
+</launch>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- SUMMIT XL MOVE BASE -->
+<launch>
+  <!--- Run AMCL -->
+  <include file="$(find sumit_xl_tools)/launch/start_localization.launch" />
+  <remap from="cmd_vel" to="/move_base/cmd_vel" />
+
+  <!-- Run move_base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find sumit_xl_tools)/config/move_base_params.yaml" command="load" />
+    <rosparam file="$(find sumit_xl_tools)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find sumit_xl_tools)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find sumit_xl_tools)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find sumit_xl_tools)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find sumit_xl_tools)/config/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find sumit_xl_tools)/config/navfn_global_planner_params.yaml" command="load" />
+
+    <param name="base_global_planner" value="navfn/NavfnROS" />
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    <param name="controller_frequency" value="5.0" />
+    <param name="controller_patience" value="15.0" />
+  </node>
+
+</launch>

@@ -1,0 +1,18 @@
+<launch>
+
+    <!-- Run the map server -->
+    <arg name="map_file" default="$(find sumit_xl_tools)/maps/new_clean_map.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+    
+    <!--- Run AMCL -->
+    <include file="$(find sumit_xl_tools)/launch/amcl.launch" />
+    
+    <!--- Run Move Base -->
+    <include file="$(find sumit_xl_tools)/launch/start_movebase_new_map.launch" />
+    
+    <!-- Start RVIZ for Localization -->
+    <include file="$(find sumit_xl_tools)/launch/view_robot.launch">
+        <arg name="config" value="navigation_map" />
+    </include>
+
+</launch>

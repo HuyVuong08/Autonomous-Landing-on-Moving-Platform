@@ -1,0 +1,4 @@
+<launch>
+  <!-- Start Teeop that publishes in /cmd_vel -->
+  <node name="jackal_teleop_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen"/>
+</launch>

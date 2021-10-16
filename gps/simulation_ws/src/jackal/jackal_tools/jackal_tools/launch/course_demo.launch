@@ -1,0 +1,8 @@
+<launch>
+  
+    <!-- Launch the Simulation -->
+    <include file="$(find jackal_tools)/launch/jackal_world.launch">
+        <arg name="config" value="complete" />
+    </include>
+
+</launch>

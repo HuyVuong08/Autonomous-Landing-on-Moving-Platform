@@ -1,0 +1,3 @@
+<launch>
+    <node name="map_server" pkg="map_server" type="map_saver" args="-f $(find sumit_xl_tools)/maps/my_new_map"/>
+</launch>

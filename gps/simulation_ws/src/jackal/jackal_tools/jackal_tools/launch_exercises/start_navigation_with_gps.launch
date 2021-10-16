@@ -1,0 +1,18 @@
+<launch>
+
+    <!--- Run Move Base -->
+    <include file="$(find jackal_tools)/launch/odom_navigation.launch" />
+ 
+    <!--- Start NavSat -->
+    <include file="$(find jackal_tools)/launch/start_navsat.launch" />
+    
+    <!--- Start TF publish of odom to gps_origin -->
+    <node pkg="jackal_tools" type="publish_world_to_odom_and_map.py" name="gps_origin_tf_node" output="screen">
+    </node>
+    
+    <!-- Start RVIZ for Localization -->
+    <include file="$(find jackal_tools)/launch/view_robot.launch">
+        <arg name="config" value="navigation" />
+    </include>
+
+</launch>

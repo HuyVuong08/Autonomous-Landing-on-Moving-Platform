@@ -1,0 +1,11 @@
+<launch>
+
+    <!--- Run Move Base -->
+    <include file="$(find sumit_xl_tools)/launch/start_movebase_new_odom.launch" />
+    
+    <!-- Start RVIZ for Localization -->
+    <include file="$(find sumit_xl_tools)/launch/view_robot.launch">
+        <arg name="config" value="navigation_odom" />
+    </include>
+
+</launch>

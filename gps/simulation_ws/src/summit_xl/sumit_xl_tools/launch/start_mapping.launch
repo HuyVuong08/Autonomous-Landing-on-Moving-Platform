@@ -1,0 +1,9 @@
+<launch>
+
+  <!--- Run gmapping -->
+  <include file="$(find sumit_xl_tools)/launch/gmapping.launch" />
+
+  <!--- Run Move Base -->
+  <include file="$(find sumit_xl_tools)/launch/start_movebase_new_map.launch" />
+
+</launch>
