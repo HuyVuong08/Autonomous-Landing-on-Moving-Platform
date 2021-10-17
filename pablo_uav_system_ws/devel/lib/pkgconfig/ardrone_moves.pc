@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel
-
-Name: ardrone_moves
-Description: Description of ardrone_moves
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

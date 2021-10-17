@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel
-
-Name: opencv_tests
-Description: Description of opencv_tests
-Version: 1.12.8
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

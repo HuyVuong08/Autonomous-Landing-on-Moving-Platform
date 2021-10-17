@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel
-
-Name: ped_traj_pred
-Description: Description of ped_traj_pred
-Version: 0.0.1
-Cflags: -I/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: 

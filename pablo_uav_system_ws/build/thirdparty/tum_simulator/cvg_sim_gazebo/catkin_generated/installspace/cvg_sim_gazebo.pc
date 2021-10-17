@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/install
-
-Name: cvg_sim_gazebo
-Description: Description of cvg_sim_gazebo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

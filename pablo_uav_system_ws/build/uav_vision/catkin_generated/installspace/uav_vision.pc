@@ -1,8 +1,0 @@
-prefix=/home/huy/Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/install
-
-Name: uav_vision
-Description: Description of uav_vision
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: cv_bridge image_transport roscpp sensor_msgs std_msgs geometry_msgs image_view tf std_srvs cvg_sim_msgs ardrone_autonomy
