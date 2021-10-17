@@ -194,7 +194,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: summit_xl_a_base_link
     Frame Rate: 30
   Name: root
   Tools:

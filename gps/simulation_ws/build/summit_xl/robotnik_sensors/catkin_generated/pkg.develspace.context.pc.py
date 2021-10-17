@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "robotnik_sensors"
 PROJECT_SPACE_DIR = "/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/devel"
-PROJECT_VERSION = "1.0.5"
+PROJECT_VERSION = "1.1.2"

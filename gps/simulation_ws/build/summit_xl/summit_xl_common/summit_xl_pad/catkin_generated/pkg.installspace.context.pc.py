@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "robotnik_msgs;roscpp;sensor_msgs;geometry_msgs;message
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "summit_xl_pad"
 PROJECT_SPACE_DIR = "/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install"
-PROJECT_VERSION = "1.1.2"
+PROJECT_VERSION = "1.1.3"

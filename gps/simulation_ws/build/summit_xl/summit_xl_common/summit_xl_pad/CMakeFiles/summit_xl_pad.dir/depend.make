@@ -86,6 +86,9 @@ summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit
 summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/rosconsole/macros_generated.h
 summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/sensor_msgs/Joy.h
 summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/std_msgs/Header.h
+summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/std_srvs/SetBool.h
+summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/std_srvs/SetBoolRequest.h
+summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/std_srvs/SetBoolResponse.h
 summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpc.h
 summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcClient.h
 summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit_xl_pad.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h

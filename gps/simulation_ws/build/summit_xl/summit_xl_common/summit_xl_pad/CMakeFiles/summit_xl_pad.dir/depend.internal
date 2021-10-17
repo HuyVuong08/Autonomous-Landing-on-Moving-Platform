@@ -87,6 +87,9 @@ summit_xl/summit_xl_common/summit_xl_pad/CMakeFiles/summit_xl_pad.dir/src/summit
  /opt/ros/kinetic/include/rosconsole/macros_generated.h
  /opt/ros/kinetic/include/sensor_msgs/Joy.h
  /opt/ros/kinetic/include/std_msgs/Header.h
+ /opt/ros/kinetic/include/std_srvs/SetBool.h
+ /opt/ros/kinetic/include/std_srvs/SetBoolRequest.h
+ /opt/ros/kinetic/include/std_srvs/SetBoolResponse.h
  /opt/ros/kinetic/include/xmlrpcpp/XmlRpc.h
  /opt/ros/kinetic/include/xmlrpcpp/XmlRpcClient.h
  /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h

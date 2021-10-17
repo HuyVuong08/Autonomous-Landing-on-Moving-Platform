@@ -91,15 +91,15 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(summit_xl_localization_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "include;/usr/include/eigen3 " STREQUAL " ")
+if(NOT " " STREQUAL " ")
   set(summit_xl_localization_INCLUDE_DIRS "")
-  set(_include_dirs "include;/usr/include/eigen3")
+  set(_include_dirs "")
   if(NOT "https://github.com/RobotnikAutomation/summit_xl_common/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://github.com/RobotnikAutomation/summit_xl_common/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://ros.org/wiki/summit_xl_localization " STREQUAL " ")
     set(_report "Check the website 'http://ros.org/wiki/summit_xl_localization' for information and consider reporting the problem.")
   else()
-    set(_report "Report the problem to the maintainer 'Elena Gambaro <egambaro@robotnik.es>, Carlos Villar <cvillar@robotnik.es>' and request to fix the problem.")
+    set(_report "Report the problem to the maintainer 'Angel Soriano <asoriano@robotnik.es>, Álvaro Villena <avillena@robotnik.es>, David Redó <dredo@robotnik.es>, Alejandro Arnal <aarnal@robotnik.es>, Marc Bosch <mbosch@robotnik.es>, Román Navarro <rnavarro@robotnik.es>' and request to fix the problem.")
   endif()
   foreach(idir ${_include_dirs})
     if(IS_ABSOLUTE ${idir} AND IS_DIRECTORY ${idir})
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install/lib;/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/devel/lib;/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
+    foreach(path /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install/lib;/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

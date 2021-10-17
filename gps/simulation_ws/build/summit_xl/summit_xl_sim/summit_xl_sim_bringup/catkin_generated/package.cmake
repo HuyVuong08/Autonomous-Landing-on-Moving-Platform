@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "summit_xl_sim_bringup")
-set(summit_xl_sim_bringup_VERSION "1.1.1")
+set(summit_xl_sim_bringup_VERSION "1.1.3")
 set(summit_xl_sim_bringup_MAINTAINER "Carlos Villar <cvillar@robotnik.es>")
 set(summit_xl_sim_bringup_PACKAGE_FORMAT "1")
 set(summit_xl_sim_bringup_BUILD_DEPENDS "roslaunch")

@@ -99,7 +99,7 @@ if(NOT " " STREQUAL " ")
   elseif(NOT "http://ros.org/wiki/summit_xl_control " STREQUAL " ")
     set(_report "Check the website 'http://ros.org/wiki/summit_xl_control' for information and consider reporting the problem.")
   else()
-    set(_report "Report the problem to the maintainer 'Carlos Villar <cvillar@robotnik.es>' and request to fix the problem.")
+    set(_report "Report the problem to the maintainer 'Angel Soriano <asoriano@robotnik.es>, Álvaro Villena <avillena@robotnik.es>, David Redó <dredo@robotnik.es>, Alejandro Arnal <aarnal@robotnik.es>, Marc Bosch <mbosch@robotnik.es>, Román Navarro <rnavarro@robotnik.es>' and request to fix the problem.")
   endif()
   foreach(idir ${_include_dirs})
     if(IS_ABSOLUTE ${idir} AND IS_DIRECTORY ${idir})
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install/lib;/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/devel/lib;/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
+    foreach(path /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install/lib;/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

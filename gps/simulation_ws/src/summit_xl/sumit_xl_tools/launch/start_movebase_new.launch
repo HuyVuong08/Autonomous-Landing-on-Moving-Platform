@@ -16,7 +16,7 @@
 
     <include file="$(find sumit_xl_tools)/launch/start_localization.launch" />
 
-    <remap from="cmd_vel" to="/move_base/cmd_vel" />
+    <remap from="cmd_vel" to="/summit_xl_control/cmd_vel" />
     
     <arg name="no_static_map" default="false"/>
     

@@ -2,16 +2,16 @@
 <robot name="sensor_sick_s3000" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
-  <xacro:macro name="sensor_sick_s3000" params="name parent *origin">
-     
-    <joint name="${name}_joint" type="fixed">
+  <xacro:macro name="sensor_sick_s3000" params="prefix parent ns='' prefix_topic:='front_laser' *origin">
+
+    <joint name="${prefix}_joint" type="fixed">
       <xacro:insert_block name="origin" />
       <parent link="${parent}"/>
-      <child link="${name}_link"/>
+      <child link="${prefix}_base_link"/>
 	</joint>
 
-  
-	<link name="${name}_link">
+
+	<link name="${prefix}_base_link">
 		<collision>
 			<origin xyz="-0.093 0 -0.0625" rpy="0 0 0"/>
 			<geometry>
@@ -32,17 +32,17 @@
 			<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
 		</inertial>
 	</link>
-	
 
-	<!-- Sick sensor sensor for simulation -->		
+
+	<!-- Sick sensor sensor for simulation -->
 	<sensor_sick_s3000_gazebo/>
-		
+
   </xacro:macro>
-  
-    
+
+
   <xacro:macro name="sensor_sick_s3000_gazebo">
-    <gazebo reference="${name}_link">
-			<sensor type="ray" name="${name}_sensor">
+    <gazebo reference="${prefix}_base_link">
+			<sensor type="gpu_ray" name="${prefix}_sensor">
 				<pose>0 0 0 0 0 0</pose>
 				<visualize>false</visualize>
 				<update_rate>16.6</update_rate>
@@ -51,7 +51,7 @@
 						<horizontal>
 							<samples>761</samples>
 							<resolution>1</resolution>
-							<min_angle>-1.6580</min_angle>  
+							<min_angle>-1.6580</min_angle>
 							<max_angle>1.6580</max_angle>
 						</horizontal>
 					</scan>
@@ -66,12 +66,12 @@
 						<stddev>0.01</stddev>
 					</noise>
 				</ray>
-				<plugin name="${name}_controller" filename="libgazebo_ros_laser.so">
-					<topicName>${name}/scan</topicName>
-					<frameName>${name}_link</frameName>
+				<plugin name="${prefix}_controller" filename="libgazebo_ros_gpu_laser.so">
+					<topicName>${ns}${prefix_topic}/scan</topicName>
+					<frameName>/${prefix}_base_link</frameName>
 				</plugin>
 			</sensor>
 		</gazebo>
   </xacro:macro>
-  
+
 </robot>

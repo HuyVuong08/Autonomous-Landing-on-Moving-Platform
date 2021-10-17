@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "summit_xl_sim_bringup"
 PROJECT_SPACE_DIR = "/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install"
-PROJECT_VERSION = "1.1.1"
+PROJECT_VERSION = "1.1.3"

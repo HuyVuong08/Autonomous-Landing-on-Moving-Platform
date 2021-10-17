@@ -1,2 +1,2 @@
-gps_navigation:my_move_base
--DCATKIN_DEVEL_PREFIX=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/catkin_ws/install -G Unix Makefiles
+
+-DCATKIN_DEVEL_PREFIX=/home/user/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/user/catkin_ws/install -G Unix Makefiles

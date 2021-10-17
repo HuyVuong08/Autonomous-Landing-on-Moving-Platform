@@ -28,28 +28,28 @@ The CXX compiler identification is GNU, found in "/home/mercedes-benz-s-450/Desk
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_b0ee8/fast"
-/usr/bin/make -f CMakeFiles/cmTC_b0ee8.dir/build.make CMakeFiles/cmTC_b0ee8.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_4a531/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4a531.dir/build.make CMakeFiles/cmTC_4a531.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_b0ee8.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_b0ee8.dir/testCCompiler.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_b0ee8
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b0ee8.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_b0ee8.dir/testCCompiler.c.o  -o cmTC_b0ee8 -rdynamic 
+Building C object CMakeFiles/cmTC_4a531.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_4a531.dir/testCCompiler.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_4a531
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4a531.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_4a531.dir/testCCompiler.c.o  -o cmTC_4a531 -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ee5ff/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ee5ff.dir/build.make CMakeFiles/cmTC_ee5ff.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_95803/fast"
+/usr/bin/make -f CMakeFiles/cmTC_95803.dir/build.make CMakeFiles/cmTC_95803.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_ee5ff
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee5ff.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o  -o cmTC_ee5ff -rdynamic  
+Building C object CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_95803
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95803.dir/link.txt --verbose=1
+/usr/bin/cc      -v CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o  -o cmTC_95803 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -59,8 +59,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ee5ff' '-rdynamic' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4PmY6H.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_ee5ff /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_95803' '-rdynamic' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cc5fEGId.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_95803 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -68,14 +68,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_ee5ff/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_ee5ff.dir/build.make CMakeFiles/cmTC_ee5ff.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_95803/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_95803.dir/build.make CMakeFiles/cmTC_95803.dir/build]
   ignore line: [make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_ee5ff]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee5ff.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o  -o cmTC_ee5ff -rdynamic  ]
+  ignore line: [Building C object CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_95803]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95803.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o  -o cmTC_95803 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -85,13 +85,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ee5ff' '-rdynamic' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4PmY6H.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_ee5ff /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_95803' '-rdynamic' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cc5fEGId.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_95803 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cc4PmY6H.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc5fEGId.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -109,7 +109,7 @@ Parsed C implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_ee5ff] ==> ignore
+    arg [cmTC_95803] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -121,7 +121,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_ee5ff.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_95803.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -155,14 +155,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0a205/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0a205.dir/build.make CMakeFiles/cmTC_0a205.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_44dc7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_44dc7.dir/build.make CMakeFiles/cmTC_44dc7.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_0a205.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_0a205.dir/feature_tests.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_0a205
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0a205.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_0a205.dir/feature_tests.c.o  -o cmTC_0a205 -rdynamic 
+Building C object CMakeFiles/cmTC_44dc7.dir/feature_tests.c.o
+/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_44dc7.dir/feature_tests.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_44dc7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_44dc7.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_44dc7.dir/feature_tests.c.o  -o cmTC_44dc7 -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -175,14 +175,14 @@ make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ccf85/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ccf85.dir/build.make CMakeFiles/cmTC_ccf85.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_d31f7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d31f7.dir/build.make CMakeFiles/cmTC_d31f7.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ccf85.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_ccf85.dir/feature_tests.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_ccf85
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ccf85.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_ccf85.dir/feature_tests.c.o  -o cmTC_ccf85 -rdynamic 
+Building C object CMakeFiles/cmTC_d31f7.dir/feature_tests.c.o
+/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_d31f7.dir/feature_tests.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_d31f7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d31f7.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_d31f7.dir/feature_tests.c.o  -o cmTC_d31f7 -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -195,14 +195,14 @@ make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_86cc6/fast"
-/usr/bin/make -f CMakeFiles/cmTC_86cc6.dir/build.make CMakeFiles/cmTC_86cc6.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_30030/fast"
+/usr/bin/make -f CMakeFiles/cmTC_30030.dir/build.make CMakeFiles/cmTC_30030.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_86cc6.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_86cc6.dir/feature_tests.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_86cc6
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86cc6.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_86cc6.dir/feature_tests.c.o  -o cmTC_86cc6 -rdynamic 
+Building C object CMakeFiles/cmTC_30030.dir/feature_tests.c.o
+/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_30030.dir/feature_tests.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_30030
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30030.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_30030.dir/feature_tests.c.o  -o cmTC_30030 -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -213,28 +213,28 @@ make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_72b46/fast"
-/usr/bin/make -f CMakeFiles/cmTC_72b46.dir/build.make CMakeFiles/cmTC_72b46.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_5501b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5501b.dir/build.make CMakeFiles/cmTC_5501b.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_72b46.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_72b46.dir/testCXXCompiler.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_72b46
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72b46.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_72b46.dir/testCXXCompiler.cxx.o  -o cmTC_72b46 -rdynamic 
+Building CXX object CMakeFiles/cmTC_5501b.dir/testCXXCompiler.cxx.o
+/usr/bin/c++      -o CMakeFiles/cmTC_5501b.dir/testCXXCompiler.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_5501b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5501b.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_5501b.dir/testCXXCompiler.cxx.o  -o cmTC_5501b -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_c1972/fast"
-/usr/bin/make -f CMakeFiles/cmTC_c1972.dir/build.make CMakeFiles/cmTC_c1972.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_f6078/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f6078.dir/build.make CMakeFiles/cmTC_f6078.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_c1972
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c1972.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_c1972 -rdynamic  
+Building CXX object CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++      -o CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_f6078
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f6078.dir/link.txt --verbose=1
+/usr/bin/c++       -v CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_f6078 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -244,8 +244,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c1972' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccMT9rvx.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_c1972 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6078' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccZezBZw.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_f6078 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -253,14 +253,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_c1972/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_c1972.dir/build.make CMakeFiles/cmTC_c1972.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_f6078/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_f6078.dir/build.make CMakeFiles/cmTC_f6078.dir/build]
   ignore line: [make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_c1972]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c1972.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_c1972 -rdynamic  ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_f6078]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f6078.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_f6078 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -270,13 +270,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c1972' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccMT9rvx.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_c1972 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6078' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccZezBZw.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_f6078 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccMT9rvx.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccZezBZw.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -294,7 +294,7 @@ Parsed CXX implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_c1972] ==> ignore
+    arg [cmTC_f6078] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -306,7 +306,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_c1972.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_f6078.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -338,14 +338,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d3188/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d3188.dir/build.make CMakeFiles/cmTC_d3188.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_c2e8b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c2e8b.dir/build.make CMakeFiles/cmTC_c2e8b.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_d3188.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_d3188.dir/feature_tests.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_d3188
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d3188.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_d3188.dir/feature_tests.cxx.o  -o cmTC_d3188 -rdynamic 
+Building CXX object CMakeFiles/cmTC_c2e8b.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_c2e8b.dir/feature_tests.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_c2e8b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c2e8b.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_c2e8b.dir/feature_tests.cxx.o  -o cmTC_c2e8b -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -411,14 +411,14 @@ make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_5e593/fast"
-/usr/bin/make -f CMakeFiles/cmTC_5e593.dir/build.make CMakeFiles/cmTC_5e593.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_175be/fast"
+/usr/bin/make -f CMakeFiles/cmTC_175be.dir/build.make CMakeFiles/cmTC_175be.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_5e593.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_5e593.dir/feature_tests.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_5e593
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5e593.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_5e593.dir/feature_tests.cxx.o  -o cmTC_5e593 -rdynamic 
+Building CXX object CMakeFiles/cmTC_175be.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_175be.dir/feature_tests.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_175be
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_175be.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_175be.dir/feature_tests.cxx.o  -o cmTC_175be -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -484,14 +484,14 @@ make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_e1e5a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_e1e5a.dir/build.make CMakeFiles/cmTC_e1e5a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_56a6c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_56a6c.dir/build.make CMakeFiles/cmTC_56a6c.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_e1e5a.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_e1e5a.dir/feature_tests.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_e1e5a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e1e5a.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_e1e5a.dir/feature_tests.cxx.o  -o cmTC_e1e5a -rdynamic 
+Building CXX object CMakeFiles/cmTC_56a6c.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_56a6c.dir/feature_tests.cxx.o -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_56a6c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_56a6c.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_56a6c.dir/feature_tests.cxx.o  -o cmTC_56a6c -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
@@ -555,28 +555,28 @@ make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_69fcf/fast"
-/usr/bin/make -f CMakeFiles/cmTC_69fcf.dir/build.make CMakeFiles/cmTC_69fcf.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_6a223/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6a223.dir/build.make CMakeFiles/cmTC_6a223.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_69fcf.dir/CheckIncludeFile.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_69fcf.dir/CheckIncludeFile.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_69fcf
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_69fcf.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_69fcf.dir/CheckIncludeFile.c.o  -o cmTC_69fcf -rdynamic 
+Building C object CMakeFiles/cmTC_6a223.dir/CheckIncludeFile.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_6a223.dir/CheckIncludeFile.c.o   -c /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_6a223
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6a223.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_6a223.dir/CheckIncludeFile.c.o  -o cmTC_6a223 -rdynamic 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
 Determining if the function pthread_create exists in the pthread passed with the following output:
 Change Dir: /home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_50bd2/fast"
-/usr/bin/make -f CMakeFiles/cmTC_50bd2.dir/build.make CMakeFiles/cmTC_50bd2.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_0cdd1/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0cdd1.dir/build.make CMakeFiles/cmTC_0cdd1.dir/build
 make[1]: Entering directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_50bd2.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_50bd2.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
-Linking C executable cmTC_50bd2
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_50bd2.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_50bd2.dir/CheckFunctionExists.c.o  -o cmTC_50bd2 -rdynamic -lpthread 
+Building C object CMakeFiles/cmTC_0cdd1.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_0cdd1.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_0cdd1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0cdd1.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_0cdd1.dir/CheckFunctionExists.c.o  -o cmTC_0cdd1 -rdynamic -lpthread 
 make[1]: Leaving directory '/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/build/CMakeFiles/CMakeTmp'
 
 
