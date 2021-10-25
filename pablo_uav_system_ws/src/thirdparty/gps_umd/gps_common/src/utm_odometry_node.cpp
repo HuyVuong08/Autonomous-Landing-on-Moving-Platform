@@ -17,6 +17,7 @@ using namespace gps_common;
 static ros::Publisher odom_pub;
 std::string frame_id, child_frame_id;
 double rot_cov;
+static bool first_callback = true;
 
 void ground_truth_callback (const nav_msgs::OdometryConstPtr& ground_truth) {
     std::string ground_truth_frame_id;
@@ -42,8 +43,14 @@ void callback (const sensor_msgs::NavSatFixConstPtr& fix) {
         return;
     }
 
-    long double origin_lat = 39.493800;
-    long double origin_long = -0.377982;
+    static long double origin_lat, origin_long;
+
+    if (first_callback) {
+        first_callback = false;
+        origin_lat = fix->latitude;
+        origin_long = fix->longitude;
+    }
+
     long double latitude, longitude;
     latitude = fix->latitude;
     longitude = fix->longitude;
