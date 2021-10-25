@@ -8,6 +8,8 @@
 #include <sensor_msgs/NavSatStatus.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <gps_common/conversions.h>
+#include <geonav_transform/geonav_transform.h>
+#include <geonav_transform/navsat_conversions.h>
 #include <nav_msgs/Odometry.h>
 
 using namespace gps_common;
@@ -16,14 +18,21 @@ static ros::Publisher odom_pub;
 std::string frame_id, child_frame_id;
 double rot_cov;
 
-void conversion(double counts) {
-    std::ostringstream ss;
-    ss.precision(1);
-    ss << std::fixed << counts;
-    std::cout << ss.str() << " MeV";
+void ground_truth_callback (const nav_msgs::OdometryConstPtr& ground_truth) {
+    std::string ground_truth_frame_id;
+    ground_truth_frame_id =  ground_truth->header.frame_id;
+
+    double ground_truth_time_callback;
+    ground_truth_time_callback = ground_truth->header.stamp.toSec();
+
+    long double ground_truth_x = 0;
+    long double ground_truth_y = 0;
+    ground_truth_x = ground_truth->pose.pose.position.x;
+    ground_truth_y = ground_truth->pose.pose.position.y;
+    ROS_INFO("ground_truth_x, ground_truth_y: %Lf, %Lf", ground_truth_x, ground_truth_y);
 }
 
-void callback(const sensor_msgs::NavSatFixConstPtr& fix) {
+void callback (const sensor_msgs::NavSatFixConstPtr& fix) {
     if (fix->status.status == sensor_msgs::NavSatStatus::STATUS_NO_FIX) {
         ROS_INFO("No fix.");
         return;
@@ -33,19 +42,44 @@ void callback(const sensor_msgs::NavSatFixConstPtr& fix) {
         return;
     }
 
+    long double origin_lat = 39.493800;
+    long double origin_long = -0.377982;
     long double latitude, longitude;
-    double northing, easting;
-    std::string zone;
-    //latitude = fix->latitude;
-    //longitude = fix->longitude;
-    latitude = 0;
-    longitude = 0;
+    latitude = fix->latitude;
+    longitude = fix->longitude;
 
-    ROS_INFO("longitude = %Lf, latitude = %Lf", longitude, latitude);
+    double utm_northing = -1.5;
+    double utm_easting = -1.5;
 
-    LLtoUTM(latitude, longitude, northing, easting, zone);
+    double navsat_utm_northing = -1.5;
+    double navsat_utm_easting = -1.5;
 
-    ROS_INFO("easting = %f, northing = %f", easting, northing);
+    double origin_navsat_utm_northing = -1.5;
+    double origin_navsat_utm_easting = -1.5;
+
+    double northing = -1.5;
+    double easting = -1.5;
+
+    std::string utm_zone, navsat_utm_zone, origin_navsat_utm_zone;
+
+    ROS_INFO("origin_longitude, origin_latitude: %Lf, %Lf", origin_long, origin_lat);
+    ROS_INFO("longitude, latitude: %Lf, %Lf", longitude, latitude);
+
+    LLtoUTM(latitude, longitude, utm_northing, utm_easting, utm_zone);
+    ROS_INFO("UTM utm_easting, utm_northing: %f, %f", utm_easting, utm_northing);
+
+    GeonavTransform::NavsatConversions::LLtoUTM(latitude, longitude, navsat_utm_northing, navsat_utm_easting, navsat_utm_zone);
+    ROS_INFO("UTM navsat_utm_easting, navsat_utm_northing: %f, %f", navsat_utm_easting, navsat_utm_northing);
+
+    GeonavTransform::NavsatConversions::LLtoUTM(origin_lat, origin_long, origin_navsat_utm_northing, origin_navsat_utm_easting,  origin_navsat_utm_zone);
+    ROS_INFO("UTM origin_navsat_utm_easting, origin_navsat_utm_northing: %f, %f", origin_navsat_utm_easting, origin_navsat_utm_northing);
+
+    if ( origin_navsat_utm_zone != navsat_utm_zone ){
+        ROS_INFO("WARNING: geonav_conversion: origin and location are in different UTM zones!");
+    }
+
+    easting = navsat_utm_easting - origin_navsat_utm_easting;
+    northing = navsat_utm_northing - origin_navsat_utm_northing;
 
     if (odom_pub) {
         nav_msgs::Odometry odom;
@@ -106,6 +140,7 @@ int main (int argc, char **argv) {
     odom_pub = node.advertise<nav_msgs::Odometry>("summit_xl/mavros/gps/odom", 10);
 
     ros::Subscriber fix_sub = node.subscribe("summit_xl/mavros/gps/fix", 10, callback);
+    ros::Subscriber ground_truth_sub = node.subscribe("ardrone/ground_truth/state", 10, ground_truth_callback);
 
     ros::spin();
 }

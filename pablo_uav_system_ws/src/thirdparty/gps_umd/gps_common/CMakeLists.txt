@@ -6,23 +6,24 @@ project(gps_common CXX)
 ############
 
 find_package(catkin REQUIRED
-  message_generation
-  message_filters
-  roscpp
-  std_msgs
-  nav_msgs
-  sensor_msgs
-)
+    message_generation
+    message_filters
+    roscpp
+    std_msgs
+    nav_msgs
+    sensor_msgs
+    geonav_transform
+    )
 
 #######################################
 ## Declare ROS messages and services ##
 #######################################
 
 add_message_files(
-  FILES
+    FILES
     GPSStatus.msg
     GPSFix.msg
-)
+    )
 
 generate_messages(DEPENDENCIES std_msgs)
 
@@ -31,9 +32,10 @@ generate_messages(DEPENDENCIES std_msgs)
 ###################################################
 
 catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS message_runtime
-)
+    INCLUDE_DIRS include
+    CATKIN_DEPENDS message_runtime
+    geonav_transform
+    )
 
 ###########
 ## Build ##
@@ -50,11 +52,11 @@ add_dependencies(${PROJECT_NAME}/utm_odometry_node ${PROJECT_NAME}_generate_mess
 #############
 
 install(TARGETS ${PROJECT_NAME}/utm_odometry_node
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
 
-install(DIRECTORY include/${PROJECT_NAME}/ 
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-)
+install(DIRECTORY include/${PROJECT_NAME}/
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    )
