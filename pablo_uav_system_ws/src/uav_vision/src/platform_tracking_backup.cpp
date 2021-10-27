@@ -49,9 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ped_traj_pred/PathWithId.h> // msg type for the path of predicted positions
 
-#include <tf/tf.h>
-#include <nav_msgs/Odometry.h>
-
 // navigation states from the gazebo plugin (used only to send correct state to rotors in plugin)
 #define UNKNOWN_MODEL       0
 #define INITIALIZE_MODEL    1
@@ -167,9 +164,6 @@ private:
     ros::Subscriber takeoff_sub_, land_sub_, force_land_sub_;
     ros::Subscriber ardrone_gt_sub_, summit_gt_sub_;
     ros::Subscriber ardrone_imu_sub_;
-
-    ros::Subscriber odom_sub;
-
     ros::Timer timer_;
 
     // transformations
@@ -196,10 +190,6 @@ private:
     double angle_x_, angle_y_;
     double angular_velocity_x_, angular_velocity_y_;
     double linear_acceleration_x_, linear_acceleration_y_;
-
-    // odom variable
-    double newOdom_x,newOdom_y,newOdom_z,newOdom_theta;
-    double roll, pitch, yaw;
 
     // auxiliary for computing distance from ardrone to platform's x and y axes
     tf::Vector3 segment_;
@@ -249,7 +239,6 @@ public:
     void groundtruthSummitCallback(const geometry_msgs::PoseStamped& gt_summit);
     void ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_msg);
 
-    void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
 
     void follow_platform();
 };
@@ -380,8 +369,6 @@ PlatformTracking::PlatformTracking() {
     summit_gt_sub_           = nh_.subscribe("/groundtruth/summit", 1, &PlatformTracking::groundtruthSummitCallback, this);
     ardrone_imu_sub_         = nh_.subscribe("/ardrone/imu", 1, &PlatformTracking::ardroneImuCallback, this);
 
-    odom_sub         = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
-
     ROS_INFO("%f", 1.0 / cmd_vel_pub_freq_);
     timer_                   = nh_.createTimer(ros::Duration(1.0 / cmd_vel_pub_freq_), &PlatformTracking::heightControlCallback, this);
 
@@ -504,27 +491,6 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
     linear_acceleration_x_ = imu_msg->linear_acceleration.x;
     linear_acceleration_y_ = imu_msg->linear_acceleration.y;
 }
-
-void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
-    newOdom_x = newOdom_msg->pose.pose.position.x;
-    newOdom_y = newOdom_msg->pose.pose.position.y;
-    newOdom_z = newOdom_msg->pose.pose.position.z;
-
-    tf::Quaternion q(
-        newOdom_msg->pose.pose.orientation.x,
-        newOdom_msg->pose.pose.orientation.y,
-        newOdom_msg->pose.pose.orientation.z,
-        newOdom_msg->pose.pose.orientation.w);
-    tf::Matrix3x3 m(q);
-    
-    m.getRPY(roll, pitch, yaw);
-    
-    newOdom_theta = yaw;
-
-    ROS_INFO("newOdom_x, newOdom_y, newOdom_z, newOdom_theta: %f, %f, %f, %f", newOdom_x, newOdom_y, newOdom_z, newOdom_theta);
-
-}
-
 /////////////////////////////////////// control  ///////////////////////////////////////////
 
 void PlatformTracking::print_status() {
@@ -656,7 +622,7 @@ void PlatformTracking::relocalizationManeuver() {
     // describe whichever trajectory (typically an ascending on) to increase view point
     cmd_vel_.linear.x = 0.0;
     cmd_vel_.linear.y = 0.0;
-    cmd_vel_.linear.z = 0.0; //default: 2.0
+    cmd_vel_.linear.z = 2.0;
     cmd_vel_.angular.z = 0.0;
     // ROS_INFO_STREAM("cmd_vel during relocalization: " << cmd_vel_);
     ++num_reloc_maneuvers_;
