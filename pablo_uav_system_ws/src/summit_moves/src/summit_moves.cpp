@@ -1,21 +1,21 @@
 /*************************************************************************
-This file is licensed under a GPLv3 License.
-GPLv3 License
-Copyright (C) 2016-2019 Pablo R. Palafox (pablo.rodriguez-palafox@tum.de)
+  This file is licensed under a GPLv3 License.
+  GPLv3 License
+  Copyright (C) 2016-2019 Pablo R. Palafox (pablo.rodriguez-palafox@tum.de)
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*************************************************************************/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *************************************************************************/
 
 #include <csignal>
 #include <random>
@@ -60,42 +60,42 @@ void shutdownCallback(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
 ////////////////////////////////////////////////////////////////////////////////
 
 class SummitMoves {
-public:
-    ros::NodeHandle nh_;
+    public:
+        ros::NodeHandle nh_;
 
-    bool start = false;
+        bool start = false;
 
-    ros::Subscriber takeoff_sub_;
-    ros::Publisher vel_pub;
-    geometry_msgs::Twist twist;
+        ros::Subscriber takeoff_sub_;
+        ros::Publisher vel_pub;
+        geometry_msgs::Twist twist;
 
-    std::string trajectory;
-    bool advancing = true;
+        std::string trajectory;
+        bool advancing = true;
 
-    double max_linear_speed_x, max_yaw;
+        double max_linear_speed_x, max_yaw;
 
-    double side_square;
-    double radius;
+        double side_square;
+        double radius;
 
-    std::uniform_real_distribution<double> unif_interval;
-    std::uniform_real_distribution<double> unif_linear_x;
-    std::uniform_real_distribution<double> unif_yaw;
-    std::default_random_engine re;
+        std::uniform_real_distribution<double> unif_interval;
+        std::uniform_real_distribution<double> unif_linear_x;
+        std::uniform_real_distribution<double> unif_yaw;
+        std::default_random_engine re;
 
-    SummitMoves();
-    double doTrajectory();
+        SummitMoves();
+        double doTrajectory();
 
-    void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
+        void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
 
-    void stop(double interval);
-    void advance(double interval);
-    void reverse(double interval);
-    double yawLeft90();
+        void stop(double interval);
+        void advance(double interval);
+        void reverse(double interval);
+        double yawLeft90();
 
-    double doBackAndForth();
-    double doSquare();
-    double doCircular();
-    double doRandom();
+        double doBackAndForth();
+        double doSquare();
+        double doCircular();
+        double doRandom();
 
 };
 
@@ -268,5 +268,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
-
