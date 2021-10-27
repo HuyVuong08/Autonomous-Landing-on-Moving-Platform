@@ -1051,4 +1051,3 @@ int main(int argc, char** argv) {
     ROS_INFO("Set up completed. Ready to start mission");
     ros::spin();
 }
-
