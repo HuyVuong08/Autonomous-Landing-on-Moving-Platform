@@ -361,26 +361,26 @@ PlatformTracking::PlatformTracking() {
     navdata_pub_             = nh_.advertise<ardrone_autonomy::Navdata>(ardrone_navdata_, 1);
 
     // subscribers
-    pred_platform_path_in_world_sub_ = nh_.subscribe(predicted_platform_path_in_world_topic_, 1,
+    //pred_platform_path_in_world_sub_ = nh_.subscribe(predicted_platform_path_in_world_topic_, 1,
                                        &PlatformTracking::predPlatformPathCallback, this);
 
-    sonar_height_sub_        = nh_.subscribe(sonar_height_topic_, 1, &PlatformTracking::sonarCallback, this);
-    altitude_altimeter_sub_  = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformTracking::altimeterCallback, this);
-    gt_altitude_sub_         = nh_.subscribe(gt_altitude_topic_, 1,
+    //sonar_height_sub_        = nh_.subscribe(sonar_height_topic_, 1, &PlatformTracking::sonarCallback, this);
+    //altitude_altimeter_sub_  = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformTracking::altimeterCallback, this);
+    //gt_altitude_sub_         = nh_.subscribe(gt_altitude_topic_, 1,
                                &PlatformTracking::groundtruthAltitudeCallback, this);
 
-    takeoff_sub_             = nh_.subscribe("/ardrone/takeoff", 1, &PlatformTracking::takeoffCallback, this);
-    land_sub_                = nh_.subscribe("/ardrone/land", 1, &PlatformTracking::landCallback, this);
-    force_land_sub_          = nh_.subscribe("/ardrone/force_land", 1, &PlatformTracking::forceLandCallback, this);
+    //takeoff_sub_             = nh_.subscribe("/ardrone/takeoff", 1, &PlatformTracking::takeoffCallback, this);
+    //land_sub_                = nh_.subscribe("/ardrone/land", 1, &PlatformTracking::landCallback, this);
+    //force_land_sub_          = nh_.subscribe("/ardrone/force_land", 1, &PlatformTracking::forceLandCallback, this);
 
-    ardrone_gt_sub_          = nh_.subscribe("/groundtruth/ardrone", 1, &PlatformTracking::groundtruthArdroneCallback, this);
-    summit_gt_sub_           = nh_.subscribe("/groundtruth/summit", 1, &PlatformTracking::groundtruthSummitCallback, this);
-    ardrone_imu_sub_         = nh_.subscribe("/ardrone/imu", 1, &PlatformTracking::ardroneImuCallback, this);
+    //ardrone_gt_sub_          = nh_.subscribe("/groundtruth/ardrone", 1, &PlatformTracking::groundtruthArdroneCallback, this);
+    //summit_gt_sub_           = nh_.subscribe("/groundtruth/summit", 1, &PlatformTracking::groundtruthSummitCallback, this);
+    //ardrone_imu_sub_         = nh_.subscribe("/ardrone/imu", 1, &PlatformTracking::ardroneImuCallback, this);
 
     odom_sub         = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
 
     ROS_INFO("%f", 1.0 / cmd_vel_pub_freq_);
-    timer_                   = nh_.createTimer(ros::Duration(1.0 / cmd_vel_pub_freq_), &PlatformTracking::heightControlCallback, this);
+    //timer_                   = nh_.createTimer(ros::Duration(1.0 / cmd_vel_pub_freq_), &PlatformTracking::heightControlCallback, this);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
