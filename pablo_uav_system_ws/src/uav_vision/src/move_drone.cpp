@@ -1,39 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@HuyVuong08
-HuyVuong08 /
-Autonomous-Landing-on-Moving-Platform
-Public
-
-1
-1
-
-    0
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-
-    Settings
-
-Autonomous-Landing-on-Moving-Platform/pablo_uav_system_ws/src/uav_vision/src/platform_tracking.cpp
-@huynmcool
-huynmcool Merge branch 'pablo' of https://github.com/HuyVuong08/Autonomous-Land…
-Latest commit 6e88c63 15 hours ago
-History
-2 contributors
-@huynmcool
-@HuyVuong08
-1087 lines (900 sloc) 40.6 KB
 /*************************************************************************
 This file is licensed under a GPLv3 License.
 GPLv3 License
