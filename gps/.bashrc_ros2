@@ -1,0 +1,5 @@
+# ROS2
+source /opt/ros/crystal/setup.bash
+source /home/simulations/ros2_sims_ws/install/setup.bash
+source /home/user/ros2_ws/install/local_setup.bash
+export PYTHONPATH=/opt/ros/crystal/lib/python3.6/site-packages:/home/simulations/public_sim_ws/devel/lib/python2.7/dist-packages:/home/simulations/lib_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:$PYTHONPATH

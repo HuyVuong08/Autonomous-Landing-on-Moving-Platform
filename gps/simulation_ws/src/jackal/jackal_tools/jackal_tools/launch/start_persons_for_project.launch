@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find person_sim)/launch/init_standing_person.launch" >
+        <arg name="x" default="90.0" />
+        <arg name="y" default="10.0" />
+        <arg name="z" default="0.0" />
+        <arg name="yaw" default="0.0" />
+    </include>
+    
+    <include file="$(find person_sim)/launch/spawn_person.launch">
+        <arg name="sdf_robot_file" value="$(find person_sim)/models/bobeye/model.sdf"/>
+        <arg name="robot_name" value="bobeye" />
+        <arg name="x" value="60" />
+        <arg name="y" value="0.0" />
+        <arg name="z" value="0.0" />
+        <arg name="yaw" value="0.0" />
+    </include>
+    
+    <include file="$(find person_sim)/launch/spawn_person.launch">
+        <arg name="sdf_robot_file" value="$(find person_sim)/models/naokoeye/model.sdf"/>
+        <arg name="robot_name" value="naokoeye" />
+        <arg name="x" value="30" />
+        <arg name="y" value="0" />
+        <arg name="z" value="0.0" />
+        <arg name="yaw" value="0" />
+    </include>
+    
+    <include file="$(find face_recognition_tc)/launch/make_person_movable.launch">
+        <arg name="robot_name" value="naokoeye" />
+    </include>
+    <include file="$(find face_recognition_tc)/launch/make_person_movable.launch">
+        <arg name="robot_name" value="bobeye" />
+    </include>
+    
+    <include file="$(find jackal_tools)/launch/start_move_person_circles.launch" >
+        <arg name="robot_name" default="naokoeye" />
+    </include>
+    
+    <include file="$(find jackal_tools)/launch/start_move_person_circles.launch" >
+        <arg name="robot_name" default="bobeye" />
+    </include>
+</launch>

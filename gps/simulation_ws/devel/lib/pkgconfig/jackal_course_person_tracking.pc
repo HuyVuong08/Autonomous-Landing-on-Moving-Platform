@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/devel
+
+Name: jackal_course_person_tracking
+Description: Description of jackal_course_person_tracking
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

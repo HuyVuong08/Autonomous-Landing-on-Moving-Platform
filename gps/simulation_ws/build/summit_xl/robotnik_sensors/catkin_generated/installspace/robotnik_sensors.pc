@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/install
+
+Name: robotnik_sensors
+Description: Description of robotnik_sensors
+Version: 1.1.2
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

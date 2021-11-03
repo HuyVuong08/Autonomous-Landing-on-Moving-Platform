@@ -1,0 +1,14 @@
+<launch>
+
+    <include file="$(find gps_navigation)/launch/start_navsat.launch" />
+
+    <!-- Run the ekf for map to odom config -->
+    <include file="$(find gps_navigation)/launch/ekf_localization.launch" />
+
+    <!-- Run the map server -->
+    <include file="$(find gps_navigation)/launch/start_map_server.launch" />
+
+    <!--- Run Move Base -->
+    <include file="$(find my_move_base)/launch/my_move_base.launch" />
+
+</launch>

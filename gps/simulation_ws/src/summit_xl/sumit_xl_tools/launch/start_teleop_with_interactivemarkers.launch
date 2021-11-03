@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find sumit_xl_tools)/launch/start_interactivemarker.launch" />
+    
+        <!-- Start RVIZ for Localization -->
+    <include file="$(find sumit_xl_tools)/launch/view_robot.launch">
+        <arg name="config" value="basic" />
+    </include>
+
+</launch>

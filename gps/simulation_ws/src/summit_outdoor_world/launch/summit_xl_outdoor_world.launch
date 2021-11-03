@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true" />
+    <arg name="gui" default="false" />
+    <arg name="headless" default="false" />
+    <arg name="world_name" default="$(find jackal_tools)/worlds/scenario1.world" />
+    <arg name="robot_configuration" default="complete" />
+
+    <!-- Launch Gazebo with the specified world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="0" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="use_sim_time" value="$(arg use_sim_time)" />
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="world_name" value="$(arg world_name)" />
+        <arg name="paused" value="$(arg paused)"/>
+    </include>
+
+    <!-- Load the URDF into the ROS Parameter Server -->
+    <!--<param name="robot_description" command="$(find xacro)/xacro.py '$(find sumit_xl_tools)/robots/summit_xl_theconstruct.urdf.xacro'" />-->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find sumit_xl_tools)/robots/summit_xl_hl_omni_theconstruct_mod.urdf.xacro'" />
+
+    <!-- Call a python script to the run a service call to gazebo_ros to spawn a URDF robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model summit_xl -param robot_description -z 0.5"/>
+
+    <!-- summit_xl_control launch file -->
+    <include file="$(find summit_xl_control)/launch/summit_xl_control.launch" />
+
+    <!-- launch robot control -->
+    <include file="$(find summit_xl_robot_control)/launch/summit_xl_robot_control.launch" />
+
+</launch>

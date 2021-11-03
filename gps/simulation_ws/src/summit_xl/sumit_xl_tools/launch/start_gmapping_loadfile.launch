@@ -1,0 +1,15 @@
+<launch>
+     <arg name="scan_topic" default="/hokuyo_base/scan" />
+    
+   <!-- Defining parameters for slam_gmapping node -->
+
+     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping"
+     output="screen">
+        
+       <rosparam file="$(find sumit_xl_tools)/params/gmapping_params.yaml" command="load" />
+    
+       <remap from="scan" to="$(arg scan_topic)"/>
+        
+     </node>
+    
+</launch>

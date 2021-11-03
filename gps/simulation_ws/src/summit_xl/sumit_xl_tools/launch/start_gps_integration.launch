@@ -1,0 +1,8 @@
+<launch>
+    <!--
+    <include file="$(find sumit_xl_tools)/launch/start_efk.launch" />
+    <include file="$(find sumit_xl_tools)/launch/start_efk_navsatdata.launch" />
+    -->
+    <include file="$(find sumit_xl_tools)/launch/start_navsat.launch" />
+
+</launch>

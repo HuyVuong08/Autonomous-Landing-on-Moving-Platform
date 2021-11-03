@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-450/Desktop/Autonomous-Landing-on-Moving-Platform/gps/simulation_ws/devel
+
+Name: sumit_xl_course_basics
+Description: Description of sumit_xl_course_basics
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

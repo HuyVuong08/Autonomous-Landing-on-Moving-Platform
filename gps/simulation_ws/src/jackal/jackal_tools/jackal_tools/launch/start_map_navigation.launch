@@ -1,0 +1,13 @@
+<launch>
+  
+    <!-- Launch Navigation with Map -->
+    <include file="$(find jackal_navigation)/launch/amcl_demo.launch">
+        <arg name="map_file" value="$(find jackal_tools)/maps/mymap.yaml" />
+    </include>
+
+    <!-- Start RVIZ for Localization -->
+    <include file="$(find jackal_tools)/launch/view_robot.launch">
+        <arg name="config" value="localization" />
+    </include>
+
+</launch>

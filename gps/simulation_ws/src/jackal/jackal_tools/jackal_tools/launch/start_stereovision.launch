@@ -1,0 +1,10 @@
+<launch>
+ <!-- -->
+  <node pkg="stereo_image_proc" type="stereo_image_proc" name="" respawn="true">
+    <remap from="left/image_raw" to="/front/left/image_raw" />
+    <remap from="left/camera_info" to="/front/left/camera_info" />
+    <remap from="right/image_raw" to="/front/right/image_raw" />
+    <remap from="right/camera_info" to="/front/right/camera_info" />
+  </node>
+
+</launch>

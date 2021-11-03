@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server">
+        <param name="link_name" value="summit_xl_a_base_link" />
+        <remap from="twist_marker_server/cmd_vel" to="/summit_xl_control/cmd_vel" />
+    </node>
+</launch>

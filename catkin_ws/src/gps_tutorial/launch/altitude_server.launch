@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="gps_tutorial" type="altitude_server.py" name="altitude_server_node" output="screen"/>
+</launch>

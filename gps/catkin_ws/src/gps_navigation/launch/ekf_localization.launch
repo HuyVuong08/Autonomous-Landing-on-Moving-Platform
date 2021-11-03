@@ -1,0 +1,6 @@
+<launch>
+    <!-- Run the ekf for map to odom config -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_with_gps">
+        <rosparam command="load" file="$(find gps_navigation)/config/gps_localization_config.yaml" />
+    </node>
+</launch>

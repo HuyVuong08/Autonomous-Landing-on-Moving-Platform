@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find sumit_xl_tools)/launch/start_movebase.launch"/>
+  <include file="$(find follow_waypoints)/launch/follow_waypoints.launch"/>
+</launch>
+
