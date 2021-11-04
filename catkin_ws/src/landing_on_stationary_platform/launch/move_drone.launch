@@ -39,7 +39,7 @@
         <param name="MARGIN_TRACKING_ALTITUDE" value="0.01"/>
 
         <!--TOPICS-->
-        <param name="cmd_vel_topic" value="/ardrone/cmd_vel"/>
+        <param name="cmd_vel_topic" value="/cmd_vel"/>
 
         <param name="platform_position_in_ardrone_topic" value="/platform/current_platform_position_in_ardrone"/>
         <param name="predicted_platform_path_in_world_topic" value="/kalman_prediction_path" />
