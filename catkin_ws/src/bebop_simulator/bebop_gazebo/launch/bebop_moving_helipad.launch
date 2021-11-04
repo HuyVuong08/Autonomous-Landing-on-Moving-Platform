@@ -9,6 +9,7 @@
     <env name="GAZEBO_MODEL_PATH" value="$(find bebop_gazebo)/models:$GAZEBO_MODEL_PATH" />
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find summit_xl_gazebo)/worlds/summit_xl.world"/>
         <arg name="paused" value="$(arg paused)"/>
         <arg name="use_sim_time" value="$(arg use_sim_time)"/>
         <arg name="gui" value="$(arg gui)"/>
@@ -26,6 +27,52 @@
         -z 0.3"
         respawn="false" output="screen"/>
 
+    <group ns="summit_xl">
+    <param name="tf_prefix" value="summit_xl"/>
+
+    <param name="robot_description" 
+           command="$(find xacro)/xacro.py '$(find summit_xl_description)/robots/summit_xl.urdf.xacro'" />
+
+    <!-- Once the joint_state is published, run the robot_state_publisher, 
+         the namespace has to be adapted --> 
+    <!-- Convert joint states to TF transforms for rviz, etc -->
+    <node name="summit_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+      respawn="false" output="screen">
+      <remap from="/joint_states" to="/summit_xl/joint_states" />
+    </node>
+           
+    <!-- Call a python script to the run a service call to gazebo_ros to spawn a URDF robot -->
+    <arg name="x" default="5"/>
+    <arg name="y" default="5"/>
+    <arg name="z" default="0"/>
+    <arg name="R" default="0"/>
+    <arg name="P" default="0"/>
+    <arg name="Y" default="0"/> <!-- 0.785398 -->
+
+    <node name="spawn_summit_xl" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-param robot_description
+                -urdf 
+                -x '$(arg x)'
+                -y '$(arg y)'
+                -z '$(arg z)'
+                -R '$(arg R)'
+                -P '$(arg P)'
+                -Y '$(arg Y)'
+                -model summit_xl " />
+  </group>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find summit_xl_control)/config/summit_xl_control.yaml" command="load"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" ns="/summit_xl" args="--namespace=/summit_xl
+                    joint_blw_velocity_controller
+                    joint_brw_velocity_controller
+                    joint_frw_velocity_controller
+                    joint_flw_velocity_controller
+                    joint_read_state_controller 
+                    "/>
+
     <!--Path number
         1: Linear in X #Set x_vel = 0.5 for slow motion
         2: Circular  #Set Rate = 20 for slow motion
@@ -37,13 +84,13 @@
         8: Linear in Y axis for 45s #Set y_vel = 0.5 for slow motion
     9: Move in square #Set x_vel = y_vel = 0.5 for slow motion  -->
 
-    <node pkg="bebop_gazebo" type="moving_helipad.py" name="moving_helipad" output="screen" >
+    <!-- <node pkg="bebop_gazebo" type="moving_helipad.py" name="moving_helipad" output="screen" >
         <param name="x_vel" type="double" value="-1.0" />
         <param name="y_vel" type="double" value="0.0" />
         <param name="seconds_before_moving" type="double" value="10" />
         <param name="Rate" type="double" value="40.0" />
         <param name="path_number" type="double" value="6.0"/>
-    </node>
+    </node> -->
 
     <node pkg="rostopic" type="rostopic" name="takeoffbaby" args="pub /action/takeoff/goal hector_uav_msgs/TakeoffActionGoal '{header: { seq: 0, stamp: { secs: 0, nsecs: 0 }, frame_id: '' }, goal_id: {stamp: { secs: 0, nsecs: 0}, id: ''}, goal: {} }'" output="screen"/>
 
