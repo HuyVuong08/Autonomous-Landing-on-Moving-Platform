@@ -41,6 +41,7 @@
 
 //#include <cvg_sim_msgs/Altimeter.h>
 #include <ardrone_autonomy/Navdata.h>
+#include <deque>
 
 //#include <takeoff/GroundtruthAltitude.h>
 
@@ -178,6 +179,9 @@ class PlatformTracking {
         double inc_x, inc_y;
         double angle_to_goal;
 
+        // for calculate moving average of Oxy coordinate from GPS data
+        std::size_t window_sz;
+    
         // auxiliary for computing distance from ardrone to platform's x and y axes
         tf::Vector3 segment_;
         tf::Vector3 perp_segment_;
@@ -230,6 +234,8 @@ class PlatformTracking {
         void follow_platform();
 
         void moving_2_determined_coordinate();
+        void moving_2_helipad_rover();
+        void calculate_moving_average();
 };
 
 
@@ -619,8 +625,67 @@ void PlatformTracking::take_off() {
     cmd_vel_pub_.publish(cmd_vel_);
 }
 
+void PlatformTracking::calculate_moving_average() {
+    window_sz = 3 ;
+
+    std::deque<int> window ; // window holding the most recent window_sz items
+    // we use a deque because we want to add the new numbers at the back of the window
+    // and discard the oldest number at the front of the window
+    // a tad more efficient: use a circular buffer of size window_sz
+
+    long long total = 0 ; // running total of the numbers currently in the window
+    std::size_t cnt = 0 ; // a serial number (for output)
+    int number ; // the number to be read from the file
+
+    // initialise the window (read in the first window_sz numbers)
+    while( window.size() < window_sz && file >> number ) window.push_back(number) ;
+
+    // process the first window
+    for( std::size_t i = 0 ; i < window.size() ; ++i )
+    {
+        // compute and print the moving average
+        total += window[i] ;
+        std::cout << cnt++ << ". " << total << " / " << i+1 << " == " << total / double(i+1) << '\n' ;
+    }
+
+    // process the remaining items
+    while( file >> number ) // for each subsequent number read in
+    {
+         // throw the oldest value away and take in the newest number
+        total -= window.front() ;
+        total += number ;
+        window.pop_front() ;
+        window.push_back(number) ;
+
+        std::cout << cnt++ << ". " << total << " / " << window_sz << " == " << total / double(window_sz) << '\n' ;
+    }
+    
+}
 
 void PlatformTracking::moving_2_determined_coordinate() {
+
+    inc_x = goal.x - newOdom_x;
+    inc_y = goal.y - newOdom_y;
+    angle_to_goal = std::atan2(inc_y, inc_x);
+
+    ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
+    ROS_INFO("angle_to_goal: %f", angle_to_goal);
+    if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
+        cmd_vel_.linear.x = 0.0;
+        cmd_vel_.linear.z = 0.0;
+        cmd_vel_.angular.z = 0.3;
+        ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
+    }
+    else {
+        cmd_vel_.linear.x = 0.5;
+        cmd_vel_.linear.z = 0.0;
+        cmd_vel_.angular.z = 0.0;
+    }
+
+    cmd_vel_pub_.publish(cmd_vel_);
+}
+
+void PlatformTracking::moving_2_helipad_rover() {
 
     inc_x = goal.x - newOdom_x;
     inc_y = goal.y - newOdom_y;
@@ -664,6 +729,7 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
             break;
         case Status_n::MOVING_2_HELIPAD_ROVER:
             ROS_INFO("Status MOVING_2_HELIPAD_ROVER");
+            moving_2_helipad_rover();
             break;
         case Status_n::LANDING:
             ROS_INFO("Status LANDING");
