@@ -13,14 +13,14 @@
       </plugin>
     </gazebo>
 	</xacro:macro>
-	
+
 	<!-- skid steering plugin -->
 	<xacro:macro name="skid_steering" params="broadcastOdomTF">
     <gazebo>
       <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
 			<robotNamespace>/summit_xl</robotNamespace>
 		    <updateRate>100.0</updateRate>
-		    <leftFrontJoint>joint_front_left_wheel</leftFrontJoint>  
+		    <leftFrontJoint>joint_front_left_wheel</leftFrontJoint>
 		    <rightFrontJoint>joint_front_right_wheel</rightFrontJoint>
 		    <leftRearJoint>joint_back_left_wheel</leftRearJoint>
 		    <rightRearJoint>joint_back_right_wheel</rightRearJoint>
@@ -36,11 +36,11 @@
       </plugin>
     </gazebo>
   </xacro:macro>
-  
+
   <xacro:macro name="omni_steering">
 		<gazebo>
 	    <plugin name="omni_steering" filename="libgazebo_ros_planar_move.so">
-	      <commandTopic>/summit_xl_control/cmd_vel</commandTopic>  
+	      <commandTopic>/summit_xl_control/cmd_vel</commandTopic>
 	      <odometryTopic>/summit_xl/odom</odometryTopic>
 	      <odometryFrame>odom</odometryFrame>
 	      <odometryRate>20.0</odometryRate>
@@ -52,6 +52,6 @@
   <gazebo reference="base_footprint">
     <material>Gazebo/Green</material>
   </gazebo>
-  
+
 
 </robot>

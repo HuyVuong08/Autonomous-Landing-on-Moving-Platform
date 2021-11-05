@@ -181,7 +181,7 @@ class PlatformTracking {
 
         // for calculate moving average of Oxy coordinate from GPS data
         std::size_t window_sz;
-    
+
         // auxiliary for computing distance from ardrone to platform's x and y axes
         tf::Vector3 segment_;
         tf::Vector3 perp_segment_;
@@ -638,7 +638,7 @@ void PlatformTracking::calculate_moving_average() {
     int number ; // the number to be read from the file
 
     // initialise the window (read in the first window_sz numbers)
-    while( window.size() < window_sz && file >> number ) window.push_back(number) ;
+    //while( window.size() < window_sz && file >> number ) window.push_back(number) ;
 
     // process the first window
     for( std::size_t i = 0 ; i < window.size() ; ++i )
@@ -649,7 +649,7 @@ void PlatformTracking::calculate_moving_average() {
     }
 
     // process the remaining items
-    while( file >> number ) // for each subsequent number read in
+    while(true) // for each subsequent number read in file >> number
     {
          // throw the oldest value away and take in the newest number
         total -= window.front() ;
@@ -659,7 +659,7 @@ void PlatformTracking::calculate_moving_average() {
 
         std::cout << cnt++ << ". " << total << " / " << window_sz << " == " << total / double(window_sz) << '\n' ;
     }
-    
+
 }
 
 void PlatformTracking::moving_2_determined_coordinate() {
@@ -686,6 +686,8 @@ void PlatformTracking::moving_2_determined_coordinate() {
 }
 
 void PlatformTracking::moving_2_helipad_rover() {
+
+    calculate_moving_average();
 
     inc_x = goal.x - newOdom_x;
     inc_y = goal.y - newOdom_y;
