@@ -49,6 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ped_traj_pred/PathWithId.h> // msg type for the path of predicted positions
 
+#include <tf/tf.h>
+#include <nav_msgs/Odometry.h>
+
 // navigation states from the gazebo plugin (used only to send correct state to rotors in plugin)
 #define UNKNOWN_MODEL       0
 #define INITIALIZE_MODEL    1
@@ -164,6 +167,9 @@ private:
     ros::Subscriber takeoff_sub_, land_sub_, force_land_sub_;
     ros::Subscriber ardrone_gt_sub_, summit_gt_sub_;
     ros::Subscriber ardrone_imu_sub_;
+    
+    ros::Subscriber odom_sub;
+    
     ros::Timer timer_;
 
     // transformations
@@ -186,6 +192,10 @@ private:
     tf::Vector3 gt_ardrone_;
     tf::Vector3 gt_summit_;
 
+    // odom variable
+    double roll, pitch, yaw;
+    double newOdom_x,newOdom_y,newOdom_z,newOdom_theta;
+    
     // ardrone IMU data
     double angle_x_, angle_y_;
     double angular_velocity_x_, angular_velocity_y_;
@@ -230,6 +240,8 @@ public:
 
     void predPlatformPathCallback(const ped_traj_pred::PathWithId& predicted_path);
 
+    void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
+    
     void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
     void landCallback(const std_msgs::EmptyConstPtr &landing_signal);
     void forceLandCallback(const std_msgs::EmptyConstPtr &force_landing_signal);
@@ -357,6 +369,9 @@ PlatformTracking::PlatformTracking() {
                                        &PlatformTracking::predPlatformPathCallback, this);
 
     sonar_height_sub_        = nh_.subscribe(sonar_height_topic_, 1, &PlatformTracking::sonarCallback, this);
+    
+    odom_sub = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
+    
     altitude_altimeter_sub_  = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformTracking::altimeterCallback, this);
     gt_altitude_sub_         = nh_.subscribe(gt_altitude_topic_, 1,
                                &PlatformTracking::groundtruthAltitudeCallback, this);
@@ -473,6 +488,26 @@ void PlatformTracking::groundtruthArdroneCallback(const geometry_msgs::PoseStamp
     gt_ardrone_.setX(gt_ardrone.pose.position.x);
     gt_ardrone_.setY(gt_ardrone.pose.position.y);
     gt_ardrone_.setZ(gt_ardrone.pose.position.z);
+}
+
+void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
+    newOdom_x = newOdom_msg->pose.pose.position.x;
+    newOdom_y = newOdom_msg->pose.pose.position.y;
+    newOdom_z = newOdom_msg->pose.pose.position.z;
+
+    tf::Quaternion q(
+        newOdom_msg->pose.pose.orientation.x,
+        newOdom_msg->pose.pose.orientation.y,
+        newOdom_msg->pose.pose.orientation.z,
+        newOdom_msg->pose.pose.orientation.w);
+    tf::Matrix3x3 m(q);
+
+    m.getRPY(roll, pitch, yaw);
+
+    newOdom_theta = yaw;
+
+    ROS_INFO("newOdom_x, newOdom_y, newOdom_z, newOdom_theta: %f, %f, %f, %f", newOdom_x, newOdom_y, newOdom_z, newOdom_theta);
+
 }
 
 void PlatformTracking::groundtruthSummitCallback(const geometry_msgs::PoseStamped& gt_summit) {
