@@ -9,7 +9,7 @@
   <arg name="gui" default="true"/>
 
   <!-- Summit_xl_control launch file -->
-  <!--<include file="$(find summit_xl_control)/launch/summit_xl_control.launch" />-->
+  <!-- <include file="$(find summit_xl_control)/launch/summit_xl_control.launch" /> -->
   <!-- Launch pad for PS4 -->
   <!-- <include file="$(find summit_xl_pad)/launch/summit_xl_pad_ps4.launch" /> -->
 
@@ -44,7 +44,7 @@
     </node>
            
     <!-- Call a python script to the run a service call to gazebo_ros to spawn a URDF robot -->
-    <arg name="x" default="0"/>
+    <arg name="x" default="5"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0"/>
     <arg name="R" default="0"/>

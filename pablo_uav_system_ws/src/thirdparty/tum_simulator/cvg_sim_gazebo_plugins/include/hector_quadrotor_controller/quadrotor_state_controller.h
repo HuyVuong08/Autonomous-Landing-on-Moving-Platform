@@ -27,6 +27,7 @@
 #include <std_msgs/Empty.h>
 #include <std_srvs/Empty.h>
 #include <ardrone_autonomy/Navdata.h>
+#include <ardrone_autonomy/navdata_raw_measures.h>
 #include <ardrone_autonomy/CamSelect.h>
 #include <ardrone_autonomy/LedAnim.h>
 
@@ -81,6 +82,8 @@ private:
   ros::Subscriber reset_subscriber_;
 
   ros::Publisher m_navdataPub;
+  ros::Publisher m_navdatarawPub;
+
 
   // extra camera control command
   int                              m_selected_cam_num;
@@ -135,6 +138,7 @@ private:
   std::string land_topic_;
   std::string reset_topic_;
   std::string navdata_topic_;
+  std::string navdataraw_topic_;
 
   std::string imu_topic_;
   std::string sonar_topic_;

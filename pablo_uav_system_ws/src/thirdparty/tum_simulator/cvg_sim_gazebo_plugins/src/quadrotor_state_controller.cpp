@@ -7,9 +7,6 @@
 *
 * Created on: Oct 22, 2012
 * Author: Hongrong huang
-* 
-* Modified on: Apr 28, 2019
-* Pablo R. Palafox
 *
 *
 */
@@ -55,47 +52,52 @@ void GazeboQuadrotorStateController::Load(physics::ModelPtr _model, sdf::Element
   if (!_sdf->HasElement("robotNamespace"))
     namespace_.clear();
   else
-    namespace_ = _sdf->GetElement("robotNamespace")->GetValue()->GetAsString() + "/";
+    namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
 
   if (!_sdf->HasElement("topicName"))
-    velocity_topic_ = "/ardrone/cmd_vel";
+    velocity_topic_ = "/ardrone/cmd_vel"; //modified
   else
-    velocity_topic_ = _sdf->GetElement("topicName")->GetValue()->GetAsString();
+    velocity_topic_ = _sdf->GetElement("topicName")->Get<std::string>();
 
   if (!_sdf->HasElement("takeoffTopic"))
     takeoff_topic_ = "/ardrone/takeoff";
   else
-    takeoff_topic_ = _sdf->GetElement("takeoffTopic")->GetValue()->GetAsString();
+    takeoff_topic_ = _sdf->GetElement("takeoffTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("/ardrone/land"))
     land_topic_ = "/ardrone/land";
   else
-    land_topic_ = _sdf->GetElement("landTopic")->GetValue()->GetAsString();
+    land_topic_ = _sdf->GetElement("landTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("resetTopic"))
     reset_topic_ = "/ardrone/reset";
   else
-    reset_topic_ = _sdf->GetElement("resetTopic")->GetValue()->GetAsString();
+    reset_topic_ = _sdf->GetElement("resetTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("navdataTopic"))
     navdata_topic_ = "/ardrone/navdata";
   else
-    navdata_topic_ = _sdf->GetElement("navdataTopic")->GetValue()->GetAsString();
+    navdata_topic_ = _sdf->GetElement("navdataTopic")->Get<std::string>();
+
+  if (!_sdf->HasElement("navdatarawTopic"))
+    navdataraw_topic_ = "/ardrone/navdata_raw_measures";
+  else
+    navdataraw_topic_ = _sdf->GetElement("navdatarawTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("imuTopic"))
     imu_topic_.clear();
   else
-    imu_topic_ = _sdf->GetElement("imuTopic")->GetValue()->GetAsString();
+    imu_topic_ = _sdf->GetElement("imuTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("sonarTopic"))
     sonar_topic_.clear();
   else
-    sonar_topic_ = _sdf->GetElement("sonarTopic")->GetValue()->GetAsString();
+    sonar_topic_ = _sdf->GetElement("sonarTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("stateTopic"))
     state_topic_.clear();
   else
-    state_topic_ = _sdf->GetElement("stateTopic")->GetValue()->GetAsString();
+    state_topic_ = _sdf->GetElement("stateTopic")->Get<std::string>();
 
   if (!_sdf->HasElement("bodyName"))
   {
@@ -103,7 +105,7 @@ void GazeboQuadrotorStateController::Load(physics::ModelPtr _model, sdf::Element
     link_name_ = link->GetName();
   }
   else {
-    link_name_ = _sdf->GetElement("bodyName")->GetValue()->GetAsString();
+    link_name_ = _sdf->GetElement("bodyName")->Get<std::string>();
     link = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(link_name_));
   }
 
@@ -155,7 +157,10 @@ void GazeboQuadrotorStateController::Load(physics::ModelPtr _model, sdf::Element
     reset_subscriber_ = node_handle_->subscribe(ops);
   }
 
+  	// publish navdata and navdataraw
     m_navdataPub = node_handle_->advertise< ardrone_autonomy::Navdata >( navdata_topic_ , 25 );
+    m_navdatarawPub = node_handle_->advertise< ardrone_autonomy::navdata_raw_measures >( navdataraw_topic_ , 25 );
+
 
 
   // subscribe imu
@@ -305,6 +310,8 @@ void GazeboQuadrotorStateController::StateCallback(const nav_msgs::OdometryConst
 // Update the controller
 void GazeboQuadrotorStateController::Update()
 {
+  math::Vector3 force, torque;
+
   // Get new commands/state
   callback_queue_.callAvailable();
 
@@ -343,12 +350,21 @@ void GazeboQuadrotorStateController::Update()
     // take off phase need more power
     if (!sonar_topic_.empty())
     {
-      if(robot_altitude > 0.05)
+      if(robot_altitude > 0.5)
       {
         robot_current_state = FLYING_MODEL;
       }
     }
-    if(!m_isFlying)
+    else
+    {
+      m_timeAfterTakeOff += dt;
+      if(m_timeAfterTakeOff > 0.5)
+      {
+        //ROS_INFO("%f",m_timeAfterTakeOff);
+        robot_current_state = FLYING_MODEL;
+      }
+    }
+    if(m_isFlying == false)
     {
       m_timeAfterTakeOff = 0;
       robot_current_state = LANDING_MODEL;
@@ -367,7 +383,7 @@ void GazeboQuadrotorStateController::Update()
     if (!sonar_topic_.empty())
     {
       m_timeAfterTakeOff += dt;
-      if((robot_altitude < 0.06))
+      if((robot_altitude < 0.2)||(m_timeAfterTakeOff > 5.0))
       {
         robot_current_state = LANDED_MODEL;
       }
@@ -389,7 +405,7 @@ void GazeboQuadrotorStateController::Update()
     }
   }
 
-  if( ((robot_current_state != LANDED_MODEL) || m_isFlying) && m_drainBattery )
+  if( ((robot_current_state != LANDED_MODEL)||m_isFlying) && m_drainBattery )
     m_batteryPercentage -= dt / m_maxFlightTime * 100.;
 
   ardrone_autonomy::Navdata navdata;
@@ -397,12 +413,10 @@ void GazeboQuadrotorStateController::Update()
   navdata.rotX = pose.rot.GetRoll() / M_PI * 180.;
   navdata.rotY = pose.rot.GetPitch() / M_PI * 180.;
   navdata.rotZ = pose.rot.GetYaw() / M_PI * 180.;
-  if (!sonar_topic_.empty()) {
+  if (!sonar_topic_.empty())
     navdata.altd = int(robot_altitude*1000);
-  }
-  else {
+  else
     navdata.altd = pose.pos.z * 1000.f;
-  }
   navdata.vx = 1000*velocity_xy.x;
   navdata.vy = 1000*velocity_xy.y;
   navdata.vz = 1000*velocity_xy.z;
@@ -447,6 +461,32 @@ void GazeboQuadrotorStateController::Update()
 //  last_navdata = navdata;
 
   m_navdataPub.publish( navdata );
+
+  ardrone_autonomy::navdata_raw_measures navdataraw;
+
+  navdataraw.header.stamp = ros::Time::now();
+  navdataraw.header.frame_id = "/ardrone/base_link";
+  navdataraw.drone_time = 0;
+  navdataraw.tag = 0;
+  navdataraw.size = 0;
+  navdataraw.vbat_raw = 0;
+  navdataraw.us_debut_echo = 0;
+  navdataraw.us_fin_echo = 0;
+  navdataraw.us_association_echo = 0;
+  navdataraw.us_distance_echo = 0;
+  navdataraw.us_courbe_temps= 0;
+  navdataraw.us_courbe_valeur = 0;
+  navdataraw.us_courbe_ref = 0;
+  navdataraw.flag_echo_ini = 0;																																												
+  navdataraw.nb_echo = 0;
+  navdataraw.sum_echo = 0;
+  if (!sonar_topic_.empty())
+    navdataraw.alt_temp_raw = int(robot_altitude*1000);
+  else
+    navdataraw.alt_temp_raw = int(pose.pos.z * 1000.f);
+  navdataraw.gradient = 0;
+
+  m_navdatarawPub.publish( navdataraw );
 
   // save last time stamp
   last_time = sim_time;

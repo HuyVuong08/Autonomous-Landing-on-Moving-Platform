@@ -114,6 +114,10 @@ void imuCallback(sensor_msgs::Imu const &imu) {
 int main(int argc, char** argv) {
   ros::init(argc, argv, "message_to_tf");
 
+  // g_footprint_frame_id = "base_footprint";
+  // g_stabilized_frame_id = "base_stabilized";
+  // // g_position_frame_id = "base_position";
+
   g_footprint_frame_id = "ardrone/base_footprint";
   g_stabilized_frame_id = "ardrone/base_stabilized";
   // g_position_frame_id = "base_position";

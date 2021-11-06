@@ -97,10 +97,10 @@ void SensorModel_<T>::Load(sdf::ElementPtr _sdf, const std::string& prefix)
     _gaussian_noise  = _sdf->GetElement(prefix + "GaussianNoise");
   }
 
-  if (_offset          && !_offset->GetValue()->Get(offset))                   _offset->GetValue()->Get(offset);
-  if (_drift           && !_drift->GetValue()->Get(drift))                     _drift->GetValue()->Get(drift);
-  if (_drift_frequency && !_drift_frequency->GetValue()->Get(drift_frequency)) _drift_frequency->GetValue()->Get(drift_frequency);
-  if (_gaussian_noise  && !_gaussian_noise->GetValue()->Get(gaussian_noise))   _gaussian_noise->GetValue()->Get(gaussian_noise);
+  if (_offset          && !_offset->GetValue()->Get(offset))                   offset = _offset->Get<double>();
+  if (_drift           && !_drift->GetValue()->Get(drift))                     drift = _drift->Get<double>();
+  if (_drift_frequency && !_drift_frequency->GetValue()->Get(drift_frequency)) drift_frequency = _drift_frequency->Get<double>();
+  if (_gaussian_noise  && !_gaussian_noise->GetValue()->Get(gaussian_noise))   gaussian_noise = _gaussian_noise->Get<double>();
 }
 
 namespace {

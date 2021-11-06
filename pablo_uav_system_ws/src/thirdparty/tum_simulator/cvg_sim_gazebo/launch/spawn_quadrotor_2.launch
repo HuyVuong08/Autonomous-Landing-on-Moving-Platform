@@ -4,7 +4,7 @@
  <launch>
    <arg name="model" default="$(find cvg_sim_gazebo)/urdf/quadrotor.urdf.xacro"/>
    <!-- send the robot XML to param server -->
-   <param name="robot_description" command="$(find xacro)/xacro '$(arg model)' --inorder" />
+   <param name="robot_description" command="$(find xacro)/xacro.py '$(arg model)'" />
    
    <!-- push robot_description to factory and spawn robot in gazebo -->
    <node name="spawn_robot" pkg="gazebo" type="spawn_model"
