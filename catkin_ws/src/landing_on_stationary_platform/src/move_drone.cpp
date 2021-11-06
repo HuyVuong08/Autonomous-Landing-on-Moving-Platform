@@ -80,6 +80,13 @@ typedef Status_n::Status_t Status;
 
 class PlatformTracking {
     private:
+        // Coordinate of point data structure
+        struct Point {
+            double x;
+            double y;
+        };
+
+    private:
         bool manual_gains_;
         double cmd_vel_pub_freq_;
         bool adapt_path_idx_, adapt_path_idx_again_;
@@ -138,6 +145,7 @@ class PlatformTracking {
         ros::Subscriber ardrone_imu_sub_;
 
         ros::Subscriber odom_sub_;
+        ros::Subscriber gps_odom_sub_;
 
         ros::Timer timer_;
 
@@ -167,17 +175,18 @@ class PlatformTracking {
         double linear_acceleration_x_, linear_acceleration_y_;
 
         // odom variable
-        double newOdom_x,newOdom_y,newOdom_z,newOdom_theta;
+        double newOdom_x, newOdom_y, newOdom_z, newOdom_theta;
         double roll, pitch, yaw;
 
+        // gps odom variable from helipad rover
+        double GPS_Odom_x_, GPS_Odom_y_;
+
         // point variable
-        struct Point {
-            double x;
-            double y;
-        };
-        Point goal;
+        PlatformTracking::Point goal, average_helipad_coordinate_;
         double inc_x, inc_y;
         double angle_to_goal;
+
+        double total_x, total_y, average_x, average_y;
 
         // for calculate moving average of Oxy coordinate from GPS data
         std::size_t window_sz;
@@ -230,12 +239,14 @@ class PlatformTracking {
         void ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_msg);
 
         void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
+        void GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg);
 
         void follow_platform();
 
         void moving_2_determined_coordinate();
         void moving_2_helipad_rover();
-        void calculate_moving_average();
+        void calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate);
+        void land();
 };
 
 
@@ -329,6 +340,7 @@ PlatformTracking::PlatformTracking() {
     //ardrone_imu_sub_         = nh_.subscribe("/ardrone/imu", 1, &PlatformTracking::ardroneImuCallback, this);
 
     odom_sub_                = nh_.subscribe("/bebop/odom", 1, &PlatformTracking::newOdom, this);
+    gps_odom_sub_            = nh_.subscribe("/summit_xl/mavros/gps/odom", 1, &PlatformTracking::GPS_Odom, this);
 
     ROS_INFO("%f", 1.0 / cmd_vel_pub_freq_);
     timer_                   = nh_.createTimer(ros::Duration(1.0 / cmd_vel_pub_freq_), &PlatformTracking::heightControlCallback, this);
@@ -446,6 +458,13 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
 
     linear_acceleration_x_ = imu_msg->linear_acceleration.x;
     linear_acceleration_y_ = imu_msg->linear_acceleration.y;
+}
+
+void PlatformTracking::GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg) {
+    GPS_Odom_x_ = GPS_Odom_msg->pose.pose.position.x;
+    GPS_Odom_y_ = GPS_Odom_msg->pose.pose.position.y;
+    ROS_INFO("GPS_Odom_x, GPS_Odom_y: %f, %f", GPS_Odom_x_, GPS_Odom_y_);
+    calculate_moving_average(GPS_Odom_x_, GPS_Odom_y_, average_helipad_coordinate_);
 }
 
 void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
@@ -625,37 +644,50 @@ void PlatformTracking::take_off() {
     cmd_vel_pub_.publish(cmd_vel_);
 }
 
-void PlatformTracking::calculate_moving_average() {
+void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate) {
     window_sz = 3 ;
 
-    std::deque<int> window ; // window holding the most recent window_sz items
+    std::deque<PlatformTracking::Point> window ; // window holding the most recent window_sz items
     // we use a deque because we want to add the new numbers at the back of the window
     // and discard the oldest number at the front of the window
     // a tad more efficient: use a circular buffer of size window_sz
 
-    long long total = 0 ; // running total of the numbers currently in the window
+    PlatformTracking::Point GPS_Point;
+    GPS_Point.x = GPS_Odom_x;
+    GPS_Point.y = GPS_Odom_y;
+
+    double total = 0 ; // running total of the numbers currently in the window
     std::size_t cnt = 0 ; // a serial number (for output)
-    int number ; // the number to be read from the file
 
     // initialise the window (read in the first window_sz numbers)
-    //while( window.size() < window_sz && file >> number ) window.push_back(number) ;
+    while( window.size() < window_sz ) window.push_back(GPS_Point) ;
 
     // process the first window
     for( std::size_t i = 0 ; i < window.size() ; ++i )
     {
         // compute and print the moving average
-        total += window[i] ;
+        total_x += window[i].x;
+        total_y += window[i].y;
+        average_x = total_y / double(i+1);
+        average_y = total_y / double(i+1);
+
         std::cout << cnt++ << ". " << total << " / " << i+1 << " == " << total / double(i+1) << '\n' ;
+
     }
 
     // process the remaining items
     while(true) // for each subsequent number read in file >> number
     {
-         // throw the oldest value away and take in the newest number
-        total -= window.front() ;
-        total += number ;
-        window.pop_front() ;
-        window.push_back(number) ;
+        // throw the oldest value away and take in the newest number
+        total_x -= window.front().x;
+        total_y -= window.front().y;
+        total_x += GPS_Point.x;
+        total_y += GPS_Point.y;
+
+        window.pop_front();
+        window.push_back(GPS_Point);
+        average_x = total_y / double(window_sz);
+        average_y = total_y / double(window_sz);
 
         std::cout << cnt++ << ". " << total << " / " << window_sz << " == " << total / double(window_sz) << '\n' ;
     }
@@ -687,8 +719,6 @@ void PlatformTracking::moving_2_determined_coordinate() {
 
 void PlatformTracking::moving_2_helipad_rover() {
 
-    calculate_moving_average();
-
     inc_x = goal.x - newOdom_x;
     inc_y = goal.y - newOdom_y;
     angle_to_goal = std::atan2(inc_y, inc_x);
@@ -708,6 +738,11 @@ void PlatformTracking::moving_2_helipad_rover() {
     }
 
     cmd_vel_pub_.publish(cmd_vel_);
+}
+
+void PlatformTracking::land() {
+
+    return;
 }
 
 void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
@@ -735,6 +770,8 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
             break;
         case Status_n::LANDING:
             ROS_INFO("Status LANDING");
+            land();
+            //land_pub = rospy.Publisher('bebop/reset', Empty, queue_size=1)
             break;
     }
 
