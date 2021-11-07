@@ -660,24 +660,14 @@ void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Od
     std::size_t cnt = 0 ; // a serial number (for output)
 
     // initialise the window (read in the first window_sz numbers)
-    while( window.size() < window_sz ) window.push_back(GPS_Point) ;
-
-    // process the first window
-    for( std::size_t i = 0 ; i < window.size() ; ++i )
-    {
-        // compute and print the moving average
-        total_x += window[i].x;
-        total_y += window[i].y;
-        average_x = total_y / double(i+1);
-        average_y = total_y / double(i+1);
-
-        std::cout << cnt++ << ". " << total << " / " << i+1 << " == " << total / double(i+1) << '\n' ;
-
+    if (window.size() < window_sz) {
+        total_x += GPS_Point.x;
+        total_y += GPS_Point.y;
+        window.push_back(GPS_Point) ;
     }
+    else {
 
-    // process the remaining items
-    while(true) // for each subsequent number read in file >> number
-    {
+        // process the remaining items
         // throw the oldest value away and take in the newest number
         total_x -= window.front().x;
         total_y -= window.front().y;
@@ -688,10 +678,7 @@ void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Od
         window.push_back(GPS_Point);
         average_x = total_y / double(window_sz);
         average_y = total_y / double(window_sz);
-
-        std::cout << cnt++ << ". " << total << " / " << window_sz << " == " << total / double(window_sz) << '\n' ;
     }
-
 }
 
 void PlatformTracking::moving_2_determined_coordinate() {
