@@ -1,21 +1,21 @@
 /*************************************************************************
-This file is licensed under a GPLv3 License.
-GPLv3 License
-Copyright (C) 2016-2019 Pablo R. Palafox (pablo.rodriguez-palafox@tum.de)
+  This file is licensed under a GPLv3 License.
+  GPLv3 License
+  Copyright (C) 2016-2019 Pablo R. Palafox (pablo.rodriguez-palafox@tum.de)
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*************************************************************************/
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *************************************************************************/
 
 #include <string>
 #include <boost/function.hpp>
@@ -66,193 +66,220 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // the states we actually use for our own control
 namespace Status_n {
-enum Status_t {
-    LANDED,
-    TAKINGOFF,
-    TRACKING,
-    RELOCALIZING,
-    LANDING,
-    FORCED_LANDING
-};
+    enum Status_t {
+        LANDED,
+        TAKINGOFF,
+        TRACKING,
+        RELOCALIZING,
+        LANDING,
+        FORCED_LANDING
+    };
 }
 typedef Status_n::Status_t Status;
 
 constexpr int MAX_NUM_SEQUENCES = 50;
 
 class PlatformTracking {
-private:
-    bool verbose_;
-    bool save_logs_;
-    bool manual_gains_;
-    double cmd_vel_pub_freq_;
-    bool adapt_path_idx_, adapt_path_idx_again_;
-    bool has_taken_off_once_;
+    private:
+        // Coordinate of point data structure
+        struct Point {
+            double x;
+            double y;
+        };
 
-    double MISSION_DURATION;
+    private:
+        bool verbose_;
+        bool save_logs_;
+        bool manual_gains_;
+        double cmd_vel_pub_freq_;
+        bool adapt_path_idx_, adapt_path_idx_again_;
+        bool has_taken_off_once_;
 
-    bool use_prediction_; // if true, use Kalman filter for predicting future positions of platform
-    int use_prediction_trackbar_; // to be able to set use_prediction_ on the trackbar
-    bool valid_dist_to_axis_;
-    int completed_sequences_; // keep track of the number of successfull landings
-    double landed_time_;
-    int num_reloc_maneuvers_;
+        double MISSION_DURATION;
 
-    bool should_take_off_, should_land_, must_land_;
-    Status current_status_;
-    double ardrone_x_, ardrone_y_, ardrone_z_;
-    double sonar_range_, altitude_altimeter_;
-    unsigned int navi_state_gazebo_;
+        bool use_prediction_; // if true, use Kalman filter for predicting future positions of platform
+        int use_prediction_trackbar_; // to be able to set use_prediction_ on the trackbar
+        bool valid_dist_to_axis_;
+        int completed_sequences_; // keep track of the number of successfull landings
+        double landed_time_;
+        int num_reloc_maneuvers_;
 
-    // PID auxiliary variables
-    double error_sum_x_, error_sum_y_;
-    double derror_x_, derror_y_;
-    tf::Vector3 target_;
-    tf::Vector3 target_prev_;
+        bool should_take_off_, should_land_, must_land_;
+        Status current_status_;
+        double ardrone_x_, ardrone_y_, ardrone_z_;
+        double sonar_range_, altitude_altimeter_;
+        unsigned int navi_state_gazebo_;
 
-    // PID gains
-    double Kp_, Ki_, Kd_;
-    double Kp_min_, Ki_min_, Kd_min_;
-    double exp_coeff_Kp_, exp_coeff_Ki_, exp_coeff_Kd_;
-    int Kp_trackbar_, Ki_trackbar_, Kd_trackbar_;
+        // PID auxiliary variables
+        double error_sum_x_, error_sum_y_;
+        double derror_x_, derror_y_;
+        tf::Vector3 target_;
+        tf::Vector3 target_prev_;
 
-
-    // time auxiliry variables
-    bool seen_centroid_lately_;
-    double current_time_;
-    double t_ref_;
-    double t_sequence_;
-    double dt_;
-    double last_found_time_;
-    double time_without_seeing_;
-    double MAX_ALLOWED_TIME_WITHOUT_SEEING_;
-    double MAX_ALLOWED_ERROR_BEFORE_LANDING_;
-
-    // logging
-    std::ofstream errorsFile_, trajFile_;
-
-    // messages and services
-    geometry_msgs::Twist cmd_vel_; //! cmd_vel_ocity command send to ardrone for control
-    geometry_msgs::Twist cmd_vel_prev_; //! we use it to check if we should publish a new vel
-    std_msgs::Empty emptyMsg_;
-    std_srvs::Empty emptySrv_;
-
-    // geometry_msgs::PoseStamped current_platform_in_ardrone_; //! centroid's position wrt the quadrotor's base_link frame
-    // geometry_msgs::PoseStamped current_centroid_in_world; //! centroid's position wrt world frame
-
-    // topics
-    std::string cmd_vel_topic_;
-    // std::string platform_position_in_ardrone_topic_;  //! published by platform_detection node
-    // std::string indicator_position_in_ardrone_topic_; //! published by platform_detection node
-    std::string predicted_platform_path_in_world_topic_; //! published by ped_traj_pred
-
-    std::string sonar_height_topic_, altitude_altimeter_topic_;
-    std::string gt_altitude_topic_;
-    std::string ardrone_navdata_;
-
-    double TRACKING_ALTITUDE_;
-    int TRACKING_ALTITUDE_TRACKBAR_;
-    double MARGIN_TRACKING_ALTITUDE_;
-
-    // publishers
-    ros::Publisher cmd_vel_pub_; //! publishes into cmd_vel_topic_ for ardrone
-    ros::Publisher navdata_pub_;
-
-    // subscribers
-    ros::Subscriber platform_position_in_ardrone_sub_;
-    ros::Subscriber indicator_postition_in_ardrone_sub_;
-    ros::Subscriber pred_platform_path_in_world_sub_;
-
-    ros::Subscriber sonar_height_sub_, altitude_altimeter_sub_;
-    ros::Subscriber gt_altitude_sub_;
-    ros::Subscriber takeoff_sub_, land_sub_, force_land_sub_;
-    ros::Subscriber ardrone_gt_sub_, summit_gt_sub_;
-    ros::Subscriber ardrone_imu_sub_;
-    
-    ros::Subscriber odom_sub;
-    
-    ros::Timer timer_;
-
-    // transformations
-    tf::TransformListener tf_listener_;
-    tf::StampedTransform T_ardrone_world_; // odom is our inertial frame here
-
-    // 3d current positions of the platform's centroid in ardrone
-    tf::Vector3 centroid_in_ardrone_, centroid_in_world_;
-    tf::Vector3 indicator_in_ardrone_;
-    double centroid_in_ardrone_stamp_;
-    double indicator_in_ardrone_stamp_;
-
-    // 3d predicted positions of the platform's centroid
-    int idx_in_path_; // idx of predicted path
-    int num_pos_in_path_; // number of positions in path
-    tf::Vector3 pred_centroid_in_world_;
-    tf::Vector3 pred_centroid_in_ardrone_;
-
-    // groundtruth positions
-    tf::Vector3 gt_ardrone_;
-    tf::Vector3 gt_summit_;
-
-    // odom variable
-    double roll, pitch, yaw;
-    double newOdom_x,newOdom_y,newOdom_z,newOdom_theta;
-    
-    // ardrone IMU data
-    double angle_x_, angle_y_;
-    double angular_velocity_x_, angular_velocity_y_;
-    double linear_acceleration_x_, linear_acceleration_y_;
-
-    // auxiliary for computing distance from ardrone to platform's x and y axes
-    tf::Vector3 segment_;
-    tf::Vector3 perp_segment_;
-
-    double distance_to_x_axis_platform_; //! distance from the quadrotor to the platform's x axis
-    double distance_to_y_axis_platform_; //! distance from the quadrotor to the platform's y axis
-    double dist_in_xy_plane_to_centroid_;
-
-    // some helper methods
-    void setErrorSumToZero(const std::string &axis);
-    void setErrorDerivativeToZero();
-    void setDistancesToNaN();
-    void setDistancesToZero();
-    void setCmdVelToZero();
-    void setLandedConfig();
-    void setTakingoffConfig();
-
-    void computeDistanceToPlatformAxes();
-    void computeDistanceInXYPlaneToPlatformCentroid();
-    void print_status();
-    void print_navdata_state();
-    void relocalizationManeuver();
-
-    bool areAllCmdVelZero();
-    bool is_position_NaN(const tf::Vector3 &v);
-
-    void saveStateToCsv(const double t,
-                        const double ex_real, const double ey_real, const double ez_real,
-                        const double ex_target, const double ey_target, const double ez_target);
-public:
-    PlatformTracking();
-    ~PlatformTracking();
-
-    void sonarCallback(const sensor_msgs::RangeConstPtr& sonar_height_quadrotor);
-    void altimeterCallback(const cvg_sim_msgs::AltimeterConstPtr& altimeter_msg);
-    void groundtruthAltitudeCallback(const takeoff::GroundtruthAltitudeConstPtr& gt_altitude_msg);
-
-    void predPlatformPathCallback(const ped_traj_pred::PathWithId& predicted_path);
-
-    void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
-    
-    void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
-    void landCallback(const std_msgs::EmptyConstPtr &landing_signal);
-    void forceLandCallback(const std_msgs::EmptyConstPtr &force_landing_signal);
-    void heightControlCallback(const ros::TimerEvent& e);
-
-    void groundtruthArdroneCallback(const geometry_msgs::PoseStamped& gt_ardrone);
-    void groundtruthSummitCallback(const geometry_msgs::PoseStamped& gt_summit);
-    void ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_msg);
+        // PID gains
+        double Kp_, Ki_, Kd_;
+        double Kp_min_, Ki_min_, Kd_min_;
+        double exp_coeff_Kp_, exp_coeff_Ki_, exp_coeff_Kd_;
+        int Kp_trackbar_, Ki_trackbar_, Kd_trackbar_;
 
 
-    void follow_platform();
+        // time auxiliry variables
+        bool seen_centroid_lately_;
+        double current_time_;
+        double t_ref_;
+        double t_sequence_;
+        double dt_;
+        double last_found_time_;
+        double time_without_seeing_;
+        double MAX_ALLOWED_TIME_WITHOUT_SEEING_;
+        double MAX_ALLOWED_ERROR_BEFORE_LANDING_;
+
+        // logging
+        std::ofstream errorsFile_, trajFile_;
+
+        // messages and services
+        geometry_msgs::Twist cmd_vel_; //! cmd_vel_ocity command send to ardrone for control
+        geometry_msgs::Twist cmd_vel_prev_; //! we use it to check if we should publish a new vel
+        std_msgs::Empty emptyMsg_;
+        std_srvs::Empty emptySrv_;
+
+        // geometry_msgs::PoseStamped current_platform_in_ardrone_; //! centroid's position wrt the quadrotor's base_link frame
+        // geometry_msgs::PoseStamped current_centroid_in_world; //! centroid's position wrt world frame
+
+        // topics
+        std::string cmd_vel_topic_;
+        // std::string platform_position_in_ardrone_topic_;  //! published by platform_detection node
+        // std::string indicator_position_in_ardrone_topic_; //! published by platform_detection node
+        std::string predicted_platform_path_in_world_topic_; //! published by ped_traj_pred
+
+        std::string sonar_height_topic_, altitude_altimeter_topic_;
+        std::string gt_altitude_topic_;
+        std::string ardrone_navdata_;
+
+        double TRACKING_ALTITUDE_;
+        int TRACKING_ALTITUDE_TRACKBAR_;
+        double MARGIN_TRACKING_ALTITUDE_;
+
+        // publishers
+        ros::Publisher cmd_vel_pub_; //! publishes into cmd_vel_topic_ for ardrone
+        ros::Publisher navdata_pub_;
+
+        // subscribers
+        ros::Subscriber platform_position_in_ardrone_sub_;
+        ros::Subscriber indicator_postition_in_ardrone_sub_;
+        ros::Subscriber pred_platform_path_in_world_sub_;
+
+        ros::Subscriber sonar_height_sub_, altitude_altimeter_sub_;
+        ros::Subscriber gt_altitude_sub_;
+        ros::Subscriber takeoff_sub_, land_sub_, force_land_sub_;
+        ros::Subscriber ardrone_gt_sub_, summit_gt_sub_;
+        ros::Subscriber ardrone_imu_sub_;
+
+        ros::Subscriber odom_sub_;
+        ros::Subscriber gps_odom_sub_;
+
+        ros::Timer timer_;
+
+        // transformations
+        tf::TransformListener tf_listener_;
+        tf::StampedTransform T_ardrone_world_; // odom is our inertial frame here
+
+        // 3d current positions of the platform's centroid in ardrone
+        tf::Vector3 centroid_in_ardrone_, centroid_in_world_;
+        tf::Vector3 indicator_in_ardrone_;
+        double centroid_in_ardrone_stamp_;
+        double indicator_in_ardrone_stamp_;
+
+        // 3d predicted positions of the platform's centroid
+        int idx_in_path_; // idx of predicted path
+        int num_pos_in_path_; // number of positions in path
+        tf::Vector3 pred_centroid_in_world_;
+        tf::Vector3 pred_centroid_in_ardrone_;
+
+        // groundtruth positions
+        tf::Vector3 gt_ardrone_;
+        tf::Vector3 gt_summit_;
+
+        // ardrone IMU data
+        double angle_x_, angle_y_;
+        double angular_velocity_x_, angular_velocity_y_;
+        double linear_acceleration_x_, linear_acceleration_y_;
+
+        // odom variable
+        double newOdom_x,newOdom_y,newOdom_z,newOdom_theta;
+        double roll, pitch, yaw;
+
+        // gps odom variable from helipad rover
+        double GPS_Odom_x_, GPS_Odom_y_;
+
+        // point variable
+        PlatformTracking::Point goal, average_helipad_coordinate_;
+        double inc_x, inc_y;
+        double angle_to_goal;
+
+        double total_x, total_y, average_x, average_y;
+
+        // for calculate moving average of Oxy coordinate from GPS data
+        std::size_t window_sz;
+
+        // auxiliary for computing distance from ardrone to platform's x and y axes
+        tf::Vector3 segment_;
+        tf::Vector3 perp_segment_;
+
+        double distance_to_x_axis_platform_; //! distance from the quadrotor to the platform's x axis
+        double distance_to_y_axis_platform_; //! distance from the quadrotor to the platform's y axis
+        double dist_in_xy_plane_to_centroid_;
+
+        // some helper methods
+        void setErrorSumToZero(const std::string &axis);
+        void setErrorDerivativeToZero();
+        void setDistancesToNaN();
+        void setDistancesToZero();
+        void setCmdVelToZero();
+        void setLandedConfig();
+        void setTakingoffConfig();
+
+        void computeDistanceToPlatformAxes();
+        void computeDistanceInXYPlaneToPlatformCentroid();
+        void print_status();
+        void print_navdata_state();
+        void relocalizationManeuver();
+
+        bool areAllCmdVelZero();
+        bool is_position_NaN(const tf::Vector3 &v);
+
+        void saveStateToCsv(const double t,
+                const double ex_real, const double ey_real, const double ez_real,
+                const double ex_target, const double ey_target, const double ez_target);
+    public:
+        PlatformTracking();
+        ~PlatformTracking();
+
+        void sonarCallback(const sensor_msgs::RangeConstPtr& sonar_height_quadrotor);
+        void altimeterCallback(const cvg_sim_msgs::AltimeterConstPtr& altimeter_msg);
+        void groundtruthAltitudeCallback(const takeoff::GroundtruthAltitudeConstPtr& gt_altitude_msg);
+
+        void predPlatformPathCallback(const ped_traj_pred::PathWithId& predicted_path);
+
+        void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
+        void GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg);
+
+        void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
+        void landCallback(const std_msgs::EmptyConstPtr &landing_signal);
+        void forceLandCallback(const std_msgs::EmptyConstPtr &force_landing_signal);
+        void heightControlCallback(const ros::TimerEvent& e);
+
+        void groundtruthArdroneCallback(const geometry_msgs::PoseStamped& gt_ardrone);
+        void groundtruthSummitCallback(const geometry_msgs::PoseStamped& gt_summit);
+        void ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_msg);
+
+
+        void follow_platform();
+
+        void moving_2_determined_coordinate();
+        void moving_2_helipad_rover();
+        void calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate);
+        void land();
 };
 
 PlatformTracking::PlatformTracking() {
@@ -366,15 +393,16 @@ PlatformTracking::PlatformTracking() {
 
     // subscribers
     pred_platform_path_in_world_sub_ = nh_.subscribe(predicted_platform_path_in_world_topic_, 1,
-                                       &PlatformTracking::predPlatformPathCallback, this);
+            &PlatformTracking::predPlatformPathCallback, this);
 
     sonar_height_sub_        = nh_.subscribe(sonar_height_topic_, 1, &PlatformTracking::sonarCallback, this);
-    
-    odom_sub = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
-    
+
+    odom_sub_ = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
+    gps_odom_sub_            = nh_.subscribe("/summit_xl/mavros/gps/odom", 1, &PlatformTracking::GPS_Odom, this);
+
     altitude_altimeter_sub_  = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformTracking::altimeterCallback, this);
     gt_altitude_sub_         = nh_.subscribe(gt_altitude_topic_, 1,
-                               &PlatformTracking::groundtruthAltitudeCallback, this);
+            &PlatformTracking::groundtruthAltitudeCallback, this);
 
     takeoff_sub_             = nh_.subscribe("/ardrone/takeoff", 1, &PlatformTracking::takeoffCallback, this);
     land_sub_                = nh_.subscribe("/ardrone/land", 1, &PlatformTracking::landCallback, this);
@@ -393,9 +421,9 @@ PlatformTracking::PlatformTracking() {
     try {
         ros::Time now = ros::Time::now();
         tf_listener_.waitForTransform("/ardrone/base_link", "/odom",
-                                      now, ros::Duration(3.0));
+                now, ros::Duration(3.0));
         tf_listener_.lookupTransform("/ardrone/base_link", "/odom",
-                                     now, T_ardrone_world_);
+                now, T_ardrone_world_);
     }
     catch (tf::TransformException ex) {
         ROS_ERROR("%s", ex.what());
@@ -490,26 +518,6 @@ void PlatformTracking::groundtruthArdroneCallback(const geometry_msgs::PoseStamp
     gt_ardrone_.setZ(gt_ardrone.pose.position.z);
 }
 
-void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
-    newOdom_x = newOdom_msg->pose.pose.position.x;
-    newOdom_y = newOdom_msg->pose.pose.position.y;
-    newOdom_z = newOdom_msg->pose.pose.position.z;
-
-    tf::Quaternion q(
-        newOdom_msg->pose.pose.orientation.x,
-        newOdom_msg->pose.pose.orientation.y,
-        newOdom_msg->pose.pose.orientation.z,
-        newOdom_msg->pose.pose.orientation.w);
-    tf::Matrix3x3 m(q);
-
-    m.getRPY(roll, pitch, yaw);
-
-    newOdom_theta = yaw;
-
-    ROS_INFO("newOdom_x, newOdom_y, newOdom_z, newOdom_theta: %f, %f, %f, %f", newOdom_x, newOdom_y, newOdom_z, newOdom_theta);
-
-}
-
 void PlatformTracking::groundtruthSummitCallback(const geometry_msgs::PoseStamped& gt_summit) {
     gt_summit_.setX(gt_summit.pose.position.x);
     gt_summit_.setY(gt_summit.pose.position.y);
@@ -526,63 +534,91 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
     linear_acceleration_x_ = imu_msg->linear_acceleration.x;
     linear_acceleration_y_ = imu_msg->linear_acceleration.y;
 }
+
+void PlatformTracking::GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg) {
+    GPS_Odom_x_ = GPS_Odom_msg->pose.pose.position.x;
+    GPS_Odom_y_ = GPS_Odom_msg->pose.pose.position.y;
+    ROS_INFO("GPS_Odom_x, GPS_Odom_y: %f, %f", GPS_Odom_x_, GPS_Odom_y_);
+    calculate_moving_average(GPS_Odom_x_, GPS_Odom_y_, average_helipad_coordinate_);
+}
+
+void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
+    newOdom_x = newOdom_msg->pose.pose.position.x;
+    newOdom_y = newOdom_msg->pose.pose.position.y;
+    newOdom_z = newOdom_msg->pose.pose.position.z;
+
+    tf::Quaternion q(
+            newOdom_msg->pose.pose.orientation.x,
+            newOdom_msg->pose.pose.orientation.y,
+            newOdom_msg->pose.pose.orientation.z,
+            newOdom_msg->pose.pose.orientation.w);
+    tf::Matrix3x3 m(q);
+
+    m.getRPY(roll, pitch, yaw);
+
+    newOdom_theta = yaw;
+
+    ROS_INFO("newOdom_x, newOdom_y, newOdom_z, newOdom_theta: %f, %f, %f, %f", newOdom_x, newOdom_y, newOdom_z, newOdom_theta);
+
+}
+
 /////////////////////////////////////// control  ///////////////////////////////////////////
 
 void PlatformTracking::print_status() {
     switch (current_status_) {
-    case Status_n::LANDED:
-        ROS_INFO("Status LANDED");
-        break;
-    case Status_n::TAKINGOFF:
-        ROS_INFO("Status TAKINGOFF");
-        break;
-    case Status_n::TRACKING:
-        ROS_INFO("Status TRACKING");
-        break;
-    case Status_n::RELOCALIZING:
-        ROS_INFO("Status RELOCALIZING");
-        break;
-    case Status_n::LANDING:
-        ROS_INFO("Status LANDING");
-        break;
-    case Status_n::FORCED_LANDING:
-        ROS_INFO("Status FORCED_LANDING");
-        break;
+        case Status_n::LANDED:
+            ROS_INFO("Status LANDED");
+            break;
+        case Status_n::TAKINGOFF:
+            ROS_INFO("Status TAKINGOFF");
+            break;
+        case Status_n::TRACKING:
+            ROS_INFO("Status TRACKING");
+            break;
+        case Status_n::RELOCALIZING:
+            ROS_INFO("Status RELOCALIZING");
+            break;
+        case Status_n::LANDING:
+            ROS_INFO("Status LANDING");
+            break;
+        case Status_n::FORCED_LANDING:
+            ROS_INFO("Status FORCED_LANDING");
+            break;
     }
 }
 
 void PlatformTracking::print_navdata_state() {
     switch (navi_state_gazebo_) {
-    case UNKNOWN_MODEL:
-        ROS_INFO("navdata state UNKNOWN_MODEL");
-        break;
-    case INITIALIZE_MODEL:
-        ROS_INFO("navdata state INITIALIZE_MODEL");
-        break;
-    case LANDED_MODEL:
-        ROS_INFO("navdata state LANDED_MODEL");
-        break;
-    case FLYING_MODEL:
-        ROS_INFO("navdata state FLYING_MODEL");
-        break;
-    case HOVERING_MODEL:
-        ROS_INFO("navdata state HOVERING_MODEL");
-        break;
-    case TESTING_MODEL:
-        ROS_INFO("navdata state TESTING_MODEL");
-        break;
-    case TAKINGOFF_MODEL:
-        ROS_INFO("navdata state TAKINGOFF_MODEL");
-        break;
-    case TO_FIX_POINT_MODEL:
-        ROS_INFO("navdata state TO_FIX_POINT_MODEL");
-        break;
-    case LANDING_MODEL:
-        ROS_INFO("navdata state LANDING_MODEL");
-        break;
-    case LOOPING_MODEL:
-        ROS_INFO("navdata state LOOPING_MODEL");
-        break;
+        case UNKNOWN_MODEL:
+            ROS_INFO("navdata state UNKNOWN_MODEL");
+            break;
+        case INITIALIZE_MODEL:
+            ROS_INFO("navdata state INITIALIZE_MODEL");
+            break;
+        case LANDED_MODEL:
+            ROS_INFO("navdata state LANDED_MODEL");
+            break;
+        case FLYING_MODEL:
+            ROS_INFO("navdata state FLYING_MODEL");
+            break;
+        case HOVERING_MODEL:
+            ROS_INFO("navdata state HOVERING_MODEL");
+            break;
+        case TESTING_MODEL:
+            ROS_INFO("navdata state TESTING_MODEL");
+            break;
+        case TAKINGOFF_MODEL:
+            ROS_INFO("navdata state TAKINGOFF_MODEL");
+            break;
+        case TO_FIX_POINT_MODEL:
+            ROS_INFO("navdata state TO_FIX_POINT_MODEL");
+            break;
+        case LANDING_MODEL:
+            ROS_INFO("navdata state LANDING_MODEL");
+            break;
+        case LOOPING_MODEL:
+            ROS_INFO("navdata state LOOPING_MODEL");
+            break;
     }
 }
 
@@ -626,18 +662,18 @@ void PlatformTracking::setCmdVelToZero() {
 
 bool PlatformTracking::areAllCmdVelZero() {
     return cmd_vel_.linear.x == 0.0 &&
-           cmd_vel_.linear.y == 0.0 &&
-           cmd_vel_.linear.z == 0.0 &&
-           cmd_vel_.angular.z == 0.0;
+        cmd_vel_.linear.y == 0.0 &&
+        cmd_vel_.linear.z == 0.0 &&
+        cmd_vel_.angular.z == 0.0;
 }
 
 void PlatformTracking::saveStateToCsv(const double t,
-                                      const double ex_real, const double ey_real, const double ez_real,
-                                      const double ex_target, const double ey_target, const double ez_target) {
+        const double ex_real, const double ey_real, const double ez_real,
+        const double ex_target, const double ey_target, const double ez_target) {
     // errors file
     errorsFile_ << t << ","
-                << ex_real << "," << ey_real << "," << ez_real << ","
-                << ex_target << "," << ey_target << "," << ez_target << "\n" ;
+        << ex_real << "," << ey_real << "," << ez_real << ","
+        << ex_target << "," << ey_target << "," << ez_target << "\n" ;
 
     // gt position files
     trajFile_ << current_status_ << ",";
@@ -686,10 +722,47 @@ void PlatformTracking::setTakingoffConfig() {
     setDistancesToZero();
 }
 
+void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate) {
+    window_sz = 3 ;
+
+    std::deque<PlatformTracking::Point> window ; // window holding the most recent window_sz items
+    // we use a deque because we want to add the new numbers at the back of the window
+    // and discard the oldest number at the front of the window
+    // a tad more efficient: use a circular buffer of size window_sz
+
+    PlatformTracking::Point GPS_Point;
+    GPS_Point.x = GPS_Odom_x;
+    GPS_Point.y = GPS_Odom_y;
+
+    double total = 0 ; // running total of the numbers currently in the window
+    std::size_t cnt = 0 ; // a serial number (for output)
+
+    // initialise the window (read in the first window_sz numbers)
+    if (window.size() < window_sz) {
+        total_x += GPS_Point.x;
+        total_y += GPS_Point.y;
+        window.push_back(GPS_Point) ;
+    }
+    else {
+
+        // process the remaining items
+        // throw the oldest value away and take in the newest number
+        total_x -= window.front().x;
+        total_y -= window.front().y;
+        total_x += GPS_Point.x;
+        total_y += GPS_Point.y;
+
+        window.pop_front();
+        window.push_back(GPS_Point);
+        average_x = total_y / double(window_sz);
+        average_y = total_y / double(window_sz);
+    }
+}
+
 void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
     /*
      * Finite State Machine control, largely dependent on the height of flight
-    */
+     */
 
     bool is_valid_t_sequence = std::isfinite(t_sequence_);
     if ( has_taken_off_once_ && is_valid_t_sequence && ( (ros::Time::now().toSec() - t_sequence_) >= MISSION_DURATION) ) {
@@ -725,12 +798,12 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
 
                 // Could be useful to make the drone take off again in case in wrongly landed on the floor
                 /*if (fabs(linear_acceleration_x_) < 1e-5 && fabs(linear_acceleration_y_) < 1e-5 &&
-                        fabs(angular_velocity_x_)    < 1e-5 && fabs(angular_velocity_x_)    < 1e-5) {
-                    ROS_INFO("x... %f", fabs(linear_acceleration_x_));
-                    ROS_INFO("y... %f", fabs(linear_acceleration_y_));
-                    ROS_INFO("looks like we're not moving...");
-                    should_take_off_ = true;
-                }*/
+                  fabs(angular_velocity_x_)    < 1e-5 && fabs(angular_velocity_x_)    < 1e-5) {
+                  ROS_INFO("x... %f", fabs(linear_acceleration_x_));
+                  ROS_INFO("y... %f", fabs(linear_acceleration_y_));
+                  ROS_INFO("looks like we're not moving...");
+                  should_take_off_ = true;
+                  }*/
             }
 
         } else if (ros::Time::now().toSec() - landed_time_ > 1.0) {
@@ -852,21 +925,21 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
                                 cmd_vel_.linear.z = -2.0; // 5.0
                             }
                             /*if (use_prediction_) {
-                                idx_in_path_ = 0;
-                            }*/
+                              idx_in_path_ = 0;
+                              }*/
                         }
                         /*else if (sonar_range_ < 2.0) {
-                            if (use_prediction_ && adapt_path_idx_again_) {
-                                idx_in_path_ = 0;
-                                adapt_path_idx_again_ = false;
-                            }
-                        }*/
+                          if (use_prediction_ && adapt_path_idx_again_) {
+                          idx_in_path_ = 0;
+                          adapt_path_idx_again_ = false;
+                          }
+                          }*/
                         /*else if (sonar_range_ < 3.0) {
-                            if (use_prediction_ && adapt_path_idx_) {
-                                idx_in_path_ = std::max(idx_in_path_ - 1, 0);
-                                adapt_path_idx_ = false;
-                            }
-                        }*/
+                          if (use_prediction_ && adapt_path_idx_) {
+                          idx_in_path_ = std::max(idx_in_path_ - 1, 0);
+                          adapt_path_idx_ = false;
+                          }
+                          }*/
 
                     }
                 }
@@ -922,9 +995,9 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
         ROS_INFO("Error sum (%f, %f)", error_sum_x_, error_sum_y_);
         ROS_INFO("Kp: %f, Ki: %f, Kd: %f", Kp_, Ki_, Kd_);
         ROS_INFO("ex: %f, ey: %f, ez: %f",
-                 target_.getX(),
-                 target_.getY(),
-                 target_.getZ());
+                target_.getX(),
+                target_.getY(),
+                target_.getZ());
         ROS_INFO("linear: (%f, %f, %f)", cmd_vel_.linear.x, cmd_vel_.linear.y, cmd_vel_.linear.z);
         ROS_INFO("yaw: %f", cmd_vel_.angular.z);
         ROS_INFO("completed maneuvers %d", completed_sequences_);
@@ -935,12 +1008,12 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
     /// save errors to file
     if (errorsFile_.is_open()) {
         saveStateToCsv(current_time_ - t_ref_,
-                       centroid_in_ardrone_.getX(),
-                       centroid_in_ardrone_.getY(),
-                       centroid_in_ardrone_.getZ(),
-                       target_.getX(),
-                       target_.getY(),
-                       target_.getZ());
+                centroid_in_ardrone_.getX(),
+                centroid_in_ardrone_.getY(),
+                centroid_in_ardrone_.getZ(),
+                target_.getX(),
+                target_.getY(),
+                target_.getZ());
     }
 }
 
@@ -969,14 +1042,14 @@ void PlatformTracking::predPlatformPathCallback(const ped_traj_pred::PathWithId&
     // predicted ardrone pose in world
     geometry_msgs::PoseStamped pred_pose_in_world = predicted_path.path.poses[idx_in_path_];
     pred_centroid_in_world_ = tf::Vector3(pred_pose_in_world.pose.position.x,
-                                          pred_pose_in_world.pose.position.y,
-                                          pred_pose_in_world.pose.position.z);
+            pred_pose_in_world.pose.position.y,
+            pred_pose_in_world.pose.position.z);
 
     // current ardrone pose in world
     geometry_msgs::PoseStamped pose_in_world = predicted_path.path.poses[0];
     centroid_in_world_ = tf::Vector3(pose_in_world.pose.position.x,
-                                     pose_in_world.pose.position.y,
-                                     pose_in_world.pose.position.z);
+            pose_in_world.pose.position.y,
+            pose_in_world.pose.position.z);
 
     if (is_position_NaN(pred_centroid_in_world_)) {
         ROS_INFO("pred_centroid_in_world_ is NaN!");
@@ -990,7 +1063,7 @@ void PlatformTracking::predPlatformPathCallback(const ped_traj_pred::PathWithId&
 
     try {
         tf_listener_.lookupTransform("/ardrone/base_link", "/odom",
-                                     ros::Time(0), T_ardrone_world_);
+                ros::Time(0), T_ardrone_world_);
     } catch (tf::TransformException ex) {
         ROS_ERROR("%s", ex.what());
         ros::Duration(1.0).sleep();
@@ -1088,4 +1161,3 @@ int main(int argc, char** argv) {
     ROS_INFO("Set up completed. Ready to start mission");
     ros::spin();
 }
-
