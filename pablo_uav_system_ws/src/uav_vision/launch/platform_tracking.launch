@@ -18,9 +18,12 @@
         <!-- if set to false, we compute them depending on the altitude at every instant -->
 
         <!-- PID gains at 4 meters of altitude -->
-        <param name="Kp" value="0.45"/>
-        <param name="Ki" value="0.1"/>
+        <param name="Kp" value="0.0"/>
+        <param name="Ki" value="0.0"/>
         <param name="Kd" value="0.0"/>
+        <!--<param name="Kp" value="0.45"/>-->
+        <!--<param name="Ki" value="0.1"/>-->
+        <!--<param name="Kd" value="0.0"/>-->
         <!-- <param name="Kp" value="0.33"/>
         <param name="Ki" value="0.02"/>
         <param name="Kd" value="0.0117"/> -->
@@ -45,10 +48,10 @@
         <param name="predicted_platform_path_in_world_topic" value="/kalman_prediction_path" />
         <param name="indicator_position_in_ardrone_topic" value="/platform/current_indicator_position_in_ardrone"/>
 
-        <param name="sonar_topic" value="/ardrone/sonar_height"/>  
+        <param name="sonar_topic" value="/ardrone/sonar_height"/>
         <param name="altimeter_topic" value="/ardrone/altimeter"/>
-        <param name="gt_altitude_topic" value="/ardrone/groundtruth_altitude"/>  
-        <param name="ardrone_navdata" value="/ardrone/navdata"/>  
+        <param name="gt_altitude_topic" value="/ardrone/groundtruth_altitude"/>
+        <param name="ardrone_navdata" value="/ardrone/navdata"/>
 
     </node>
 

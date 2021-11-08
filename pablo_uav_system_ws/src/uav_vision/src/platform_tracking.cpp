@@ -206,8 +206,9 @@ class PlatformTracking {
         double linear_acceleration_x_, linear_acceleration_y_;
 
         // odom variable
-        double newOdom_x,newOdom_y,newOdom_z,newOdom_theta;
+        double newOdom_x, newOdom_y, newOdom_z, newOdom_theta;
         double roll, pitch, yaw;
+        double newOdom_vel_x, newOdom_vel_y, newOdom_vel_z,  newOdom_vel_yaw;
 
         // gps odom variable from helipad rover
         double GPS_Odom_x_, GPS_Odom_y_;
@@ -309,6 +310,9 @@ PlatformTracking::PlatformTracking() {
     setErrorSumToZero("both");
     setErrorDerivativeToZero();
     setCmdVelToZero();
+
+    goal.x = 5;
+    goal.y = 5;
 
     last_found_time_ = std::numeric_limits<double>::quiet_NaN();
     time_without_seeing_ = std::numeric_limits<double>::quiet_NaN();
@@ -547,6 +551,11 @@ void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
     newOdom_y = newOdom_msg->pose.pose.position.y;
     newOdom_z = newOdom_msg->pose.pose.position.z;
 
+    newOdom_vel_x = newOdom_msg->twist.twist.linear.x;
+    newOdom_vel_y = newOdom_msg->twist.twist.linear.y;
+    newOdom_vel_z = newOdom_msg->twist.twist.linear.z;
+    newOdom_vel_yaw = newOdom_msg->twist.twist.angular.z;
+
     tf::Quaternion q(
             newOdom_msg->pose.pose.orientation.x,
             newOdom_msg->pose.pose.orientation.y,
@@ -690,6 +699,9 @@ void PlatformTracking::relocalizationManeuver() {
     setDistancesToNaN();
     seen_centroid_lately_ = false;
 
+    ROS_INFO("Moving to determined coordinate");
+    //moving_2_determined_coordinate();
+
     // describe whichever trajectory (typically an ascending on) to increase view point
     cmd_vel_.linear.x = 1.0;
     cmd_vel_.linear.y = 0.0;
@@ -757,6 +769,51 @@ void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Od
         average_x = total_y / double(window_sz);
         average_y = total_y / double(window_sz);
     }
+}
+
+void PlatformTracking::moving_2_determined_coordinate() {
+
+    inc_x = goal.x - newOdom_x;
+    inc_y = goal.y - newOdom_y;
+    angle_to_goal = std::atan2(inc_y, inc_x);
+
+    setCmdVelToZero();
+    ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
+    ROS_INFO("angle_to_goal: %f", angle_to_goal);
+    if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
+        cmd_vel_.angular.z = 0.3;
+        ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
+    }
+    else {
+        cmd_vel_.linear.x = 0.5;
+        ROS_INFO("Move forward with linear.x: %f", cmd_vel_.linear.x);
+    }
+
+    //cmd_vel_pub_.publish(cmd_vel_);
+}
+
+void PlatformTracking::moving_2_helipad_rover() {
+
+    inc_x = goal.x - newOdom_x;
+    inc_y = goal.y - newOdom_y;
+    angle_to_goal = std::atan2(inc_y, inc_x);
+    setCmdVelToZero();
+    ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
+    ROS_INFO("angle_to_goal: %f", angle_to_goal);
+    if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
+        cmd_vel_.angular.z = 0.3;
+        ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
+    }
+    else {
+        cmd_vel_.linear.x = 0.5;
+    }
+
+    cmd_vel_pub_.publish(cmd_vel_);
+}
+
+void PlatformTracking::land() {
+
+    return;
 }
 
 void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
@@ -945,6 +1002,7 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
                 }
                 else {
                     // ROS_INFO("Relocalizing...");
+                    relocalizationManeuver();
                 }
             }
         }
@@ -966,6 +1024,7 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
 
     // send velocity only if not all commands are 0
     if (!areAllCmdVelZero()) {
+        ROS_INFO("cmd_vel_pub_: x: %f, y: %f, z: %f, yaw: %f", cmd_vel_.linear.x, cmd_vel_.linear.y, cmd_vel_.linear.z, cmd_vel_.angular.z);
         cmd_vel_pub_.publish(cmd_vel_);
         cmd_vel_prev_ = cmd_vel_;
     }
@@ -976,6 +1035,7 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
     navdata_pub_.publish(navdata);
 
     if (verbose_) {
+        ROS_INFO("Odom vel: x: %f, y: %f, z: %f, yaw: %f", newOdom_vel_x, newOdom_vel_y, newOdom_vel_z, newOdom_vel_yaw);
         print_status();
         print_navdata_state();
         ROS_INFO("use_prediction %d", use_prediction_);
