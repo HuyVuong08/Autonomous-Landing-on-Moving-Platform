@@ -693,20 +693,22 @@ void PlatformTracking::saveStateToCsv(const double t,
 void PlatformTracking::relocalizationManeuver() {
     // ROS_INFO("Starting relocalization maneuver...");
     current_status_ = Status_n::RELOCALIZING;
-    navi_state_gazebo_ = TAKINGOFF_MODEL;
+    navi_state_gazebo_ = FLYING_MODEL;
     setErrorSumToZero("both");
     setErrorDerivativeToZero();
     setDistancesToNaN();
     seen_centroid_lately_ = false;
 
     ROS_INFO("Moving to determined coordinate");
-    //moving_2_determined_coordinate();
+    moving_2_determined_coordinate();
 
     // describe whichever trajectory (typically an ascending on) to increase view point
-    cmd_vel_.linear.x = 1.0;
-    cmd_vel_.linear.y = 0.0;
-    cmd_vel_.linear.z = 0.0;
-    cmd_vel_.angular.z = 0.0;
+    /*
+     *cmd_vel_.linear.x = 1.0;
+     *cmd_vel_.linear.y = 0.0;
+     *cmd_vel_.linear.z = 0.0;
+     *cmd_vel_.angular.z = 0.0;
+     */
     // ROS_INFO_STREAM("cmd_vel during relocalization: " << cmd_vel_);
     ++num_reloc_maneuvers_;
 }

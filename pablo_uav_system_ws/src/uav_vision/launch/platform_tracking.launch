@@ -18,12 +18,9 @@
         <!-- if set to false, we compute them depending on the altitude at every instant -->
 
         <!-- PID gains at 4 meters of altitude -->
-        <param name="Kp" value="0.0"/>
-        <param name="Ki" value="0.0"/>
+        <param name="Kp" value="0.45"/>
+        <param name="Ki" value="0.1"/>
         <param name="Kd" value="0.0"/>
-        <!--<param name="Kp" value="0.45"/>-->
-        <!--<param name="Ki" value="0.1"/>-->
-        <!--<param name="Kd" value="0.0"/>-->
         <!-- <param name="Kp" value="0.33"/>
         <param name="Ki" value="0.02"/>
         <param name="Kd" value="0.0117"/> -->
