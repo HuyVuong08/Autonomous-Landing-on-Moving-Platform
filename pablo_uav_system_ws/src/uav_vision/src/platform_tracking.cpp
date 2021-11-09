@@ -807,7 +807,8 @@ void PlatformTracking::moving_2_helipad_rover() {
         ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
     }
     else {
-        cmd_vel_.linear.x = 0.5;
+        cmd_vel_.linear.x = 1.0;
+        ROS_INFO("Move forward with linear.x: %f", cmd_vel_.linear.x);
     }
 
     cmd_vel_pub_.publish(cmd_vel_);
