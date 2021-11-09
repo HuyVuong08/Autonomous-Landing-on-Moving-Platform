@@ -85,6 +85,15 @@ class PlatformTracking {
         struct Point {
             double x;
             double y;
+
+            Point() {
+
+            }
+
+            Point(double x_, double y_) {
+                this->x = x_;
+                this->y = y_;
+            }
         };
 
     private:
@@ -214,7 +223,8 @@ class PlatformTracking {
         double GPS_Odom_x_, GPS_Odom_y_;
 
         // point variable
-        PlatformTracking::Point goal, average_helipad_coordinate_;
+        PlatformTracking::Point goal = Point(5, 5);
+        PlatformTracking::Point average_helipad_coordinate_ = Point(0, 0);
         double inc_x, inc_y;
         double angle_to_goal;
 
@@ -310,9 +320,6 @@ PlatformTracking::PlatformTracking() {
     setErrorSumToZero("both");
     setErrorDerivativeToZero();
     setCmdVelToZero();
-
-    goal.x = 5;
-    goal.y = 5;
 
     last_found_time_ = std::numeric_limits<double>::quiet_NaN();
     time_without_seeing_ = std::numeric_limits<double>::quiet_NaN();
@@ -780,6 +787,7 @@ void PlatformTracking::moving_2_determined_coordinate() {
     angle_to_goal = std::atan2(inc_y, inc_x);
 
     setCmdVelToZero();
+    ROS_INFO("goal_x, goal_y: %f, %f", goal.x, goal.y);
     ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
     ROS_INFO("angle_to_goal: %f", angle_to_goal);
     if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
