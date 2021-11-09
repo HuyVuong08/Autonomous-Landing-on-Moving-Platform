@@ -87,7 +87,7 @@ class PlatformTracking {
             double y;
 
             Point() {
-
+                // Initialize data struct
             }
 
             Point(double x_, double y_) {
@@ -229,6 +229,11 @@ class PlatformTracking {
         double angle_to_goal;
 
         double total_x, total_y, average_x, average_y;
+
+        std::deque<PlatformTracking::Point> window ; // window holding the most recent window_sz items
+        // we use a deque because we want to add the new numbers at the back of the window
+        // and discard the oldest number at the front of the window
+        // a tad more efficient: use a circular buffer of size window_sz
 
         // for calculate moving average of Oxy coordinate from GPS data
         std::size_t window_sz;
@@ -549,7 +554,6 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
 void PlatformTracking::GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg) {
     GPS_Odom_x_ = GPS_Odom_msg->pose.pose.position.x;
     GPS_Odom_y_ = GPS_Odom_msg->pose.pose.position.y;
-    ROS_INFO("GPS_Odom_x, GPS_Odom_y: %f, %f", GPS_Odom_x_, GPS_Odom_y_);
     calculate_moving_average(GPS_Odom_x_, GPS_Odom_y_, average_helipad_coordinate_);
 }
 
@@ -708,6 +712,7 @@ void PlatformTracking::relocalizationManeuver() {
 
     ROS_INFO("Moving to determined coordinate");
     moving_2_determined_coordinate();
+    //moving_2_helipad_rover();
 
     // describe whichever trajectory (typically an ascending on) to increase view point
     /*
@@ -746,14 +751,8 @@ void PlatformTracking::setTakingoffConfig() {
 void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate) {
     window_sz = 3 ;
 
-    std::deque<PlatformTracking::Point> window ; // window holding the most recent window_sz items
-    // we use a deque because we want to add the new numbers at the back of the window
-    // and discard the oldest number at the front of the window
-    // a tad more efficient: use a circular buffer of size window_sz
-
-    PlatformTracking::Point GPS_Point;
-    GPS_Point.x = GPS_Odom_x;
-    GPS_Point.y = GPS_Odom_y;
+    PlatformTracking::Point GPS_Point = Point(GPS_Odom_x, GPS_Odom_y);
+    ROS_INFO("GPS_Point.x, GPS_Point.y: %f, %f", GPS_Point.x, GPS_Point.y);
 
     double total = 0 ; // running total of the numbers currently in the window
     std::size_t cnt = 0 ; // a serial number (for output)
@@ -763,6 +762,8 @@ void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Od
         total_x += GPS_Point.x;
         total_y += GPS_Point.y;
         window.push_back(GPS_Point) ;
+        ROS_INFO("total_x, total_y: %f, %f", total_x, total_y);
+        ROS_INFO("window.size: %lu", window.size());
     }
     else {
 
@@ -775,8 +776,10 @@ void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Od
 
         window.pop_front();
         window.push_back(GPS_Point);
-        average_x = total_y / double(window_sz);
-        average_y = total_y / double(window_sz);
+        average_helipad_coordinate.x = total_x / double(window_sz);
+        average_helipad_coordinate.y = total_y / double(window_sz);
+        ROS_INFO("window.size: %lu", window.size());
+        ROS_INFO("average_helipad_coordinate_x, average_helipad_coordinate_y: %f, %f", average_helipad_coordinate.x, average_helipad_coordinate.y);
     }
 }
 
@@ -808,6 +811,7 @@ void PlatformTracking::moving_2_helipad_rover() {
     inc_y = goal.y - newOdom_y;
     angle_to_goal = std::atan2(inc_y, inc_x);
     setCmdVelToZero();
+    ROS_INFO("goal_x, goal_y: %f, %f", goal.x, goal.y);
     ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
     ROS_INFO("angle_to_goal: %f", angle_to_goal);
     if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
