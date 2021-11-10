@@ -29,6 +29,8 @@ struct Point {
     }
 };
 
+Point spawn_coordinate = Point(8, 5);
+
 void ground_truth_callback (const nav_msgs::OdometryConstPtr& ground_truth) {
     std::string ground_truth_frame_id;
     ground_truth_frame_id =  ground_truth->header.frame_id;
@@ -59,7 +61,7 @@ void callback (const sensor_msgs::NavSatFixConstPtr& fix) {
     static double spawn_navsat_utm_easting;
     static double origin_navsat_utm_northing;
     static double origin_navsat_utm_easting;
-    std::string spawn_navsat_utm_zone;
+    static std::string spawn_navsat_utm_zone;
 
     long double latitude, longitude;
     latitude = fix->latitude;
@@ -82,11 +84,11 @@ void callback (const sensor_msgs::NavSatFixConstPtr& fix) {
         spawn_long = fix->longitude;
         ROS_INFO("spawn_longitude, spawn_latitude: %Lf, %Lf", spawn_long, spawn_lat);
 
-        GeonavTransform::NavsatConversions::LLtoUTM(spawn_lat, spawn_long, spawn_navsat_utm_northing, spawn_navsat_utm_easting,  spawn_navsat_utm_zone);
+        GeonavTransform::NavsatConversions::LLtoUTM(spawn_lat, spawn_long, spawn_navsat_utm_easting, spawn_navsat_utm_northing,  spawn_navsat_utm_zone);
         ROS_INFO("UTM spawn_navsat_utm_easting, spawn_navsat_utm_northing: %f, %f", spawn_navsat_utm_easting, spawn_navsat_utm_northing);
 
-        origin_navsat_utm_easting = spawn_navsat_utm_easting - 5;
-        origin_navsat_utm_northing = spawn_navsat_utm_northing - 5;
+        origin_navsat_utm_easting = spawn_navsat_utm_easting - spawn_coordinate.x;
+        origin_navsat_utm_northing = spawn_navsat_utm_northing - spawn_coordinate.y;
 
         ROS_INFO("----------------------------------------------------------");
     }
@@ -96,7 +98,7 @@ void callback (const sensor_msgs::NavSatFixConstPtr& fix) {
     LLtoUTM(latitude, longitude, utm_northing, utm_easting, utm_zone);
     ROS_INFO("UTM utm_easting, utm_northing: %f, %f", utm_easting, utm_northing);
 
-    GeonavTransform::NavsatConversions::LLtoUTM(latitude, longitude, navsat_utm_northing, navsat_utm_easting, navsat_utm_zone);
+    GeonavTransform::NavsatConversions::LLtoUTM(latitude, longitude, navsat_utm_easting, navsat_utm_northing, navsat_utm_zone);
     ROS_INFO("UTM navsat_utm_easting, navsat_utm_northing: %f, %f", navsat_utm_easting, navsat_utm_northing);
 
     if ( spawn_navsat_utm_zone != navsat_utm_zone ){

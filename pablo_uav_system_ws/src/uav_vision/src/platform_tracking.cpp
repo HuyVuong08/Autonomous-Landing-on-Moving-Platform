@@ -710,9 +710,10 @@ void PlatformTracking::relocalizationManeuver() {
     setDistancesToNaN();
     seen_centroid_lately_ = false;
 
-    ROS_INFO("Moving to determined coordinate");
-    moving_2_determined_coordinate();
-    //moving_2_helipad_rover();
+    //ROS_INFO("Moving to determined coordinate");
+    //moving_2_determined_coordinate();
+    ROS_INFO("Moving to helipad rover");
+    moving_2_helipad_rover();
 
     // describe whichever trajectory (typically an ascending on) to increase view point
     /*
@@ -762,8 +763,8 @@ void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Od
         total_x += GPS_Point.x;
         total_y += GPS_Point.y;
         window.push_back(GPS_Point) ;
-        ROS_INFO("total_x, total_y: %f, %f", total_x, total_y);
         ROS_INFO("window.size: %lu", window.size());
+        ROS_INFO("total_x, total_y: %f, %f", total_x, total_y);
     }
     else {
 
@@ -807,13 +808,13 @@ void PlatformTracking::moving_2_determined_coordinate() {
 
 void PlatformTracking::moving_2_helipad_rover() {
 
-    inc_x = goal.x - newOdom_x;
-    inc_y = goal.y - newOdom_y;
+    inc_x = average_helipad_coordinate_.x - newOdom_x;
+    inc_y = average_helipad_coordinate_.y - newOdom_y;
     angle_to_goal = std::atan2(inc_y, inc_x);
     setCmdVelToZero();
-    ROS_INFO("goal_x, goal_y: %f, %f", goal.x, goal.y);
+    ROS_INFO("helipad_coordinate_x, helipad_coordinate_y: %f, %f", average_helipad_coordinate_.x, average_helipad_coordinate_.y);
     ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
-    ROS_INFO("angle_to_goal: %f", angle_to_goal);
+    ROS_INFO("angle_to_helipad: %f", angle_to_goal);
     if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
         cmd_vel_.angular.z = 0.3;
         ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
