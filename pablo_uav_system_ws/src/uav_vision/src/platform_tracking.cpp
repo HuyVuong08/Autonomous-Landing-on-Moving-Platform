@@ -492,11 +492,15 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
         oss.str("");
         oss.clear();
         oss << "$HOME/pablo/ws/log/trajectories/trajectories_" << type << ".csv";
+        std::string oss_string = oss.str();
+        ROS_INFO("oss_string: %s", oss_string.c_str());
         ROS_INFO("Opening trajFile file...");
         if (!trajFile_.is_open()) {
-            trajFile_.open(oss.str());
+            trajFile_.open(oss_string.c_str());
             trajFile_ << "status,aX,aY,aZ,sX,sY,sZ\n";
             ROS_INFO("TrajFile file opened...");
+            bool isTrajFile_Opened =  trajFile_.is_open();
+            ROS_INFO("trajFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
         }
     }
 
@@ -859,9 +863,13 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
 
             ROS_INFO("has_taken_off_once_: %s", has_taken_off_once_ ? "true" : "false");
             if (has_taken_off_once_) {
+                ROS_INFO("sonar_range_: %f; fabs(linear_acceleration_x_): %f; fabs(linear_acceleration_y_): %f", sonar_range_,       fabs(linear_acceleration_x_), fabs(linear_acceleration_y_));
                 // if we landed correctly, we should have linear acceleration, since the landing platform is assumed to constantly be moving
                 if (sonar_range_ < 0.1 && (fabs(linear_acceleration_x_) > 0.1 || fabs(linear_acceleration_y_) > 0.1)) {
-
+                    bool isErrorFile_Opened = errorsFile_.is_open();
+                    bool isTrajFile_Opened = trajFile_.is_open();
+                    ROS_INFO("errorsFile_.is_open(): %s", isErrorFile_Opened ? "true" : "false");
+                    ROS_INFO("trajFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
                     if (errorsFile_.is_open()) { // if the file was already open, it means that we had already taken off before
                         ROS_INFO("Closing errors' file...");
                         errorsFile_.close();
