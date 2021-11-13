@@ -77,7 +77,7 @@ namespace Status_n {
 }
 typedef Status_n::Status_t Status;
 
-constexpr int MAX_NUM_SEQUENCES = 50;
+constexpr int MAX_NUM_SEQUENCES = 2;
 
 class PlatformTracking {
     private:
@@ -459,7 +459,7 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
     t_sequence_ = ros::Time::now().toSec();
 
     if (save_logs_) {
-        std::string log_dir = "/home/pablo/ws/log";
+        std::string log_dir = "$HOME/pablo/ws/log";
 
         std::string errors_dir = log_dir + "/errors";
         std::string create_errors_dir = "mkdir -p " + errors_dir;
@@ -491,10 +491,12 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
 
         oss.str("");
         oss.clear();
-        oss << "/home/pablo/ws/log/trajectories/trajectories_" << type << ".csv";
+        oss << "$HOME/pablo/ws/log/trajectories/trajectories_" << type << ".csv";
+        ROS_INFO("Opening trajFile file...");
         if (!trajFile_.is_open()) {
             trajFile_.open(oss.str());
             trajFile_ << "status,aX,aY,aZ,sX,sY,sZ\n";
+            ROS_INFO("TrajFile file opened...");
         }
     }
 
@@ -855,16 +857,17 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
         }
         else if (completed_sequences_ == MAX_NUM_SEQUENCES) {
 
+            ROS_INFO("has_taken_off_once_: %s", has_taken_off_once_ ? "true" : "false");
             if (has_taken_off_once_) {
                 // if we landed correctly, we should have linear acceleration, since the landing platform is assumed to constantly be moving
                 if (sonar_range_ < 0.1 && (fabs(linear_acceleration_x_) > 0.1 || fabs(linear_acceleration_y_) > 0.1)) {
 
                     if (errorsFile_.is_open()) { // if the file was already open, it means that we had already taken off before
-                        // ROS_INFO("Closing errors' file...");
+                        ROS_INFO("Closing errors' file...");
                         errorsFile_.close();
                     }
                     if (trajFile_.is_open()) { // if the file was already open, it means that we had already taken off before
-                        // ROS_INFO("Closing gt file...");
+                        ROS_INFO("Closing trajFile file...");
                         trajFile_.close();
                     }
                 }
