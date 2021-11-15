@@ -483,7 +483,8 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
             type = "NO_pred";
 
         std::ostringstream oss;
-        oss << errors_dir << "/errors_" << type << ".csv";
+        //oss << errors_dir << "/errors_" << type << ".csv";
+        oss << "../pablo/ws/log/errors/errors_" << type << ".csv";
         if (!errorsFile_.is_open()) {
             errorsFile_.open(oss.str());
             errorsFile_ << "t,ex_real,ey_real,ez_real,ex_target,ey_target,ez_target\n";
@@ -491,12 +492,14 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
 
         oss.str("");
         oss.clear();
-        oss << "$HOME/pablo/ws/log/trajectories/trajectories_" << type << ".csv";
+        oss << "../pablo/ws/log/trajectories/trajectories_" << type << ".csv";
         std::string oss_string = oss.str();
         ROS_INFO("oss_string: %s", oss_string.c_str());
         ROS_INFO("Opening trajFile file...");
         if (!trajFile_.is_open()) {
             trajFile_.open(oss_string.c_str());
+            char * cwd = get_current_dir_name();
+            ROS_INFO("Current dir name: %s", cwd);
             trajFile_ << "status,aX,aY,aZ,sX,sY,sZ\n";
             ROS_INFO("TrajFile file opened...");
             bool isTrajFile_Opened =  trajFile_.is_open();
