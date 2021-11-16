@@ -77,7 +77,7 @@ namespace Status_n {
 }
 typedef Status_n::Status_t Status;
 
-constexpr int MAX_NUM_SEQUENCES = 2;
+constexpr int MAX_NUM_SEQUENCES = 3;
 
 class PlatformTracking {
     private:
@@ -113,6 +113,8 @@ class PlatformTracking {
         double landed_time_;
         int num_reloc_maneuvers_;
 
+        int num_landed_failed, num_landed_successful ;
+
         bool should_take_off_, should_land_, must_land_;
         Status current_status_;
         double ardrone_x_, ardrone_y_, ardrone_z_;
@@ -144,7 +146,7 @@ class PlatformTracking {
         double MAX_ALLOWED_ERROR_BEFORE_LANDING_;
 
         // logging
-        std::ofstream errorsFile_, trajFile_;
+        std::ofstream errorsFile_, trajFile_, landFile_;
 
         // messages and services
         geometry_msgs::Twist cmd_vel_; //! cmd_vel_ocity command send to ardrone for control
@@ -185,7 +187,7 @@ class PlatformTracking {
         ros::Subscriber ardrone_imu_sub_;
 
         ros::Subscriber odom_sub_;
-        ros::Subscriber gps_odom_sub_;
+        ros::Subscriber summit_gps_odom_sub_;
 
         ros::Timer timer_;
 
@@ -220,7 +222,7 @@ class PlatformTracking {
         double newOdom_vel_x, newOdom_vel_y, newOdom_vel_z,  newOdom_vel_yaw;
 
         // gps odom variable from helipad rover
-        double GPS_Odom_x_, GPS_Odom_y_;
+        double Summit_GPS_Odom_x_, Summit_GPS_Odom_y_;
 
         // point variable
         PlatformTracking::Point goal = Point(5, 5);
@@ -278,7 +280,7 @@ class PlatformTracking {
         void predPlatformPathCallback(const ped_traj_pred::PathWithId& predicted_path);
 
         void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
-        void GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg);
+        void Summit_GPS_Odom(const nav_msgs::OdometryConstPtr& Summit_GPS_Odom_msg);
 
         void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
         void landCallback(const std_msgs::EmptyConstPtr &landing_signal);
@@ -294,7 +296,7 @@ class PlatformTracking {
 
         void moving_2_determined_coordinate();
         void moving_2_helipad_rover();
-        void calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate);
+        void calculate_moving_average(double Summit_GPS_Odom_x, double Summit_GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate);
         void land();
 };
 
@@ -315,6 +317,9 @@ PlatformTracking::PlatformTracking() {
     completed_sequences_ = 0;
     landed_time_ = std::numeric_limits<double>::infinity();
     num_reloc_maneuvers_ = 0;
+
+    num_landed_failed = 0;
+    num_landed_successful = 0;
 
     idx_in_path_ = -1; // take last prediction in path
     num_pos_in_path_ = -1;
@@ -414,7 +419,7 @@ PlatformTracking::PlatformTracking() {
     sonar_height_sub_        = nh_.subscribe(sonar_height_topic_, 1, &PlatformTracking::sonarCallback, this);
 
     odom_sub_ = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
-    gps_odom_sub_            = nh_.subscribe("/summit_xl/mavros/gps/odom", 1, &PlatformTracking::GPS_Odom, this);
+    summit_gps_odom_sub_            = nh_.subscribe("/summit_xl/mavros/gps/odom", 1, &PlatformTracking::Summit_GPS_Odom, this);
 
     altitude_altimeter_sub_  = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformTracking::altimeterCallback, this);
     gt_altitude_sub_         = nh_.subscribe(gt_altitude_topic_, 1,
@@ -495,15 +500,31 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
         oss << "../pablo/ws/log/trajectories/trajectories_" << type << ".csv";
         std::string oss_string = oss.str();
         ROS_INFO("oss_string: %s", oss_string.c_str());
-        ROS_INFO("Opening trajFile file...");
+        ROS_INFO("Opening trajFile...");
         if (!trajFile_.is_open()) {
             trajFile_.open(oss_string.c_str());
             char * cwd = get_current_dir_name();
             ROS_INFO("Current dir name: %s", cwd);
             trajFile_ << "status,aX,aY,aZ,sX,sY,sZ\n";
-            ROS_INFO("TrajFile file opened...");
+            ROS_INFO("TrajFile opened...");
             bool isTrajFile_Opened =  trajFile_.is_open();
             ROS_INFO("trajFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
+        }
+
+        oss.str("");
+        oss.clear();
+        oss << "../pablo/ws/log/trajectories/landing_results_" << type << ".csv";
+        oss_string = oss.str();
+        ROS_INFO("oss_string: %s", oss_string.c_str());
+        ROS_INFO("Opening landFile...");
+        if (!landFile_.is_open()) {
+            landFile_.open(oss_string.c_str());
+            char * cwd = get_current_dir_name();
+            ROS_INFO("Current dir name: %s", cwd);
+            landFile_ << "N.O.,Landing Status,Failed,Successful,Helipad Speed\n";
+            ROS_INFO("TrajFile opened...");
+            bool isTrajFile_Opened =  landFile_.is_open();
+            ROS_INFO("landFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
         }
     }
 
@@ -560,10 +581,10 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
     linear_acceleration_y_ = imu_msg->linear_acceleration.y;
 }
 
-void PlatformTracking::GPS_Odom(const nav_msgs::OdometryConstPtr& GPS_Odom_msg) {
-    GPS_Odom_x_ = GPS_Odom_msg->pose.pose.position.x;
-    GPS_Odom_y_ = GPS_Odom_msg->pose.pose.position.y;
-    calculate_moving_average(GPS_Odom_x_, GPS_Odom_y_, average_helipad_coordinate_);
+void PlatformTracking::Summit_GPS_Odom(const nav_msgs::OdometryConstPtr& Summit_GPS_Odom_msg) {
+    Summit_GPS_Odom_x_ = Summit_GPS_Odom_msg->pose.pose.position.x;
+    Summit_GPS_Odom_y_ = Summit_GPS_Odom_msg->pose.pose.position.y;
+    calculate_moving_average(Summit_GPS_Odom_x_, Summit_GPS_Odom_y_, average_helipad_coordinate_);
 }
 
 void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
@@ -758,10 +779,10 @@ void PlatformTracking::setTakingoffConfig() {
     setDistancesToZero();
 }
 
-void PlatformTracking::calculate_moving_average(double GPS_Odom_x, double GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate) {
+void PlatformTracking::calculate_moving_average(double Summit_GPS_Odom_x, double Summit_GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate) {
     window_sz = 3 ;
 
-    PlatformTracking::Point GPS_Point = Point(GPS_Odom_x, GPS_Odom_y);
+    PlatformTracking::Point GPS_Point = Point(Summit_GPS_Odom_x, Summit_GPS_Odom_y);
     ROS_INFO("GPS_Point.x, GPS_Point.y: %f, %f", GPS_Point.x, GPS_Point.y);
 
     double total = 0 ; // running total of the numbers currently in the window
@@ -869,17 +890,26 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
                 ROS_INFO("sonar_range_: %f; fabs(linear_acceleration_x_): %f; fabs(linear_acceleration_y_): %f", sonar_range_,       fabs(linear_acceleration_x_), fabs(linear_acceleration_y_));
                 // if we landed correctly, we should have linear acceleration, since the landing platform is assumed to constantly be moving
                 if (sonar_range_ < 0.1 && (fabs(linear_acceleration_x_) > 0.1 || fabs(linear_acceleration_y_) > 0.1)) {
+
                     bool isErrorFile_Opened = errorsFile_.is_open();
-                    bool isTrajFile_Opened = trajFile_.is_open();
                     ROS_INFO("errorsFile_.is_open(): %s", isErrorFile_Opened ? "true" : "false");
-                    ROS_INFO("trajFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
                     if (errorsFile_.is_open()) { // if the file was already open, it means that we had already taken off before
-                        ROS_INFO("Closing errors' file...");
+                        ROS_INFO("Closing errorsFile...");
                         errorsFile_.close();
                     }
+
+                    bool isTrajFile_Opened = trajFile_.is_open();
+                    ROS_INFO("trajFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
                     if (trajFile_.is_open()) { // if the file was already open, it means that we had already taken off before
-                        ROS_INFO("Closing trajFile file...");
+                        ROS_INFO("Closing trajFile...");
                         trajFile_.close();
+                    }
+
+                    bool isLandFile_Opened = landFile_.is_open();
+                    ROS_INFO("landFile_.is_open(): %s", isLandFile_Opened ? "true" : "false");
+                    if (landFile_.is_open()) { // if the file was already open, it means that we had already taken off before
+                        ROS_INFO("Closing landFile...");
+                        landFile_.close();
                     }
                 }
 
@@ -997,12 +1027,23 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
                             // if sonar says we are on a surface and altitude says were are still flying
                             // then there's a hight chance we have landed successfully on the platform
                             // ROS_INFO("We landed!!!!!");
+                            std::string landing_status;
                             if (fabs(target_.getX()) > MAX_ALLOWED_ERROR_BEFORE_LANDING_
                                     || fabs(target_.getY()) > MAX_ALLOWED_ERROR_BEFORE_LANDING_) {
-                                relocalizationManeuver();
+                                //relocalizationManeuver();
+                                setLandedConfig();
+                                ++num_landed_failed;
+                                landing_status = "Failed";
                             } else {
                                 setLandedConfig();
+                                ++num_landed_successful;
+                                landing_status = "Successful";
                             }
+                            landFile_ << completed_sequences_ << ",";
+                            landFile_ << landing_status << ",";
+                            landFile_ << num_landed_failed << ",";
+                            landFile_ << num_landed_successful << "\n";
+                            landFile_ << num_landed_successful << "\n";
                         }
                         else if (sonar_range_ < 0.7) { // 0.7
                             if (fabs(target_.getX()) > MAX_ALLOWED_ERROR_BEFORE_LANDING_
