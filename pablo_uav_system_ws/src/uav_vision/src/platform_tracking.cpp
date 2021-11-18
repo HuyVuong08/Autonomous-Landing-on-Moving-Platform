@@ -77,6 +77,15 @@ namespace Status_n {
 }
 typedef Status_n::Status_t Status;
 
+// landing status successful or failed
+namespace Landing_Status_n {
+    enum Landing_Status_t {
+        Successful,
+        Failed
+    };
+}
+typedef Landing_Status_n::Landing_Status_t Landing_Status;
+
 constexpr int MAX_NUM_SEQUENCES = 3;
 
 class PlatformTracking {
@@ -186,8 +195,9 @@ class PlatformTracking {
         ros::Subscriber ardrone_gt_sub_, summit_gt_sub_;
         ros::Subscriber ardrone_imu_sub_;
 
-        ros::Subscriber odom_sub_;
+        ros::Subscriber ardrone_odom_sub_;
         ros::Subscriber summit_gps_odom_sub_;
+        ros::Subscriber summit_odom_sub_ ;
 
         ros::Timer timer_;
 
@@ -222,7 +232,10 @@ class PlatformTracking {
         double newOdom_vel_x, newOdom_vel_y, newOdom_vel_z,  newOdom_vel_yaw;
 
         // gps odom variable from helipad rover
-        double Summit_GPS_Odom_x_, Summit_GPS_Odom_y_;
+        double Summit_GPS_Pose_x_, Summit_GPS_Pose_y_;
+
+        // odom variable from helipad rover
+        double Summit_Odom_Twist_x_;
 
         // point variable
         PlatformTracking::Point goal = Point(5, 5);
@@ -280,7 +293,8 @@ class PlatformTracking {
         void predPlatformPathCallback(const ped_traj_pred::PathWithId& predicted_path);
 
         void newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg);
-        void Summit_GPS_Odom(const nav_msgs::OdometryConstPtr& Summit_GPS_Odom_msg);
+        void Summit_GPS_Pose(const nav_msgs::OdometryConstPtr& Summit_GPS_Pose_msg);
+        void Summit_Odom(const nav_msgs::OdometryConstPtr& Summit_Odom_msg);
 
         void takeoffCallback(const std_msgs::EmptyConstPtr &takeoff_signal);
         void landCallback(const std_msgs::EmptyConstPtr &landing_signal);
@@ -296,7 +310,7 @@ class PlatformTracking {
 
         void moving_2_determined_coordinate();
         void moving_2_helipad_rover();
-        void calculate_moving_average(double Summit_GPS_Odom_x, double Summit_GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate);
+        void calculate_moving_average(double Summit_GPS_Pose_x, double Summit_GPS_Pose_y, PlatformTracking::Point& average_helipad_coordinate);
         void land();
 };
 
@@ -418,8 +432,6 @@ PlatformTracking::PlatformTracking() {
 
     sonar_height_sub_        = nh_.subscribe(sonar_height_topic_, 1, &PlatformTracking::sonarCallback, this);
 
-    odom_sub_ = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
-    summit_gps_odom_sub_            = nh_.subscribe("/summit_xl/mavros/gps/odom", 1, &PlatformTracking::Summit_GPS_Odom, this);
 
     altitude_altimeter_sub_  = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformTracking::altimeterCallback, this);
     gt_altitude_sub_         = nh_.subscribe(gt_altitude_topic_, 1,
@@ -429,9 +441,14 @@ PlatformTracking::PlatformTracking() {
     land_sub_                = nh_.subscribe("/ardrone/land", 1, &PlatformTracking::landCallback, this);
     force_land_sub_          = nh_.subscribe("/ardrone/force_land", 1, &PlatformTracking::forceLandCallback, this);
 
+    ardrone_odom_sub_                = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
+
     ardrone_gt_sub_          = nh_.subscribe("/groundtruth/ardrone", 1, &PlatformTracking::groundtruthArdroneCallback, this);
     summit_gt_sub_           = nh_.subscribe("/groundtruth/summit", 1, &PlatformTracking::groundtruthSummitCallback, this);
     ardrone_imu_sub_         = nh_.subscribe("/ardrone/imu", 1, &PlatformTracking::ardroneImuCallback, this);
+
+    summit_gps_odom_sub_     = nh_.subscribe("/summit_xl/mavros/gps/odom", 1, &PlatformTracking::Summit_GPS_Pose, this);
+    summit_odom_sub_         = nh_.subscribe("/summit_xl/odom", 1, &PlatformTracking::Summit_Odom, this);
 
     ROS_INFO("%f", 1.0 / cmd_vel_pub_freq_);
     timer_                   = nh_.createTimer(ros::Duration(1.0 / cmd_vel_pub_freq_), &PlatformTracking::heightControlCallback, this);
@@ -521,7 +538,7 @@ void PlatformTracking::takeoffCallback(const std_msgs::EmptyConstPtr & takeoff_s
             landFile_.open(oss_string.c_str());
             char * cwd = get_current_dir_name();
             ROS_INFO("Current dir name: %s", cwd);
-            landFile_ << "N.O.,Landing Status,Failed,Successful,Helipad Speed\n";
+            landFile_ << "N.O.,Failed,Successful,Helipad Speed\n";
             ROS_INFO("TrajFile opened...");
             bool isTrajFile_Opened =  landFile_.is_open();
             ROS_INFO("landFile_.is_open(): %s", isTrajFile_Opened ? "true" : "false");
@@ -581,10 +598,15 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
     linear_acceleration_y_ = imu_msg->linear_acceleration.y;
 }
 
-void PlatformTracking::Summit_GPS_Odom(const nav_msgs::OdometryConstPtr& Summit_GPS_Odom_msg) {
-    Summit_GPS_Odom_x_ = Summit_GPS_Odom_msg->pose.pose.position.x;
-    Summit_GPS_Odom_y_ = Summit_GPS_Odom_msg->pose.pose.position.y;
-    calculate_moving_average(Summit_GPS_Odom_x_, Summit_GPS_Odom_y_, average_helipad_coordinate_);
+void PlatformTracking::Summit_GPS_Pose(const nav_msgs::OdometryConstPtr& Summit_GPS_Pose_msg) {
+    Summit_GPS_Pose_x_ = Summit_GPS_Pose_msg->pose.pose.position.x;
+    Summit_GPS_Pose_y_ = Summit_GPS_Pose_msg->pose.pose.position.y;
+    calculate_moving_average(Summit_GPS_Pose_x_, Summit_GPS_Pose_y_, average_helipad_coordinate_);
+}
+
+void PlatformTracking::Summit_Odom(const nav_msgs::OdometryConstPtr& Summit_Odom_msg) {
+    Summit_Odom_Twist_x_ = Summit_Odom_msg->twist.twist.linear.x;
+    ROS_INFO("Helipad speed: %f", Summit_Odom_Twist_x_);
 }
 
 void PlatformTracking::newOdom(const nav_msgs::OdometryConstPtr& newOdom_msg) {
@@ -779,10 +801,10 @@ void PlatformTracking::setTakingoffConfig() {
     setDistancesToZero();
 }
 
-void PlatformTracking::calculate_moving_average(double Summit_GPS_Odom_x, double Summit_GPS_Odom_y, PlatformTracking::Point& average_helipad_coordinate) {
+void PlatformTracking::calculate_moving_average(double Summit_GPS_Pose_x, double Summit_GPS_Pose_y, PlatformTracking::Point& average_helipad_coordinate) {
     window_sz = 3 ;
 
-    PlatformTracking::Point GPS_Point = Point(Summit_GPS_Odom_x, Summit_GPS_Odom_y);
+    PlatformTracking::Point GPS_Point = Point(Summit_GPS_Pose_x, Summit_GPS_Pose_y);
     ROS_INFO("GPS_Point.x, GPS_Point.y: %f, %f", GPS_Point.x, GPS_Point.y);
 
     double total = 0 ; // running total of the numbers currently in the window
@@ -850,7 +872,7 @@ void PlatformTracking::moving_2_helipad_rover() {
         ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
     }
     else {
-        cmd_vel_.linear.x = 1.0;
+        cmd_vel_.linear.x = fabs(Summit_Odom_Twist_x_) * 2.5;
         ROS_INFO("Move forward with linear.x: %f", cmd_vel_.linear.x);
     }
 
@@ -1027,23 +1049,41 @@ void PlatformTracking::heightControlCallback(const ros::TimerEvent & e) {
                             // if sonar says we are on a surface and altitude says were are still flying
                             // then there's a hight chance we have landed successfully on the platform
                             // ROS_INFO("We landed!!!!!");
-                            std::string landing_status;
+                            Landing_Status landing_status;
                             if (fabs(target_.getX()) > MAX_ALLOWED_ERROR_BEFORE_LANDING_
                                     || fabs(target_.getY()) > MAX_ALLOWED_ERROR_BEFORE_LANDING_) {
                                 //relocalizationManeuver();
                                 setLandedConfig();
                                 ++num_landed_failed;
-                                landing_status = "Failed";
+                                landing_status = Landing_Status_n::Failed;
                             } else {
                                 setLandedConfig();
                                 ++num_landed_successful;
-                                landing_status = "Successful";
+                                landing_status = Landing_Status_n::Successful;
                             }
+
                             landFile_ << completed_sequences_ << ",";
-                            landFile_ << landing_status << ",";
-                            landFile_ << num_landed_failed << ",";
-                            landFile_ << num_landed_successful << "\n";
-                            landFile_ << num_landed_successful << "\n";
+
+                            if (landing_status == Landing_Status_n::Successful) {
+
+                                landFile_ << ",";
+                                landFile_ << "x" << ",";
+
+                            } else if (landing_status == Landing_Status_n::Failed) {
+
+                                landFile_ << "x" << ",";
+                                landFile_ << ",";
+
+                            }
+
+                            landFile_ << Summit_Odom_Twist_x_ << "\n";
+
+                            if (completed_sequences_ == MAX_NUM_SEQUENCES) {
+
+                                landFile_ << "Total: " << completed_sequences_ << ",";
+                                landFile_ << num_landed_failed << ",";
+                                landFile_ << num_landed_successful << "\n";
+                            }
                         }
                         else if (sonar_range_ < 0.7) { // 0.7
                             if (fabs(target_.getX()) > MAX_ALLOWED_ERROR_BEFORE_LANDING_

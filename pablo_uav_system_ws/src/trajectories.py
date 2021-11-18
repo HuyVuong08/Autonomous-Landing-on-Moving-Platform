@@ -1,5 +1,5 @@
 import matplotlib
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import matplotlib as mpl
 from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
@@ -12,8 +12,8 @@ import itertools
 mpl.rcParams['legend.fontsize'] = 12
 DPI = 5000
 
-input_dir = "/home/pablo/ws/log/trajectories"
-print("Reading from", input_dir) 
+input_dir = "~/pablo/ws/log/trajectories"
+print("Reading from", input_dir)
 
 
 ## -- type of trajectory and experiment number
@@ -30,14 +30,14 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 	print("traj_type:", traj_type, "- test_num: ", test_num)
 
 	## -- save dir
-	save_dir = "/home/pablo/ws/log/trajectories/{}{}".format(traj_type, test_num)
+	save_dir = "pablo/ws/log/trajectories/{}{}".format(traj_type, test_num)
 	if not os.path.exists(save_dir):
 		os.makedirs(save_dir)
 
 	##########################################################
 	################### w/ PREDICTION ########################
 	##########################################################
-	trajectories_pred = pd.read_csv(input_dir + "/trajectories_pred_{}{}.csv".format(traj_type, test_num))
+	trajectories_pred = pd.read_csv(input_dir + "/trajectories_pred.csv".format(traj_type, test_num))
 
 	# extract data from DataFrame
 	ardrone_x = trajectories_pred['aX'].tolist()
@@ -76,21 +76,21 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 	#fig.savefig(os.path.join(save_dir, "traj2D_pred.png"), format='png')
 	plt.close()
 
-	# plt.show()
+    # plt.show()
 	# exit()
 
 	##########################################################
 	##################### w/o PREDICTION #####################
 	##########################################################
-	trajectories_no_pred = pd.read_csv(input_dir + "/trajectories_NO_pred_{}{}.csv".format(traj_type, test_num))
+	# trajectories_no_pred = pd.read_csv(input_dir + "/trajectories_NO_pred_{}{}.csv".format(traj_type, test_num))
 
-	# extract data from DataFrame
-	ardrone_x = trajectories_no_pred['aX'].tolist()
-	ardrone_y = trajectories_no_pred['aY'].tolist()
-	ardrone_z = trajectories_no_pred['aZ'].tolist()
-	summit_x = trajectories_no_pred['sX'].tolist()
-	summit_y = trajectories_no_pred['sY'].tolist()
-	summit_z = trajectories_no_pred['sZ'].tolist()
+	# # extract data from DataFrame
+	# ardrone_x = trajectories_no_pred['aX'].tolist()
+	# ardrone_y = trajectories_no_pred['aY'].tolist()
+	# ardrone_z = trajectories_no_pred['aZ'].tolist()
+	# summit_x = trajectories_no_pred['sX'].tolist()
+	# summit_y = trajectories_no_pred['sY'].tolist()
+	# summit_z = trajectories_no_pred['sZ'].tolist()
 
 	# 3D
 	fig = plt.figure()
@@ -104,7 +104,7 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 	fig.savefig(os.path.join(save_dir, "traj3D_NO_pred.pdf"), format='pdf', dpi=DPI)
 	#fig.savefig(os.path.join(save_dir, "traj3D_NO_pred.png"), format='png')
 	plt.close()
-	
+
 	# 2D
 	fig, ax = plt.subplots()
 	ax.plot(ardrone_x, ardrone_y, 'r', label='UAV')
