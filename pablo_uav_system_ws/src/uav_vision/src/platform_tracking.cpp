@@ -86,7 +86,7 @@ namespace Landing_Status_n {
 }
 typedef Landing_Status_n::Landing_Status_t Landing_Status;
 
-constexpr int MAX_NUM_SEQUENCES = 3;
+constexpr int MAX_NUM_SEQUENCES = 1;
 
 class PlatformTracking {
     private:
@@ -240,8 +240,15 @@ class PlatformTracking {
         // point variable
         PlatformTracking::Point goal = Point(5, 5);
         PlatformTracking::Point average_helipad_coordinate_ = Point(0, 0);
+        PlatformTracking::Point helipad_coordinate_ = Point(0, 0);
+
+        // variables for calculating relative distant to goal
         double inc_x, inc_y;
-        double angle_to_goal;
+        double distant_to_goal, angle_to_goal, relative_angle;
+        double Relative_Pose_x, Relative_Pose_y;
+
+        // drone speed for catching helipad
+        double catching_speed_x, catching_speed_y;
 
         double total_x, total_y, average_x, average_y;
 
@@ -252,6 +259,11 @@ class PlatformTracking {
 
         // for calculate moving average of Oxy coordinate from GPS data
         std::size_t window_sz;
+
+        // for calculate helipad velocity from GPS_Pose
+        double Summit_GPS_Pose_Prev_x_, Summit_GPS_Pose_Prev_y_;
+        double Summit_GPS_Pose_Time_stamp, Summit_GPS_Pose_Prev_Time_stamp, Summit_GPS_dt;
+        double Summit_GPS_Vel_x_, Summit_GPS_Vel_y_;
 
         // auxiliary for computing distance from ardrone to platform's x and y axes
         tf::Vector3 segment_;
@@ -311,6 +323,9 @@ class PlatformTracking {
         void moving_2_determined_coordinate();
         void moving_2_helipad_rover();
         void calculate_moving_average(double Summit_GPS_Pose_x, double Summit_GPS_Pose_y, PlatformTracking::Point& average_helipad_coordinate);
+        void calculate_velocity(double Summit_GPS_Pose_x, double Summit_GPS_Pose_y);
+        void calculate_relative_pose(double Goal_x, double Goal_y);
+        double round_to_4_decimal_place(double number);
         void land();
 };
 
@@ -601,7 +616,12 @@ void PlatformTracking::ardroneImuCallback(const sensor_msgs::ImuConstPtr& imu_ms
 void PlatformTracking::Summit_GPS_Pose(const nav_msgs::OdometryConstPtr& Summit_GPS_Pose_msg) {
     Summit_GPS_Pose_x_ = Summit_GPS_Pose_msg->pose.pose.position.x;
     Summit_GPS_Pose_y_ = Summit_GPS_Pose_msg->pose.pose.position.y;
-    calculate_moving_average(Summit_GPS_Pose_x_, Summit_GPS_Pose_y_, average_helipad_coordinate_);
+    Summit_GPS_Pose_Time_stamp = Summit_GPS_Pose_msg->header.stamp.toSec();
+
+    helipad_coordinate_.x = Summit_GPS_Pose_x_;
+    helipad_coordinate_.y = Summit_GPS_Pose_y_;
+    //calculate_moving_average(Summit_GPS_Pose_x_, Summit_GPS_Pose_y_, average_helipad_coordinate_);
+    calculate_velocity(Summit_GPS_Pose_x_, Summit_GPS_Pose_y_);
 }
 
 void PlatformTracking::Summit_Odom(const nav_msgs::OdometryConstPtr& Summit_Odom_msg) {
@@ -801,6 +821,45 @@ void PlatformTracking::setTakingoffConfig() {
     setDistancesToZero();
 }
 
+void PlatformTracking::calculate_velocity(double Summit_GPS_Pose_x, double Summit_GPS_Pose_y) {
+
+    Summit_GPS_dt     = Summit_GPS_Pose_Time_stamp - Summit_GPS_Pose_Prev_Time_stamp;
+    Summit_GPS_Vel_x_ = (Summit_GPS_Pose_x - Summit_GPS_Pose_Prev_x_)/Summit_GPS_dt;
+    Summit_GPS_Vel_y_ = (Summit_GPS_Pose_y - Summit_GPS_Pose_Prev_y_)/Summit_GPS_dt;
+
+    Summit_GPS_Pose_Prev_x_         = Summit_GPS_Pose_x;
+    Summit_GPS_Pose_Prev_y_         = Summit_GPS_Pose_y;
+    Summit_GPS_Pose_Prev_Time_stamp = Summit_GPS_Pose_Time_stamp;
+}
+
+double PlatformTracking::round_to_4_decimal_place(double number) {
+
+    number = round(number*10000)/10000;
+    if (number == -0) number = 0;
+    return number;
+}
+
+void PlatformTracking::calculate_relative_pose(double Goal_x, double Goal_y) {
+
+    inc_x = Goal_x - newOdom_x;
+    inc_y = Goal_y - newOdom_y;
+
+    angle_to_goal = std::atan2(inc_y, inc_x);
+    distant_to_goal = sqrt(inc_y*inc_y + inc_x*inc_x);
+
+    relative_angle = angle_to_goal - newOdom_theta;
+
+    Relative_Pose_x = round_to_4_decimal_place(distant_to_goal * std::cos(relative_angle));
+    Relative_Pose_y = round_to_4_decimal_place(distant_to_goal * std::sin(relative_angle));
+
+    ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
+    ROS_INFO("goal_x, goal_y: %f, %f", Goal_x, Goal_y);
+    ROS_INFO("Relative angle: %f", relative_angle);
+    ROS_INFO("Relative Pose x and y: %f, %f", Relative_Pose_x, Relative_Pose_y);
+    if (round_to_4_decimal_place(relative_angle) == 0) ROS_INFO("Facing toward the goal");
+    else if (round_to_4_decimal_place(fabs(relative_angle) - M_PI_2) == 0) ROS_INFO("Goal is on the side");
+}
+
 void PlatformTracking::calculate_moving_average(double Summit_GPS_Pose_x, double Summit_GPS_Pose_y, PlatformTracking::Point& average_helipad_coordinate) {
     window_sz = 3 ;
 
@@ -838,42 +897,72 @@ void PlatformTracking::calculate_moving_average(double Summit_GPS_Pose_x, double
 
 void PlatformTracking::moving_2_determined_coordinate() {
 
-    inc_x = goal.x - newOdom_x;
-    inc_y = goal.y - newOdom_y;
-    angle_to_goal = std::atan2(inc_y, inc_x);
+    calculate_relative_pose(goal.x, goal.y);
+
+    catching_speed_x = Relative_Pose_x*1.5;
+    catching_speed_y = Relative_Pose_y*1.5;
 
     setCmdVelToZero();
-    ROS_INFO("goal_x, goal_y: %f, %f", goal.x, goal.y);
-    ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
-    ROS_INFO("angle_to_goal: %f", angle_to_goal);
-    if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
-        cmd_vel_.angular.z = 0.3;
-        ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
-    }
-    else {
-        cmd_vel_.linear.x = 0.5;
-        ROS_INFO("Move forward with linear.x: %f", cmd_vel_.linear.x);
-    }
+
+    cmd_vel_.linear.x = catching_speed_x;
+    cmd_vel_.linear.y = catching_speed_y;
+
+    ROS_INFO("Move diagonally with linear.x and linear.y: %f, %f", cmd_vel_.linear.x, cmd_vel_.linear.y);
+
+    //if (inc_x != 0 && inc_y != 0) {
+    /*
+     * catching_speed = Summit_Odom_Twist_x * 2.5
+     * x^2 + y^2 = catching_speed^2
+     * inc_y/inc_x = tangent
+     * 1 + tangent^2 = 1/cosine^2 => cosine = 1/sqrt(1 + tangent^2)
+     * x/catching_speed = cosine => x = catching_speed * cosine
+     * y = sqrt(catching_speed^2 + x^2)
+     */
+    //double tangent = inc_y/inc_x ;
+    //double cosine = 1/std::sqrt(1 + tangent*tangent);
+    //catching_speed_x = catching_speed * cosine;
+    //catching_speed_y = std::sqrt(catching_speed*catching_speed + catching_speed_x*catching_speed_x);
+    //double tan_angle_2_goal = inc_x / inc_y;
+    //cmd_vel_.linear.x = catching_speed_x;
+    //cmd_vel_.linear.y = catching_speed_y;
+    //ROS_INFO("Move diagonally with linear.x and linear.y: %f, %f", cmd_vel_.linear.x, cmd_vel_.linear.y);
+
+    //} else if (inc_y != 0) {
+    //cmd_vel_.linear.x = fabs(Summit_Odom_Twist_x_) * 2.5;
+    //ROS_INFO("Move forward with linear.x: %f", cmd_vel_.linear.x);
+    //} else if (inc_x != 0) {
+    //cmd_vel_.linear.y = fabs(Summit_Odom_Twist_x_) * 2.5;
+    //ROS_INFO("Move sideway with linear.y: %f", cmd_vel_.linear.y);
+    //} else if (inc_x == 0 && inc_y == 0) {
+    //setCmdVelToZero();
+    //ROS_INFO("Destination reached");
+    //}
 
     //cmd_vel_pub_.publish(cmd_vel_);
 }
 
 void PlatformTracking::moving_2_helipad_rover() {
 
-    inc_x = average_helipad_coordinate_.x - newOdom_x;
-    inc_y = average_helipad_coordinate_.y - newOdom_y;
-    angle_to_goal = std::atan2(inc_y, inc_x);
+    calculate_relative_pose(helipad_coordinate_.x, helipad_coordinate_.y);
+
+    catching_speed_x = Relative_Pose_x*1.5 + Summit_GPS_Vel_x_*2.0;
+    catching_speed_y = Relative_Pose_y*1.5 + Summit_GPS_Vel_y_*2.0;
+
     setCmdVelToZero();
-    ROS_INFO("helipad_coordinate_x, helipad_coordinate_y: %f, %f", average_helipad_coordinate_.x, average_helipad_coordinate_.y);
-    ROS_INFO("inc_x, inc_y: %f, %f", inc_x, inc_y);
-    ROS_INFO("angle_to_helipad: %f", angle_to_goal);
-    if (std::abs(angle_to_goal - newOdom_theta) > 0.1) {
-        cmd_vel_.angular.z = 0.3;
-        ROS_INFO("Rotate with angular.z: %f", cmd_vel_.angular.z);
+
+    cmd_vel_.linear.x = catching_speed_x;
+    cmd_vel_.linear.y = catching_speed_y;
+
+    ROS_INFO("Move diagonally with linear.x and linear.y: %f, %f", cmd_vel_.linear.x, cmd_vel_.linear.y);
+
+    if (ardrone_z_ < (TRACKING_ALTITUDE_ - MARGIN_TRACKING_ALTITUDE_)) {
+        cmd_vel_.linear.z = 1.0;
     }
-    else {
-        cmd_vel_.linear.x = fabs(Summit_Odom_Twist_x_) * 2.5;
-        ROS_INFO("Move forward with linear.x: %f", cmd_vel_.linear.x);
+    else if (ardrone_z_ > (TRACKING_ALTITUDE_ + MARGIN_TRACKING_ALTITUDE_)) {
+        cmd_vel_.linear.z = -1.0;
+    }
+    else  {
+        cmd_vel_.linear.z = 0.0;
     }
 
     cmd_vel_pub_.publish(cmd_vel_);

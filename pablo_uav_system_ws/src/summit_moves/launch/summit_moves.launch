@@ -5,7 +5,7 @@
 
     <node pkg="summit_moves" type="summit_moves" name="summit_moves" output="screen">
         <!-- Set linear speed of summit; yaw is set accordingly such that the desired circular trajectory is performed -->
-        <param name="max_linear_speed_x" value="0.7"/>
+        <param name="max_linear_speed_x" value="1.0"/>
         <param name="max_yaw" value="0.05"/>
 
         <param name="trajectory" value="backandforth"/> <!-- backandforth, square, circular, random -->
