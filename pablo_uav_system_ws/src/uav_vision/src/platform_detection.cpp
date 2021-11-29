@@ -42,7 +42,8 @@ private:
 
     bool is_cam_info_set_;
 
-    cv::Mat image_, image_display_;
+    cv::Mat image_, image_display_; //Cv file type: a matrix which number of row and column represent number of pixel in an image.
+
 
     // to get time stamp of frame
     ros::Time stamp_;
@@ -72,6 +73,9 @@ private:
 
     // cam info data
     double fx_, fy_, cx_, cy_, T_;
+    // fx_,fy_ : focal length
+    // cx_, cy_ : principal point
+
 
     // altitude data
     double sonar_range_, altitude_altimeter_;
@@ -235,9 +239,9 @@ void PlatformDetection::imuCallback(const sensor_msgs::ImuConstPtr& imu_msg) {
 void PlatformDetection::camInfoCallback(const sensor_msgs::CameraInfo& cam_info_msg) {
 
     if (!is_cam_info_set_) {
-        fx_ = cam_info_msg.K.at(0);
-        fy_ = cam_info_msg.K.at(4);
-        cx_ = cam_info_msg.K.at(2);
+        fx_ = cam_info_msg.K.at(0);                     //  (fx_  0   cx_)
+        fy_ = cam_info_msg.K.at(4);                     //  (0    fy_ cy_) cam_info_msg data type
+        cx_ = cam_info_msg.K.at(2);                     //  (0    0     1) 
         cy_ = cam_info_msg.K.at(5);
         T_  = cam_info_msg.K.at(1);
         ROS_INFO("Parameters from the pinhole model");
@@ -298,15 +302,21 @@ void PlatformDetection::inputImageCallback(const sensor_msgs::ImageConstPtr& raw
 
 void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     cv::Scalar color; // for drawing the detected platform edges
+                      // color green for drawing edge of the helipad
 
-    cv::Mat img_hsv;
-    cv::cvtColor(image_, img_hsv, CV_BGR2HSV);
+    cv::Mat img_hsv; 
+    cv::cvtColor(image_, img_hsv, CV_BGR2HSV);  //The input frame is converted to the Hue, Saturation, Value (HSV) color model
+                                                //cvtColor() method is used to convert an image from one color space to another
+
+    //image_: It is the image whose space color is to be changed
+    //img_hsv: It is the output image of the same size and depth as image_
+    //CV_BGR2HSV: Using HSV color space. HSV color space is mostly used for object tracking.
 
     cv::Mat img_masked;
     if (type == "centroid") {
         color = cv::Scalar(0, 255, 0);
         cv::inRange(img_hsv, cv::Scalar(H_min_red_, S_min_red_, S_min_red_),
-                    cv::Scalar(H_max_red_, S_max_red_, V_max_red_), img_masked);
+                    cv::Scalar(H_max_red_, S_max_red_, V_max_red_), img_masked);    
         // cv::imshow("hsv_masked", img_masked);
     }
     else if (type == "indicator") {
@@ -315,7 +325,11 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
                     cv::Scalar(H_max_green_, S_max_green_, V_max_green_), img_masked);
         // cv::imshow("hsv_masked ind", img_masked);
     }
-
+    //cv::inRange(): Checks if array elements lie between the elements of two other arrays.
+        //img_hsv: input array
+        //cv::Scalar(H_min_red_, S_min_red_, S_min_red_): array of upper bounds. Used cv::Scalar because min_red color is multi channel
+        //cv::Scalar(H_max_red_, S_max_red_, V_max_red_): array of lower bounds. Used cv::Scalar because max_red color is multi channel
+        //img_masked: output array
 
     // cv::Mat img_negated;
     // cv::bitwise_not(img_masked, img_negated);
@@ -329,8 +343,12 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     contours_.clear();
     hierarchy_.clear();
     approx_.clear();
-    cv::findContours(img_masked, contours_, hierarchy_, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
 
+    cv::findContours(img_masked, contours_, hierarchy_, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+    //Contours are defined as the line joining all the points along the boundary of an image that are having the same intensity. 
+    //Contours come handy in shape analysis, finding the size of the object of interest, and object detection.
+        //img_masked: 
+        //contours_: list of contours in a binary image. Each contour is stored as a vector of points
     for (int i = 0; i < contours_.size(); i++) {
         cv::approxPolyDP(contours_[i], approx_, cv::arcLength(contours_[i], true) * 0.02, true);
 
