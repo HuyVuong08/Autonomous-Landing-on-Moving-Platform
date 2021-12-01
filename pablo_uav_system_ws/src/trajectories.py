@@ -50,8 +50,8 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 	# 3D
 	fig = plt.figure()
 	ax = fig.gca(projection='3d')
-	ax.plot(ardrone_x, ardrone_y, ardrone_z, 'r', label='UAV')
-	ax.plot(summit_x, summit_y, summit_z, 'g', label='UGV')
+	ax.plot(ardrone_x, ardrone_y, ardrone_z, 'r', label='Drone')
+	ax.plot(summit_x, summit_y, summit_z, 'g', label='Platform')
 	ax.set(xlabel='x (m)', ylabel='y (m)', zlabel='z (m)')
 	bottom, top = plt.ylim()  # return the current ylim
 	plt.ylim((bottom-1, top+1))   # set the ylim to bottom, top
@@ -62,8 +62,8 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 
 	# 2D
 	fig, ax = plt.subplots()
-	ax.plot(ardrone_x, ardrone_y, 'r', label='UAV')
-	ax.plot(summit_x, summit_y, 'g', label='UGV')
+	ax.plot(ardrone_x, ardrone_y, 'r', label='Drone')
+	ax.plot(summit_x, summit_y, 'g', label='Platform')
 	ax.set(xlabel='x (m)', ylabel='y (m)')
 	if traj_type == "l":
 		plt.ylim((-0.5, 0.5))
@@ -95,8 +95,8 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 	# 3D
 	fig = plt.figure()
 	ax = fig.gca(projection='3d')
-	ax.plot(ardrone_x, ardrone_y, ardrone_z, 'r', label='UAV')
-	ax.plot(summit_x, summit_y, summit_z, 'g', label='UGV')
+	ax.plot(ardrone_x, ardrone_y, ardrone_z, 'r', label='Drone')
+	ax.plot(summit_x, summit_y, summit_z, 'g', label='Platform')
 	ax.set(xlabel='x (m)', ylabel='y (m)', zlabel='z (m)')
 	bottom, top = plt.ylim()  # return the current ylim
 	plt.ylim((bottom-1, top+1))   # set the ylim to bottom, top
@@ -107,8 +107,8 @@ for traj_type, test_num in itertools.product(traj_types, test_nums):
 
 	# 2D
 	fig, ax = plt.subplots()
-	ax.plot(ardrone_x, ardrone_y, 'r', label='UAV')
-	ax.plot(summit_x, summit_y, 'g', label='UGV')
+	ax.plot(ardrone_x, ardrone_y, 'r', label='Drone')
+	ax.plot(summit_x, summit_y, 'g', label='Platform')
 	ax.set(xlabel='x (m)', ylabel='y (m)')
 	if traj_type == "l":
 		plt.ylim((-0.5, 0.5))
