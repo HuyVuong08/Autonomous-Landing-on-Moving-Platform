@@ -249,6 +249,8 @@ class PlatformTracking {
 
         // drone speed for catching helipad
         double catching_speed_x, catching_speed_y;
+        double actual_catching_speed_x, actual_catching_speed_y;
+        double MAX_SPEED_X, MAX_SPEED_Y;
 
         double total_x, total_y, average_x, average_y;
 
@@ -340,6 +342,9 @@ PlatformTracking::PlatformTracking() {
     adapt_path_idx_ = true;
     adapt_path_idx_again_ = true;
     has_taken_off_once_ = false;
+
+    MAX_SPEED_X = 2;
+    MAX_SPEED_Y = 2;
 
     should_take_off_ = should_land_ = must_land_ = false;
 
@@ -953,10 +958,26 @@ void PlatformTracking::moving_2_helipad_rover() {
     catching_speed_x = Relative_Pose_x*1.5 + Summit_GPS_Vel_x_*2.0;
     catching_speed_y = Relative_Pose_y*1.5 + Summit_GPS_Vel_y_*2.0;
 
+    if (catching_speed_x > MAX_SPEED_X) {
+
+        actual_catching_speed_x = MAX_SPEED_X;
+        actual_catching_speed_y = catching_speed_y*MAX_SPEED_X/catching_speed_x;
+
+    } else if (catching_speed_y > MAX_SPEED_Y) {
+
+        actual_catching_speed_y = MAX_SPEED_Y;
+        actual_catching_speed_x = catching_speed_x*MAX_SPEED_Y/catching_speed_y;
+
+    } else {
+
+        actual_catching_speed_x = catching_speed_x;
+        actual_catching_speed_y = catching_speed_y;
+    }
+
     setCmdVelToZero();
 
-    cmd_vel_.linear.x = catching_speed_x;
-    cmd_vel_.linear.y = catching_speed_y;
+    cmd_vel_.linear.x = actual_catching_speed_x;
+    cmd_vel_.linear.y = actual_catching_speed_y;
 
     ROS_INFO("Move diagonally with linear.x and linear.y: %f, %f", cmd_vel_.linear.x, cmd_vel_.linear.y);
 
