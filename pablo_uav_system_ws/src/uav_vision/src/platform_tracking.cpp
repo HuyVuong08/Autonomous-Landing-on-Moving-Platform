@@ -618,6 +618,8 @@ void PlatformTracking::Summit_GPS_Pose(const nav_msgs::OdometryConstPtr& Summit_
     Summit_GPS_Pose_y_ = Summit_GPS_Pose_msg->pose.pose.position.y;
     Summit_GPS_Pose_Time_stamp = Summit_GPS_Pose_msg->header.stamp.toSec();
 
+    ROS_INFO("Summit_GPS_Pose_x_, Summit_GPS_Pose_y_: %f, %f", Summit_GPS_Pose_x_, Summit_GPS_Pose_y_);
+
     helipad_coordinate_.x = Summit_GPS_Pose_x_;
     helipad_coordinate_.y = Summit_GPS_Pose_y_;
     //calculate_moving_average(Summit_GPS_Pose_x_, Summit_GPS_Pose_y_, average_helipad_coordinate_);
@@ -782,8 +784,10 @@ void PlatformTracking::relocalizationManeuver() {
     setDistancesToNaN();
     seen_centroid_lately_ = false;
 
-    //ROS_INFO("Moving to determined coordinate");
-    //moving_2_determined_coordinate();
+    /*
+     *ROS_INFO("Moving to determined coordinate");
+     *moving_2_determined_coordinate();
+     */
     ROS_INFO("Moving to helipad rover");
     moving_2_helipad_rover();
 
@@ -827,6 +831,7 @@ void PlatformTracking::calculate_velocity(double Summit_GPS_Pose_x, double Summi
     Summit_GPS_Vel_x_ = (Summit_GPS_Pose_x - Summit_GPS_Pose_Prev_x_)/Summit_GPS_dt;
     Summit_GPS_Vel_y_ = (Summit_GPS_Pose_y - Summit_GPS_Pose_Prev_y_)/Summit_GPS_dt;
 
+    ROS_INFO("Summit_GPS_Vel_x_, Summit_GPS_Vel_y_: %f, %f", Summit_GPS_Vel_x_, Summit_GPS_Vel_y_);
     Summit_GPS_Pose_Prev_x_         = Summit_GPS_Pose_x;
     Summit_GPS_Pose_Prev_y_         = Summit_GPS_Pose_y;
     Summit_GPS_Pose_Prev_Time_stamp = Summit_GPS_Pose_Time_stamp;
