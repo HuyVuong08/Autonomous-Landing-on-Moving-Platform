@@ -958,12 +958,12 @@ void PlatformTracking::moving_2_helipad_rover() {
     catching_speed_x = Relative_Pose_x*1.5 + Summit_GPS_Vel_x_*2.0;
     catching_speed_y = Relative_Pose_y*1.5 + Summit_GPS_Vel_y_*2.0;
 
-    if (catching_speed_x > MAX_SPEED_X) {
+    if ((catching_speed_x >= catching_speed_y) && (catching_speed_x > MAX_SPEED_X)) {
 
         actual_catching_speed_x = MAX_SPEED_X;
         actual_catching_speed_y = catching_speed_y*MAX_SPEED_X/catching_speed_x;
 
-    } else if (catching_speed_y > MAX_SPEED_Y) {
+    } else if ((catching_speed_y >= catching_speed_x) && (catching_speed_y > MAX_SPEED_Y)) {
 
         actual_catching_speed_y = MAX_SPEED_Y;
         actual_catching_speed_x = catching_speed_x*MAX_SPEED_Y/catching_speed_y;
