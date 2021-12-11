@@ -241,7 +241,7 @@ void PlatformDetection::camInfoCallback(const sensor_msgs::CameraInfo& cam_info_
     if (!is_cam_info_set_) {
         fx_ = cam_info_msg.K.at(0);                     //  (fx_  0   cx_)
         fy_ = cam_info_msg.K.at(4);                     //  (0    fy_ cy_) cam_info_msg data type
-        cx_ = cam_info_msg.K.at(2);                     //  (0    0     1) 
+        cx_ = cam_info_msg.K.at(2);                     //  (0    0     1)
         cy_ = cam_info_msg.K.at(5);
         T_  = cam_info_msg.K.at(1);
         ROS_INFO("Parameters from the pinhole model");
@@ -293,7 +293,7 @@ void PlatformDetection::inputImageCallback(const sensor_msgs::ImageConstPtr& raw
     }
 
     computeCentroidOrIndicator("centroid");
-    computeCentroidOrIndicator("indicator");
+    //computeCentroidOrIndicator("indicator");
 
 
     cv::imshow("platform_DETECTED", image_display_);
@@ -304,7 +304,7 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     cv::Scalar color; // for drawing the detected platform edges
                       // color green for drawing edge of the helipad
 
-    cv::Mat img_hsv; 
+    cv::Mat img_hsv;
     cv::cvtColor(image_, img_hsv, CV_BGR2HSV);  //The input frame is converted to the Hue, Saturation, Value (HSV) color model
                                                 //cvtColor() method is used to convert an image from one color space to another
 
@@ -316,7 +316,7 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     if (type == "centroid") {
         color = cv::Scalar(0, 255, 0);
         cv::inRange(img_hsv, cv::Scalar(H_min_red_, S_min_red_, S_min_red_),
-                    cv::Scalar(H_max_red_, S_max_red_, V_max_red_), img_masked);    
+                    cv::Scalar(H_max_red_, S_max_red_, V_max_red_), img_masked);
         // cv::imshow("hsv_masked", img_masked);
     }
     else if (type == "indicator") {
@@ -345,9 +345,9 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     approx_.clear();
 
     cv::findContours(img_masked, contours_, hierarchy_, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
-    //Contours are defined as the line joining all the points along the boundary of an image that are having the same intensity. 
+    //Contours are defined as the line joining all the points along the boundary of an image that are having the same intensity.
     //Contours come handy in shape analysis, finding the size of the object of interest, and object detection.
-        //img_masked: 
+        //img_masked:
         //contours_: list of contours in a binary image. Each contour is stored as a vector of points
     for (int i = 0; i < contours_.size(); i++) {
         cv::approxPolyDP(contours_[i], approx_, cv::arcLength(contours_[i], true) * 0.02, true);
