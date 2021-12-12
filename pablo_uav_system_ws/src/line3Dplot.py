@@ -43,7 +43,7 @@ fig = plt.figure()
 ax = fig.gca(projection='3d')
 
 # for i in range (len(dx)):
-for i in range (0, len(ardrone_x), 10):
+for i in range (0, len(ardrone_x), 8):
 
     ''' whenever receiving new data, update pose and tracjectory then draw them '''
 
@@ -69,7 +69,7 @@ for i in range (0, len(ardrone_x), 10):
     # add legend and some informations
     ax.set_xlabel('Longitude')
     ax.set_ylabel('Latitude')
-    ax.set_zlabel('Attitude')
+    ax.set_zlabel('Altitude')
     ax.set_title('Realtime 3D Coorindate of Drone and Platform')
     ax.legend()
 
