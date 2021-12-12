@@ -63,7 +63,7 @@ for i in range (0, len(ardrone_x), 10):
     drone.plot_tracjectory(ax)
 
     # draw platfrom hardware and its tracjectory
-    platform.update_pose(summit_x[i], summit_y[i], summit_z[i], 0, ax)
+    platform.update_pose(summit_x[i], summit_y[i], summit_z[i] + 0.5, 0, ax)
     platform.plot_tracjectory(ax)
 
     # add legend and some informations
