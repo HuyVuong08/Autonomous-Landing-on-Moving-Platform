@@ -461,7 +461,7 @@ PlatformTracking::PlatformTracking() {
     land_sub_                = nh_.subscribe("/ardrone/land", 1, &PlatformTracking::landCallback, this);
     force_land_sub_          = nh_.subscribe("/ardrone/force_land", 1, &PlatformTracking::forceLandCallback, this);
 
-    ardrone_odom_sub_                = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
+    ardrone_odom_sub_        = nh_.subscribe("/ardrone/ground_truth/state", 1, &PlatformTracking::newOdom, this);
 
     ardrone_gt_sub_          = nh_.subscribe("/groundtruth/ardrone", 1, &PlatformTracking::groundtruthArdroneCallback, this);
     summit_gt_sub_           = nh_.subscribe("/groundtruth/summit", 1, &PlatformTracking::groundtruthSummitCallback, this);

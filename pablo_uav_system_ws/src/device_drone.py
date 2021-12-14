@@ -14,7 +14,7 @@ class Quadrotor():
         self.p2 = np.array([-size / 2, 0, 0, 1]).T
         self.p3 = np.array([0, size / 2, 0, 1]).T
         self.p4 = np.array([0, -size / 2, 0, 1]).T
-        
+
         # tracjectory data for drone
         self.x_data = []
         self.y_data = []
@@ -28,7 +28,7 @@ class Quadrotor():
         self.roll = roll
         self.pitch = pitch
         self.yaw = yaw
-        
+
         self.x_data.append(x)
         self.y_data.append(y)
         self.z_data.append(z)
@@ -55,7 +55,7 @@ class Quadrotor():
         p2_t = np.matmul(T, self.p2)
         p3_t = np.matmul(T, self.p3)
         p4_t = np.matmul(T, self.p4)
-        
+
         # draw drone hardware
         ax.plot([p1_t[0], p2_t[0], p3_t[0], p4_t[0]],
                      [p1_t[1], p2_t[1], p3_t[1], p4_t[1]],
@@ -68,5 +68,10 @@ class Quadrotor():
 
     def plot_tracjectory(self, ax):
         # draw AUV's coordinate tracjectory
-        ax.plot(self.x_data, self.y_data, self.z_data, label='Drone', color='red', marker='.', 
+        ax.plot(self.x_data, self.y_data, self.z_data, label='Drone', color='red', marker='.',
+            linestyle='dotted', linewidth=1, markersize=2)
+
+    def plot_tracjectory_2D(self, ax):
+        # draw AUV's coordinate tracjectory
+        ax.plot(self.x_data, self.y_data, label='Drone', color='red', marker='.',
             linestyle='dotted', linewidth=1, markersize=2)
