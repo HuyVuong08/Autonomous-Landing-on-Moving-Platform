@@ -20,14 +20,14 @@ def gt_ardrone_callback(gt_ardrone):
     drone_x = gt_ardrone.pose.position.x;
     drone_y = gt_ardrone.pose.position.y;
     drone_z = gt_ardrone.pose.position.z;
-    rospy.loginfo(drone_x, drone_y, drone_z)
+    rospy.loginfo("\n%f\n%f\n%f", drone_x, drone_y, drone_z)
 
 def gt_summit_callback(gt_summit):
     global platform_x, platform_y, platform_z
     platform_x = gt_summit.pose.position.x;
     platform_y = gt_summit.pose.position.y;
     platform_z = gt_summit.pose.position.z;
-    rospy.loginfo(platform_x, platform_y, platform_z)
+    rospy.loginfo("\n%f\n%f\n%f", platform_x, platform_y, platform_z)
 
 def realtime_3Dplot():
     # In ROS, nodes are uniquely named. If two nodes with the same
@@ -36,7 +36,7 @@ def realtime_3Dplot():
     # name for our 'gt_platform_listener' node so that multiple gt_platform_listeners can
     # run simultaneously.
 
-    rospy.init_node('gt_listener', anonymous=True)
+    rospy.init_node("gt_listener", anonymous=True)
     rospy.Subscriber("/groundtruth/ardrone", PoseStamped, gt_ardrone_callback)
     rospy.Subscriber("/groundtruth/summit", PoseStamped, gt_summit_callback)
 
