@@ -56,6 +56,18 @@ class Platform():
         self.z_data.append(z)
         self.plot(ax)
 
+    def update_pose_2D(self, x, y, z, direction, ax):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.d = direction
+        self.find_vertices()
+
+        self.x_data.append(x)
+        self.y_data.append(y)
+        self.z_data.append(z)
+        # self.plot(ax)
+        ax.plot(self.x, self.y)
 
     def plot(self, ax):  # pragma: no cover
         Z = np.array([  self.p1,
