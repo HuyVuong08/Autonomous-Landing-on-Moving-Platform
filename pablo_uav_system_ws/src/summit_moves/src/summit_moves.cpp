@@ -89,12 +89,16 @@ public:
 
     void stop(double interval);
     void advance(double interval);
+
     void reverse(double interval);
     double yawLeft90();
 
     double doBackAndForth();
     double doSquare();
     double doCircular();
+    double doCircular_1();
+    double doCircular_2();
+    double doCurve();
     double doRandom();
 
 };
@@ -136,6 +140,10 @@ double SummitMoves::doTrajectory() {
     else if (trajectory == "circular") {
         ROS_INFO("Trajectory: %s", trajectory.c_str());
         return doCircular();
+    }
+    else if (trajectory == "curve") {
+        ROS_INFO("Trajectory: %s", trajectory.c_str());
+        return doCurve();
     }
     else if (trajectory == "random") {
         ROS_INFO("Trajectory: %s", trajectory.c_str());
@@ -222,6 +230,37 @@ double SummitMoves::doCircular() {
     ROS_INFO("linear x: %f - yaw: %f", twist.linear.x, twist.angular.z);
     vel_pub.publish(twist);
     return 5.0;
+}
+
+double SummitMoves::doCircular_1() {
+    twist.linear.x = max_linear_speed_x;
+    // v = w * r --> for circular trajectory
+    twist.angular.z = twist.linear.x / (radius/4);
+    ROS_INFO("linear x: %f - yaw: %f", twist.linear.x, twist.angular.z);
+    vel_pub.publish(twist);
+    return 5.0;
+}
+
+double SummitMoves::doCircular_2() {
+    twist.linear.x = max_linear_speed_x;
+    // v = w * r --> for circular trajectory
+    twist.angular.z = - twist.linear.x / (radius/4);
+    ROS_INFO("linear x: %f - yaw: %f", twist.linear.x, twist.angular.z);
+    vel_pub.publish(twist);
+    return 6.0;
+}
+
+double SummitMoves::doCurve() {
+    double interval;
+    if (advancing) {
+        interval = doCircular_1();
+    }
+    else {
+        interval = doCircular_2();
+    }
+
+    advancing = !advancing;
+    return interval;
 }
 
 double SummitMoves::doRandom() {
