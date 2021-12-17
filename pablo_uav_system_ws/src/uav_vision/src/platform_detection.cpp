@@ -33,88 +33,88 @@ namespace enc = sensor_msgs::image_encodings;
 
 
 class PlatformDetection {
-private:
+    private:
 
-    bool use_trackbars;
+        bool use_trackbars;
 
-    int H_min_red_, H_max_red_, S_min_red_, S_max_red_, V_min_red_, V_max_red_;
-    int H_min_green_, H_max_green_, S_min_green_, S_max_green_, V_min_green_, V_max_green_;
+        int H_min_red_, H_max_red_, S_min_red_, S_max_red_, V_min_red_, V_max_red_;
+        int H_min_green_, H_max_green_, S_min_green_, S_max_green_, V_min_green_, V_max_green_;
 
-    bool is_cam_info_set_;
+        bool is_cam_info_set_;
 
-    cv::Mat image_, image_display_; //Cv file type: a matrix which number of row and column represent number of pixel in an image.
-
-
-    // to get time stamp of frame
-    ros::Time stamp_;
-    uint32_t seq_;
-
-    // Topics
-    std::string image_topic_, camera_info_topic_;
-    std::string platform_position_in_ardrone_topic_, platform_position_in_world_topic_;
-    std::string indicator_position_in_ardrone_topic_;
-    std::string sonar_height_topic_, altitude_altimeter_topic_;
-    std::string gt_altitude_topic_;
-    std::string imu_topic_;
-
-    // ROS PUBLISHERS
-    ros::Publisher platform_position_in_ardrone_pub_, platform_position_in_world_pub_;
-    ros::Publisher indicator_position_in_ardrone_pub_;
-
-    // ROS SUBSCRIBERS
-    ros::Subscriber sonar_height_sub_, altitude_altimeter_sub_;
-    ros::Subscriber gt_altitude_sub_;
-    ros::Subscriber cam_info_sub_;
-    ros::Subscriber imu_sub_;
-
-    // image Subscriber and Publisher
-    image_transport::Subscriber image_sub_;
-    image_transport::Publisher image_pub_;
-
-    // cam info data
-    double fx_, fy_, cx_, cy_, T_;
-    // fx_,fy_ : focal length
-    // cx_, cy_ : principal point
+        cv::Mat image_, image_display_; //Cv file type: a matrix which number of row and column represent number of pixel in an image.
 
 
-    // altitude data
-    double sonar_range_, altitude_altimeter_;
-    double quadrotor_groundtruth_z_;
-    double z_dist_to_platform_;
+        // to get time stamp of frame
+        ros::Time stamp_;
+        uint32_t seq_;
 
-    // IMU data
-    double angle_x_, angle_y_;
-    double angular_velocity_x_, angular_velocity_y_;
-    double linear_acceleration_x_, linear_acceleration_y_;
+        // Topics
+        std::string image_topic_, camera_info_topic_;
+        std::string platform_position_in_ardrone_topic_, platform_position_in_world_topic_;
+        std::string indicator_position_in_ardrone_topic_;
+        std::string sonar_height_topic_, altitude_altimeter_topic_;
+        std::string gt_altitude_topic_;
+        std::string imu_topic_;
 
-    // dimensions of landing platform
-    double height_landing_platform_;
+        // ROS PUBLISHERS
+        ros::Publisher platform_position_in_ardrone_pub_, platform_position_in_world_pub_;
+        ros::Publisher indicator_position_in_ardrone_pub_;
 
-    // VARIABLES FOR DRAWING THE LANDING_PLATFORM SHAPE
-    std::vector< std::vector<cv::Point> > contours_;
-    std::vector<cv::Vec4i> hierarchy_;
-    std::vector<cv::Point> approx_;
+        // ROS SUBSCRIBERS
+        ros::Subscriber sonar_height_sub_, altitude_altimeter_sub_;
+        ros::Subscriber gt_altitude_sub_;
+        ros::Subscriber cam_info_sub_;
+        ros::Subscriber imu_sub_;
 
-    // transformations
-    tf::TransformListener tf_listener_;
-    tf::StampedTransform T_ardrone_cam_, T_world_cam_;
+        // image Subscriber and Publisher
+        image_transport::Subscriber image_sub_;
+        image_transport::Publisher image_pub_;
 
-    // 3d positions
-    tf::Vector3 position_in_camera_, position_in_ardrone_, position_in_world_;
+        // cam info data
+        double fx_, fy_, cx_, cy_, T_;
+        // fx_,fy_ : focal length
+        // cx_, cy_ : principal point
 
-    void computeVerticalDistToPlatform();
 
-public:
-    PlatformDetection();
-    void camInfoCallback(const sensor_msgs::CameraInfo& cam_info_msg);
-    void inputImageCallback(const sensor_msgs::ImageConstPtr& raw_image);
+        // altitude data
+        double sonar_range_, altitude_altimeter_;
+        double quadrotor_groundtruth_z_;
+        double z_dist_to_platform_;
 
-    void sonarCallback(const sensor_msgs::RangeConstPtr& sonar_msg);
-    void altimeterCallback(const cvg_sim_msgs::AltimeterConstPtr& altimeter_msg);
-    void groundtruthAltitudeCallback(const takeoff::GroundtruthAltitudeConstPtr& gt_altitude_msg);
-    void imuCallback(const sensor_msgs::ImuConstPtr& imu_msg);
+        // IMU data
+        double angle_x_, angle_y_;
+        double angular_velocity_x_, angular_velocity_y_;
+        double linear_acceleration_x_, linear_acceleration_y_;
 
-    void computeCentroidOrIndicator(const std::string& type);
+        // dimensions of landing platform
+        double height_landing_platform_;
+
+        // VARIABLES FOR DRAWING THE LANDING_PLATFORM SHAPE
+        std::vector< std::vector<cv::Point> > contours_;
+        std::vector<cv::Vec4i> hierarchy_;
+        std::vector<cv::Point> approx_;
+
+        // transformations
+        tf::TransformListener tf_listener_;
+        tf::StampedTransform T_ardrone_cam_, T_world_cam_;
+
+        // 3d positions
+        tf::Vector3 position_in_camera_, position_in_ardrone_, position_in_world_;
+
+        void computeVerticalDistToPlatform();
+
+    public:
+        PlatformDetection();
+        void camInfoCallback(const sensor_msgs::CameraInfo& cam_info_msg);
+        void inputImageCallback(const sensor_msgs::ImageConstPtr& raw_image);
+
+        void sonarCallback(const sensor_msgs::RangeConstPtr& sonar_msg);
+        void altimeterCallback(const cvg_sim_msgs::AltimeterConstPtr& altimeter_msg);
+        void groundtruthAltitudeCallback(const takeoff::GroundtruthAltitudeConstPtr& gt_altitude_msg);
+        void imuCallback(const sensor_msgs::ImuConstPtr& imu_msg);
+
+        void computeCentroidOrIndicator(const std::string& type);
 
 }; //end of class platform_Detection
 
@@ -151,7 +151,7 @@ PlatformDetection::PlatformDetection() {
     sonar_height_sub_       = nh_.subscribe(sonar_height_topic_, 1, &PlatformDetection::sonarCallback, this);
     altitude_altimeter_sub_ = nh_.subscribe(altitude_altimeter_topic_, 1, &PlatformDetection::altimeterCallback, this);
     gt_altitude_sub_        = nh_.subscribe(gt_altitude_topic_, 1,
-                                            &PlatformDetection::groundtruthAltitudeCallback, this);
+            &PlatformDetection::groundtruthAltitudeCallback, this);
     imu_sub_                = nh_.subscribe(imu_topic_, 1, &PlatformDetection::imuCallback, this);
 
     platform_position_in_ardrone_pub_  = nh_.advertise<geometry_msgs::PoseStamped>(platform_position_in_ardrone_topic_, 1);
@@ -188,9 +188,9 @@ PlatformDetection::PlatformDetection() {
     try {
         ros::Time now = ros::Time::now();
         tf_listener_.waitForTransform("/ardrone/base_link", "/ardrone/ardrone_base_bottomcam",
-                                      now, ros::Duration(3.0));
+                now, ros::Duration(3.0));
         tf_listener_.lookupTransform("/ardrone/base_link", "/ardrone/ardrone_base_bottomcam",
-                                     now, T_ardrone_cam_);
+                now, T_ardrone_cam_);
     } catch (tf::TransformException ex) {
         ROS_ERROR("%s", ex.what());
         ros::Duration(1.0).sleep();
@@ -199,9 +199,9 @@ PlatformDetection::PlatformDetection() {
     try {
         ros::Time now = ros::Time::now();
         tf_listener_.waitForTransform("/odom", "/ardrone/ardrone_base_bottomcam",
-                                      now, ros::Duration(3.0));
+                now, ros::Duration(3.0));
         tf_listener_.lookupTransform("/odom", "/ardrone/ardrone_base_bottomcam",
-                                     now, T_world_cam_);
+                now, T_world_cam_);
     } catch (tf::TransformException ex) {
         ROS_ERROR("%s", ex.what());
         ros::Duration(1.0).sleep();
@@ -274,7 +274,7 @@ void PlatformDetection::inputImageCallback(const sensor_msgs::ImageConstPtr& raw
         return;
 
     /*if (sonar_range_ < 0.05)
-        return;*/
+      return;*/
 
     // get time stamp for frame
     stamp_ = ros::Time::now();
@@ -285,7 +285,16 @@ void PlatformDetection::inputImageCallback(const sensor_msgs::ImageConstPtr& raw
     try {
         cv_ptr = cv_bridge::toCvCopy(raw_image, enc::BGR8);
         image_ = cv_ptr->image;
-        image_display_ = image_.clone();
+        //image_display_ = image_.clone();
+
+        double scale_down = 1; // percent of original size
+
+        //resize image interpolation
+        cv::Mat resized_;
+        //resized = cv::resize(image_, dim, cv::INTER_AREA);
+        cv::resize(image_, resized_, cv::Size(), scale_down, scale_down, cv::INTER_AREA);
+
+        image_display_ = resized_.clone();
     }
     catch (cv_bridge::Exception& e) {
         ROS_ERROR("Failed to convert image: %s", e.what());
@@ -302,11 +311,11 @@ void PlatformDetection::inputImageCallback(const sensor_msgs::ImageConstPtr& raw
 
 void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     cv::Scalar color; // for drawing the detected platform edges
-                      // color green for drawing edge of the helipad
+    // color green for drawing edge of the helipad
 
     cv::Mat img_hsv;
     cv::cvtColor(image_, img_hsv, CV_BGR2HSV);  //The input frame is converted to the Hue, Saturation, Value (HSV) color model
-                                                //cvtColor() method is used to convert an image from one color space to another
+    //cvtColor() method is used to convert an image from one color space to another
 
     //image_: It is the image whose space color is to be changed
     //img_hsv: It is the output image of the same size and depth as image_
@@ -316,20 +325,20 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     if (type == "centroid") {
         color = cv::Scalar(0, 255, 0);
         cv::inRange(img_hsv, cv::Scalar(H_min_red_, S_min_red_, S_min_red_),
-                    cv::Scalar(H_max_red_, S_max_red_, V_max_red_), img_masked);
+                cv::Scalar(H_max_red_, S_max_red_, V_max_red_), img_masked);
         // cv::imshow("hsv_masked", img_masked);
     }
     else if (type == "indicator") {
         color = cv::Scalar(255, 0, 0);
         cv::inRange(img_hsv, cv::Scalar(H_min_green_, S_min_green_, V_min_green_),
-                    cv::Scalar(H_max_green_, S_max_green_, V_max_green_), img_masked);
+                cv::Scalar(H_max_green_, S_max_green_, V_max_green_), img_masked);
         // cv::imshow("hsv_masked ind", img_masked);
     }
     //cv::inRange(): Checks if array elements lie between the elements of two other arrays.
-        //img_hsv: input array
-        //cv::Scalar(H_min_red_, S_min_red_, S_min_red_): array of upper bounds. Used cv::Scalar because min_red color is multi channel
-        //cv::Scalar(H_max_red_, S_max_red_, V_max_red_): array of lower bounds. Used cv::Scalar because max_red color is multi channel
-        //img_masked: output array
+    //img_hsv: input array
+    //cv::Scalar(H_min_red_, S_min_red_, S_min_red_): array of upper bounds. Used cv::Scalar because min_red color is multi channel
+    //cv::Scalar(H_max_red_, S_max_red_, V_max_red_): array of lower bounds. Used cv::Scalar because max_red color is multi channel
+    //img_masked: output array
 
     // cv::Mat img_negated;
     // cv::bitwise_not(img_masked, img_negated);
@@ -347,8 +356,8 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
     cv::findContours(img_masked, contours_, hierarchy_, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
     //Contours are defined as the line joining all the points along the boundary of an image that are having the same intensity.
     //Contours come handy in shape analysis, finding the size of the object of interest, and object detection.
-        //img_masked:
-        //contours_: list of contours in a binary image. Each contour is stored as a vector of points
+    //img_masked:
+    //contours_: list of contours in a binary image. Each contour is stored as a vector of points
     for (int i = 0; i < contours_.size(); i++) {
         cv::approxPolyDP(contours_[i], approx_, cv::arcLength(contours_[i], true) * 0.02, true);
 
@@ -396,9 +405,9 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
         /// convert to the ardrone's base_link frame
         try {
             tf_listener_.waitForTransform("/ardrone/base_link", "/ardrone/ardrone_base_bottomcam",
-                                          stamp_, ros::Duration(3.0));
+                    stamp_, ros::Duration(3.0));
             tf_listener_.lookupTransform("/ardrone/base_link", "/ardrone/ardrone_base_bottomcam",
-                                         stamp_, T_ardrone_cam_);
+                    stamp_, T_ardrone_cam_);
         } catch (tf::TransformException ex) {
             ROS_ERROR("%s", ex.what());
             ros::Duration(1.0).sleep();
@@ -429,9 +438,9 @@ void PlatformDetection::computeCentroidOrIndicator(const std::string& type) {
             // convert to the world's frame
             try {
                 tf_listener_.waitForTransform("/odom", "/ardrone/ardrone_base_bottomcam",
-                                              stamp_, ros::Duration(3.0));
+                        stamp_, ros::Duration(3.0));
                 tf_listener_.lookupTransform("/odom", "/ardrone/ardrone_base_bottomcam",
-                                             stamp_, T_world_cam_);
+                        stamp_, T_world_cam_);
             } catch (tf::TransformException ex) {
                 ROS_ERROR("%s", ex.what());
                 ros::Duration(1.0).sleep();
