@@ -8,7 +8,7 @@
         <param name="max_linear_speed_x" value="0.7"/>
         <param name="max_yaw" value="0.05"/> <!-- default is 0.05 -->
 
-        <param name="trajectory" value="curve"/> <!-- backandforth, square, circular,curve, random -->
+        <param name="trajectory" value="curve"/> <!-- backandforth, square, circular, curve, random -->
 
         <param name="side_square" value="100.0"/> <!-- for square and backandforth -->
         <param name="radius" value="10"/> <!-- for circular -->
