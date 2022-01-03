@@ -5,10 +5,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from device_drone import *
 from device_platform import *
+from device_gps import *
+from device_latlong import *
 import rospy
 from std_msgs.msg import String
 from geometry_msgs.msg import Point, Pose, PoseStamped
-
+from nav_msgs.msg import Odometry
+from sensor_msgs.msg import NavSatFix
 class Realtime_2Dplot:
 
     drone_x = 0.0
@@ -19,14 +22,20 @@ class Realtime_2Dplot:
     platform_y = 0.0
     platform_z = 0.0
 
-    new_dataPoint = False
+    gps_summit_x = 0.0
+    gps_summit_y = 0.0
+    unplotted_gpsData = 0
+
+    gps_summit_lat = 0.0
+    gps_summit_long = 0.0
 
     # declare drone and platform devices
     drone = Quadrotor()
     platform = Platform(width = 0.2, height = 0.1, length = 0.2)
+    gps_data = GPS()
 
-#     fig_3D = plt.figure("Realtime 3D monitor system")
-#     ax_3D = fig_3D.gca(projection='3d')
+    # fig_3D = plt.figure("Realtime 3D monitor system")
+    # ax_3D = fig_3D.gca(projection='3d')
 
     fig_2D = plt.figure("Realtime 2D monitor system")
     ax_2D = fig_2D.gca()
@@ -41,10 +50,11 @@ class Realtime_2Dplot:
         rospy.init_node("realtime_2Dplot", anonymous=True)
 
         # Timer for plotting received ground truth
-        rospy.Timer(rospy.Duration(0.1), self.plot_groundtruth)
+        rospy.Timer(rospy.Duration(0.1), self.plot_data)
 
         rospy.Subscriber("/groundtruth/ardrone", PoseStamped, self.gt_ardrone_callback)
         rospy.Subscriber("/groundtruth/summit", PoseStamped, self.gt_summit_callback)
+        rospy.Subscriber("/summit_xl/mavros/gps/odom", Odometry, self.gps_summit_callback)
 
         # spin() simply keeps python from exiting until this node is stopped
         # rospy.spin()
@@ -52,50 +62,63 @@ class Realtime_2Dplot:
 
     def gt_ardrone_callback(self, gt_ardrone):
         # global drone_x, drone_y, drone_z
-        self.drone_x = gt_ardrone.pose.position.x;
-        self.drone_y = gt_ardrone.pose.position.y;
-        self.drone_z = gt_ardrone.pose.position.z;
+        self.drone_x = gt_ardrone.pose.position.x
+        self.drone_y = gt_ardrone.pose.position.y
+        self.drone_z = gt_ardrone.pose.position.z
         # rospy.loginfo("\n%f\n%f\n%f", self.drone_x, self.drone_y, self.drone_z)
-
 
     def gt_summit_callback(self, gt_summit):
         # global platform_x, platform_y, platform_z
-        self.platform_x = gt_summit.pose.position.x;
-        self.platform_y = gt_summit.pose.position.y;
-        self.platform_z = gt_summit.pose.position.z;
+        self.platform_x = gt_summit.pose.position.x
+        self.platform_y = gt_summit.pose.position.y
+        self.platform_z = gt_summit.pose.position.z
         # rospy.loginfo("\n%f\n%f\n%f", platform_x, platform_y, platform_z)
 
-    def plot_groundtruth(self, event):
+    def gps_summit_callback(self, gps_summit):
+        self.gps_summit_x = gps_summit.pose.pose.position.x
+        self.gps_summit_y = gps_summit.pose.pose.position.y
+        self.unplotted_gpsData += 1
+
+    def plot_data(self, event):
         rospy.loginfo("Plot")
         rospy.loginfo("\n%f\n%f\n%f", self.platform_x, self.platform_y, self.platform_z)
 
         # clear plot
         # plt.cla()
-#         # self.ax_3D.cla()
+        # self.ax_3D.cla()
         self.ax_2D.cla()
 
         # draw self.drone hardware and its tracjectory
         self.drone.update_pose_2D(self.drone_x, self.drone_y, self.drone_z, 0,0,0, self.ax_2D) #
-#         self.drone.plot_tracjectory(self.ax_3D)
+        # self.drone.plot_tracjectory(self.ax_3D)
         self.drone.plot_tracjectory_2D(self.ax_2D)
 
         # draw platfrom hardware and its tracjectory
         self.platform.update_pose_2D(self.platform_x, self.platform_y, self.platform_z + 0.5, 0, self.ax_2D) #
-#         self.platform.plot_tracjectory(self.ax_3D)
+        # self.platform.plot_tracjectory(self.ax_3D)
         self.platform.plot_tracjectory_2D(self.ax_2D)
 
-        # add legend and some informations
-#         self.ax_3D.set_xlabel('Longitude')
-#         self.ax_3D.set_ylabel('Latitude')
-#         self.ax_3D.set_zlabel('Altitude')
-#         self.ax_3D.set_title('Realtime 3D Coorindate of Drone and Platform')
-#         self.ax_3D.legend()
+        # draw self.gps hardware and its tracjectory
+        self.gps_data.update_pose_2D(self.gps_summit_x, self.gps_summit_y, 0,0,0,0, self.ax_2D) #
+        # self.drone.plot_tracjectory(self.ax_3D)
+        self.gps_data.plot_tracjectory_2D(self.ax_2D)
+
+        rospy.loginfo("GPS Data not Plotted: %d", self.unplotted_gpsData)
+        self.unplotted_gpsData = 0
 
         # add legend and some informations
-        self.ax_2D.set_xlabel('Longitude')
-        self.ax_2D.set_ylabel('Latitude')
+        # self.ax_3D.set_xlabel('Longitude')
+        # self.ax_3D.set_ylabel('Latitude')
+        # self.ax_3D.set_zlabel('Altitude')
+        # self.ax_3D.set_title('Realtime 3D Coorindate of Drone and Platform')
+        # self.ax_3D.legend()
+
+        # add legend and some informations
+        self.ax_2D.set_xlabel('X Axis')
+        self.ax_2D.set_ylabel('Y Axis')
         self.ax_2D.set_title('Realtime 2D Coorindate of Drone and Platform')
         self.ax_2D.legend(loc ="best")
+        self.ax_2D.set_aspect('equal')
 
         # pause every 0.5 second
         plt.pause(0.0000000000000000001)
@@ -113,8 +136,8 @@ if __name__=='__main__':
 # drone = Quadrotor()
 # platform = Platform(width = 0.2, height = 0.1, length = 0.2)
 
-# # fig_3D = plt.figure()
-# # ax_3D = fig_3D.gca(projection='3d')
+# fig_3D = plt.figure()
+# ax_3D = fig_3D.gca(projection='3d')
 
 # dataPoint_no = 0
 
@@ -124,31 +147,31 @@ if __name__=='__main__':
     # plt.cla()
 
     # # # draw drone hardware and its tracjectory
-#     # # drone.update_pose(dx[i], dy[i], dz[i], 0,0,0, ax_3D)
-#     # # drone.plot_tracjectory(ax_3D)
+    # # drone.update_pose(dx[i], dy[i], dz[i], 0,0,0, ax_3D)
+    # # drone.plot_tracjectory(ax_3D)
 
     # # # draw platfrom hardware and its tracjectory
-#     # # platform.update_pose(px[i], py[i], pz[i], 0, ax_3D)
-#     # # platform.plot_tracjectory(ax_3D)
+    # # platform.update_pose(px[i], py[i], pz[i], 0, ax_3D)
+    # # platform.plot_tracjectory(ax_3D)
 
     # # # draw drone hardware and its tracjectory
-#     # # drone.update_pose(ardrone_x[i], ardrone_y[i], ardrone_z[i], 0,0,0, ax_3D)
-#     # # drone.plot_tracjectory(ax_3D)
+    # # drone.update_pose(ardrone_x[i], ardrone_y[i], ardrone_z[i], 0,0,0, ax_3D)
+    # # drone.plot_tracjectory(ax_3D)
 
     # # draw drone hardware and its tracjectory
-#     # drone.update_pose(Realtime_2Dplot.drone_x, Realtime_2Dplot.drone_y, Realtime_2Dplot.drone_z, 0,0,0, ax_3D)
-#     # drone.plot_tracjectory(ax_3D)
+    # drone.update_pose(Realtime_2Dplot.drone_x, Realtime_2Dplot.drone_y, Realtime_2Dplot.drone_z, 0,0,0, ax_3D)
+    # drone.plot_tracjectory(ax_3D)
 
     # # draw platfrom hardware and its tracjectory
-#     # platform.update_pose(Realtime_2Dplot.platform_x, Realtime_2Dplot.platform_y, Realtime_2Dplot.platform_z + 0.5, 0, ax_3D)
-#     # platform.plot_tracjectory(ax_3D)
+    # platform.update_pose(Realtime_2Dplot.platform_x, Realtime_2Dplot.platform_y, Realtime_2Dplot.platform_z + 0.5, 0, ax_3D)
+    # platform.plot_tracjectory(ax_3D)
 
     # # add legend and some informations
-#     # ax_3D.set_xlabel('Longitude')
-#     # ax_3D.set_ylabel('Latitude')
-#     # ax_3D.set_zlabel('Altitude')
-#     # ax_3D.set_title('Realtime 3D Coorindate of Drone and Platform')
-#     # ax_3D.legend()
+    # ax_3D.set_xlabel('Longitude')
+    # ax_3D.set_ylabel('Latitude')
+    # ax_3D.set_zlabel('Altitude')
+    # ax_3D.set_title('Realtime 3D Coorindate of Drone and Platform')
+    # ax_3D.legend()
 
     # # pause every 0.5 second
     # plt.pause(0.00000000000000000000000000000001)
@@ -156,7 +179,7 @@ if __name__=='__main__':
 
 # plt.show()
 
-# # rospy.Timer(rospy.Duration(0.1), Realtime_2Dplot.plot_groundtruth)
+# # rospy.Timer(rospy.Duration(0.1), Realtime_2Dplot.plot_data)
 # data_size = 100
 # # sample data for drone (denote: dx, dy, dz)
 # # just generate sample data for drawing drone

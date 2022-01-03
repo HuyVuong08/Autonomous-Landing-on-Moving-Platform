@@ -89,7 +89,7 @@ class Realtime_3Dplot:
         self.ax_3D.set_ylabel('Latitude')
         self.ax_3D.set_zlabel('Altitude')
         self.ax_3D.set_title('Realtime 3D Coorindate of Drone and Platform')
-        self.ax_3D.legend()
+        self.ax_3D.legend(loc ="best")
 
         # add legend and some informations
 #         self.ax_2D.set_xlabel('Longitude')
