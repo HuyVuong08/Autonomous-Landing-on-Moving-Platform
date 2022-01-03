@@ -11,6 +11,12 @@ from geometry_msgs.msg import PoseStamped
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from sensor_msgs.msg import NavSatFix
 
+import geonav_transform.geonav_conversions as gc
+import alvinxy.alvinxy as axy
+from math import radians, cos, sin, asin, sqrt, pow, pi, atan2
+
+earthRadius = 6371000.0 #Metres
+
 def DMS_to_decimal_format(lat,long):
     # Check for degrees, minutes, seconds format and convert to decimal
     if ',' in lat:
@@ -42,12 +48,66 @@ def get_origin_lat_long():
     rospy.loginfo('Received origin: lat %s, long %s.' % (origin_lat, origin_long))
     return origin_lat, origin_long
 
+def haversineDistance(latCur, lonCur, latWP, lonWP): #Returns distance to waypoint in Metres
+	latWP, lonWP, latCur, lonCur = map(radians, [latWP, lonWP, latCur, lonCur]) #Convert into Radians to perform math
+	a = pow(sin((latWP - latCur)/2),2) + cos(latCur) * cos(latWP) * pow(sin((lonWP - lonCur)/2),2)
+	return earthRadius * 2.0 * asin(sqrt(a))  #Return calculated distance to waypoint in Metres
+
+def bearing(latCur, lonCur, latWP, lonWP): #Bearing to waypoint (degrees)
+	latWP, lonWP, latCur, lonCur = map(radians, [latWP, lonWP, latCur, lonCur]) #Convert into Radians to perform math
+	dLon = lonWP - lonCur
+	return atan2(sin(dLon) * cos(latWP), cos(latCur) * sin(latWP) - (sin(latCur) * cos(latWP) * cos(dLon)))
+
+def testHaversineDistance():
+    currPosX = 0;
+    currPosY = 0;
+
+    latCur = 10.762622
+    lonCur = 106.660172
+    latWP = 10.7626930177
+    lonWP = 106.660182107
+
+    distToWP = haversineDistance(latCur, lonCur, latWP, lonWP)
+    bearingToWP = bearing(latCur, lonCur, latWP, lonWP)
+    position_x = currPosX + (distToWP * cos(bearingToWP)) #Convert distance and angle to waypoint from Polar to Cartesian co-ordinates then add current position of robot odometry
+    position_y = currPosY + (distToWP * sin(bearingToWP))
+    print("Haversine Distance: x,y: ", position_x, position_y)
+
+def get_xy_based_on_lat_long(lat,lon, name):
+    # Define a local orgin, latitude and longitude in decimal degrees
+    # GPS Origin
+    olat = 10.762622
+    olon = 106.660172
+
+    xg2, yg2 = gc.ll2xy(lat,lon,olat,olon)
+    utmy, utmx, utmzone = gc.LLtoUTM(lat,lon)
+    xa,ya = axy.ll2xy(lat,lon,olat,olon)
+
+    print("#########  "+name+"  ###########")
+    print("LAT COORDINATES ==>"+str(lat)+","+str(lon))
+    print("COORDINATES XYZ ==>"+str(xg2)+","+str(yg2))
+    print("COORDINATES AXY==>"+str(xa)+","+str(ya))
+    print("COORDINATES UTM==>"+str(utmx)+","+str(utmy))
+
+    return xg2, yg2
+
+def testAxy():
+
+    latCur = 10.762622
+    lonCur = 106.660172
+    latWP = 10.7626930177
+    lonWP = 106.660182107
+
+    xg2, yg2 = get_xy_based_on_lat_long(latCur,lonCur, name="MAP")
+    xg2, yg2 = get_xy_based_on_lat_long(latWP,lonWP, name="MAP")
+
 def calc_goal(origin_lat, origin_long, goal_lat, goal_long):
     # Calculate distance and azimuth between GPS points
     geod = Geodesic.WGS84    # define the WGS84 ellipsoid
     g = geod.Inverse(origin_lat, origin_long, goal_lat, goal_long) # Compute several geodesic calculations between two GPS points
     hypotenuse = distance = g['s12'] # access distance
     rospy.loginfo("The distance from the origin to the goal is {:.3f} m.".format(distance))
+    print("distance: ", distance)
     azimuth = g['azi1']
     rospy.loginfo("The azimuth from the origin to the goal is {:.3f} degrees.".format(azimuth))
 
@@ -57,7 +117,15 @@ def calc_goal(origin_lat, origin_long, goal_lat, goal_long):
     x = adjacent = math.cos(azimuth) * hypotenuse
     y = opposite = math.sin(azimuth) * hypotenuse
     rospy.loginfo("The translation from the origin to the goal is (x,y) {:.3f}, {:.3f} m.".format(x, y))
+    print("x,y: ", x, y)
+    y_ratio = 5/y
+    print("y ratio: ", y_ratio)
+    print("Spawn x,y: ", x, y*round(y_ratio, 5))
+    # utmy,utmx,utmzone=gc.LLtoUTM(origin_lat, origin_long)
 
+    xg2,yg2=gc.ll2xy(goal_lat, goal_long, origin_lat, origin_long)
+    print("x,y: ", yg2, xg2)
+    print("y ratio: ", 5/xg2)
     return x, y
 
 class GpsGoal():
@@ -106,8 +174,7 @@ class GpsGoal():
         goal.target_pose.pose.orientation.y = quaternion[1]
         goal.target_pose.pose.orientation.z = quaternion[2]
         goal.target_pose.pose.orientation.w = quaternion[3]
-        rospy.loginfo('Executing move_base goal to position (x,y) %s, %s, with %s degrees yaw.' %
-                    (x, y, yaw))
+        rospy.loginfo('Executing move_base goal to position (x,y) %s, %s, with %s degrees yaw.' % (x, y, yaw))
         rospy.loginfo("To cancel the goal: 'rostopic pub -1 /move_base/cancel actionlib_msgs/GoalID -- {}'")
 
         # Send goal
@@ -150,4 +217,29 @@ def ros_main():
     rospy.spin()
 
 if __name__ == '__main__':
-    cli_main()
+    # origin_lat = 10.762622
+    # origin_long = 106.660172
+    # goal_lat = 10.7626930177
+    # goal_long = 106.660182107
+    origin_lat = 10.76262
+    origin_long = 106.66017
+    goal_lat = 10.76269
+    goal_long = 106.66018
+    calc_goal(origin_lat, origin_long, goal_lat, goal_long)
+    # testHaversineDistance()
+    # testAxy()
+    print("-------------------------------------------")
+    # map_origin_lat = 10.82017
+    # map_origin_lon = 106.67990
+    # map_goal_lat = 10.82020
+    # map_goal_lon = 106.67993
+    # map_distance = 5.1
+    map_origin_lat = 10.82013
+    map_origin_lon = 106.67989
+    map_goal_lat = 10.82007
+    map_goal_lon = 106.67981
+    map_distance = 10.6
+    print("Map origin lat/lon: ", map_origin_lat, map_origin_lon)
+    print("Map goal lat/lon: ", map_goal_lat, map_goal_lon)
+    print("Distance on Google Map: ", map_distance)
+    calc_goal(map_origin_lat, map_origin_lon, map_goal_lat, map_goal_lon)
