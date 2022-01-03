@@ -42,9 +42,9 @@ void mexFunction( int nlhs, mxArray *plhs[],
     int ii = 0;
     for (ii=0; ii <= 3; ii++)
       {
-	if( !mxIsDouble(prhs[ii]) || 
+	if( !mxIsDouble(prhs[ii]) ||
 	    mxIsComplex(prhs[ii]) ||
-	    mxGetNumberOfElements(prhs[ii])!=1 ) 
+	    mxGetNumberOfElements(prhs[ii])!=1 )
 	  {
 	    mexErrMsgIdAndTxt("MyToolbox:arrayProduct:notScalar","Input multiplier must be a scalar.");
 	  }
