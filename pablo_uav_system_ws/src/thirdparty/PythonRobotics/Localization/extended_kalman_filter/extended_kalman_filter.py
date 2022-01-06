@@ -1,29 +1,19 @@
 """
-
 Extended kalman filter (EKF) localization sample
-
 author: Atsushi Sakai (@Atsushi_twi)
-
 """
 
-import math
-
-import matplotlib.pyplot as plt
 import numpy as np
-from scipy.spatial.transform import Rotation as Rot
+import math
+import matplotlib.pyplot as plt
 
-# Covariance for EKF simulation
-Q = np.diag([
-    0.1,  # variance of location on x-axis
-    0.1,  # variance of location on y-axis
-    np.deg2rad(1.0),  # variance of yaw angle
-    1.0  # variance of velocity
-]) ** 2  # predict state covariance
-R = np.diag([1.0, 1.0]) ** 2  # Observation x,y position covariance
+# Estimation parameter of EKF
+Q = np.diag([1.0, 1.0])**2  # Observation x,y position covariance
+R = np.diag([0.1, 0.1, np.deg2rad(1.0), 1.0])**2  # predict state covariance
 
 #  Simulation parameter
-INPUT_NOISE = np.diag([1.0, np.deg2rad(30.0)]) ** 2
-GPS_NOISE = np.diag([0.5, 0.5]) ** 2
+Qsim = np.diag([0.5, 0.5])**2
+Rsim = np.diag([1.0, np.deg2rad(30.0)])**2
 
 DT = 0.1  # time tick [s]
 SIM_TIME = 50.0  # simulation time [s]
@@ -34,18 +24,23 @@ show_animation = True
 def calc_input():
     v = 1.0  # [m/s]
     yawrate = 0.1  # [rad/s]
-    u = np.array([[v], [yawrate]])
+    u = np.array([[v, yawrate]]).T
     return u
 
 
 def observation(xTrue, xd, u):
+
     xTrue = motion_model(xTrue, u)
 
     # add noise to gps x-y
-    z = observation_model(xTrue) + np.matmul(GPS_NOISE, np.random.randn(2, 1))
+    zx = xTrue[0, 0] + np.random.randn() * Qsim[0, 0]
+    zy = xTrue[1, 0] + np.random.randn() * Qsim[1, 1]
+    z = np.array([[zx, zy]])
 
     # add noise to input
-    ud = u + np.matmul(INPUT_NOISE, np.random.randn(2, 1))
+    ud1 = u[0, 0] + np.random.randn() * Rsim[0, 0]
+    ud2 = u[1, 0] + np.random.randn() * Rsim[1, 1]
+    ud = np.array([[ud1, ud2]]).T
 
     xd = motion_model(xd, ud)
 
@@ -53,36 +48,37 @@ def observation(xTrue, xd, u):
 
 
 def motion_model(x, u):
+
     F = np.array([[1.0, 0, 0, 0],
-                  [0, 1.0, 0, 0],
-                  [0, 0, 1.0, 0],
-                  [0, 0, 0, 0]])
+        [0, 1.0, 0, 0],
+        [0, 0, 1.0, 0],
+        [0, 0, 0, 0]])
 
     B = np.array([[DT * math.cos(x[2, 0]), 0],
-                  [DT * math.sin(x[2, 0]), 0],
-                  [0.0, DT],
-                  [1.0, 0.0]])
+        [DT * math.sin(x[2, 0]), 0],
+        [0.0, DT],
+        [1.0, 0.0]])
 
-    x = np.matmul(F, x) + np.matmul(B, u)
+    x = F.dot(x) + B.dot(u)
 
     return x
 
 
 def observation_model(x):
+    #  Observation Model
     H = np.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0]
-    ])
+        ])
 
-    z = np.matmul(H, x)
+    z = H.dot(x)
 
     return z
 
 
-def jacob_f(x, u):
+def jacobF(x, u):
     """
     Jacobian of Motion Model
-
     motion model
     x_{t+1} = x_t+v*dt*cos(yaw)
     y_{t+1} = y_t+v*dt*sin(yaw)
@@ -105,34 +101,36 @@ def jacob_f(x, u):
     return jF
 
 
-def jacob_h():
+def jacobH(x):
     # Jacobian of Observation Model
     jH = np.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0]
-    ])
+        ])
 
     return jH
 
 
 def ekf_estimation(xEst, PEst, z, u):
+
     #  Predict
     xPred = motion_model(xEst, u)
-    jF = jacob_f(xEst, u)
-    PPred = np.matmul(np.matmul(jF, PEst), jF.T) + Q
+    jF = jacobF(xPred, u)
+    PPred = jF.dot(PEst).dot(jF.T) + R
 
     #  Update
-    jH = jacob_h()
+    jH = jacobH(xPred)
     zPred = observation_model(xPred)
-    y = z - zPred
-    S = np.matmul(np.matmul(jH, PPred), jH.T) + R
-    K = np.matmal(np.matmul(PPred, jH.T), np.linalg.inv(S))
-    xEst = xPred + np.matmul(K, y)
-    PEst = np.matmul((np.eye(len(xEst)) - np.matmul(K, jH)), PPred)
+    y = z.T - zPred
+    S = jH.dot(PPred).dot(jH.T) + Q
+    K = PPred.dot(jH.T).dot(np.linalg.inv(S))
+    xEst = xPred + K.dot(y)
+    PEst = (np.eye(len(xEst)) - K.dot(jH)).dot(PPred)
+
     return xEst, PEst
 
 
-def plot_covariance_ellipse(xEst, PEst):  # pragma: no cover
+def plot_covariance_ellipse(xEst, PEst):
     Pxy = PEst[0:2, 0:2]
     eigval, eigvec = np.linalg.eig(Pxy)
 
@@ -148,16 +146,33 @@ def plot_covariance_ellipse(xEst, PEst):  # pragma: no cover
     b = math.sqrt(eigval[smallind])
     x = [a * math.cos(it) for it in t]
     y = [b * math.sin(it) for it in t]
-    angle = math.atan2(eigvec[1, bigind], eigvec[0, bigind])
-    rot = Rot.from_euler('z', angle).as_matrix()[0:2, 0:2]
-    fx = np.matmul(rot, (np.array([x, y])))
+    angle = math.atan2(eigvec[bigind, 1], eigvec[bigind, 0])
+    R = np.array([[math.cos(angle), math.sin(angle)],
+        [-math.sin(angle), math.cos(angle)]])
+    fx = R.dot(np.array([[x, y]]))
     px = np.array(fx[0, :] + xEst[0, 0]).flatten()
     py = np.array(fx[1, :] + xEst[1, 0]).flatten()
     plt.plot(px, py, "--r")
 
+def gt_ardrone_callback(gt_ardrone):
+    # global drone_x, drone_y, drone_z
+    drone_x = gt_ardrone.pose.position.x
+    drone_y = gt_ardrone.pose.position.y
+    drone_z = gt_ardrone.pose.position.z
+    # rospy.loginfo("\n%f\n%f\n%f", drone_x, drone_y, drone_z)
+
+def gt_summit_callback(gt_summit):
+    # global platform_x, platform_y, platform_z
+    platform_x = gt_summit.pose.position.x
+    platform_y = gt_summit.pose.position.y
+    platform_z = gt_summit.pose.position.z
+    # rospy.loginfo("\n%f\n%f\n%f", platform_x, platform_y, platform_z)
 
 def main():
     print(__file__ + " start!!")
+
+    rospy.Subscriber("/groundtruth/summit", PoseStamped, gt_summit_callback)
+    rospy.Subscriber("/summit_xl/mavros/gps/odom", Odometry, gps_summit_callback)
 
     time = 0.0
 
@@ -172,7 +187,7 @@ def main():
     hxEst = xEst
     hxTrue = xTrue
     hxDR = xTrue
-    hz = np.zeros((2, 1))
+    hz = np.zeros((1, 2))
 
     while SIM_TIME >= time:
         time += DT
@@ -186,20 +201,17 @@ def main():
         hxEst = np.hstack((hxEst, xEst))
         hxDR = np.hstack((hxDR, xDR))
         hxTrue = np.hstack((hxTrue, xTrue))
-        hz = np.hstack((hz, z))
+        hz = np.vstack((hz, z))
 
         if show_animation:
             plt.cla()
-            # for stopping simulation with the esc key.
-            plt.gcf().canvas.mpl_connect('key_release_event',
-                    lambda event: [exit(0) if event.key == 'escape' else None])
-            plt.plot(hz[0, :], hz[1, :], ".g")
+            plt.plot(hz[:, 0], hz[:, 1], ".g")
             plt.plot(hxTrue[0, :].flatten(),
-                     hxTrue[1, :].flatten(), "-b")
+                    hxTrue[1, :].flatten(), "-b")
             plt.plot(hxDR[0, :].flatten(),
-                     hxDR[1, :].flatten(), "-k")
+                    hxDR[1, :].flatten(), "-k")
             plt.plot(hxEst[0, :].flatten(),
-                     hxEst[1, :].flatten(), "-r")
+                    hxEst[1, :].flatten(), "-r")
             plot_covariance_ellipse(xEst, PEst)
             plt.axis("equal")
             plt.grid(True)
