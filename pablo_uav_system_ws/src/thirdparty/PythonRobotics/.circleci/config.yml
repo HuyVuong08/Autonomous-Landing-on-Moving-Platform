@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.4.0
+
+jobs:
+  build_doc:
+    docker:
+      - image: circleci/python:3.9
+    steps:
+      - checkout
+      - run:
+          name: doc_build
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            cd docs;make html
+      - store_artifacts:
+          path: docs/_build/html/
+          destination: html
+
+workflows:
+  main:
+    jobs:
+      - build_doc
