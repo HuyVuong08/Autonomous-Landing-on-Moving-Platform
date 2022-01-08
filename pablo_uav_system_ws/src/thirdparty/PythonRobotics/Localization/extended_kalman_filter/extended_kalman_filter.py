@@ -7,6 +7,12 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
+import rospy
+from std_msgs.msg import String
+from geometry_msgs.msg import Point, Pose, PoseStamped
+from nav_msgs.msg import Odometry
+from sensor_msgs.msg import NavSatFix
+
 # Estimation parameter of EKF
 Q = np.diag([1.0, 1.0])**2  # Observation x,y position covariance
 R = np.diag([0.1, 0.1, np.deg2rad(1.0), 1.0])**2  # predict state covariance
@@ -20,49 +26,50 @@ SIM_TIME = 50.0  # simulation time [s]
 
 show_animation = True
 
-
 def calc_input():
-    v = 1.0  # [m/s]
-    yawrate = 0.1  # [rad/s]
+    global gps_summit_vel_x, gps_summit_vel_y, platform_yaw
+    v = math.sqrt(gps_summit_vel_x**2 + gps_summit_vel_y**2)
+    yawrate = platform_yaw
+    # v = 1.0  # [m/s]
+    # yawrate = 0.1  # [rad/s]
     u = np.array([[v, yawrate]]).T
     return u
 
-
 def observation(xTrue, xd, u):
-
     xTrue = motion_model(xTrue, u)
 
+    zx = xTrue[0, 0]
+    zy = xTrue[1, 0]
     # add noise to gps x-y
-    zx = xTrue[0, 0] + np.random.randn() * Qsim[0, 0]
-    zy = xTrue[1, 0] + np.random.randn() * Qsim[1, 1]
-    z = np.array([[zx, zy]])
+    # zx = xTrue[0, 0] + np.random.randn() * Qsim[0, 0]
+    # zy = xTrue[1, 0] + np.random.randn() * Qsim[1, 1]
+    z  = np.array([[zx, zy]])
 
+    ud1 = u[0, 0]
+    ud2 = u[1, 0]
     # add noise to input
-    ud1 = u[0, 0] + np.random.randn() * Rsim[0, 0]
-    ud2 = u[1, 0] + np.random.randn() * Rsim[1, 1]
+    # ud1 = u[0, 0] + np.random.randn() * Rsim[0, 0]
+    # ud2 = u[1, 0] + np.random.randn() * Rsim[1, 1]
     ud = np.array([[ud1, ud2]]).T
 
     xd = motion_model(xd, ud)
 
     return xTrue, z, xd, ud
 
-
 def motion_model(x, u):
-
     F = np.array([[1.0, 0, 0, 0],
         [0, 1.0, 0, 0],
         [0, 0, 1.0, 0],
         [0, 0, 0, 0]])
 
-    B = np.array([[DT * math.cos(x[2, 0]), 0],
-        [DT * math.sin(x[2, 0]), 0],
+    B = np.array([[DT * math.cos(x[2, 0]), 0],      # DT * cos(yaw_rate)
+        [DT * math.sin(x[2, 0]), 0],                # DT * sin(yaw_rate)
         [0.0, DT],
         [1.0, 0.0]])
 
     x = F.dot(x) + B.dot(u)
 
     return x
-
 
 def observation_model(x):
     #  Observation Model
@@ -74,7 +81,6 @@ def observation_model(x):
     z = H.dot(x)
 
     return z
-
 
 def jacobF(x, u):
     """
@@ -100,7 +106,6 @@ def jacobF(x, u):
 
     return jF
 
-
 def jacobH(x):
     # Jacobian of Observation Model
     jH = np.array([
@@ -110,25 +115,22 @@ def jacobH(x):
 
     return jH
 
-
 def ekf_estimation(xEst, PEst, z, u):
-
     #  Predict
     xPred = motion_model(xEst, u)
-    jF = jacobF(xPred, u)
+    jF    = jacobF(xPred, u)
     PPred = jF.dot(PEst).dot(jF.T) + R
 
     #  Update
-    jH = jacobH(xPred)
+    jH    = jacobH(xPred)
     zPred = observation_model(xPred)
-    y = z.T - zPred
-    S = jH.dot(PPred).dot(jH.T) + Q
-    K = PPred.dot(jH.T).dot(np.linalg.inv(S))
-    xEst = xPred + K.dot(y)
-    PEst = (np.eye(len(xEst)) - K.dot(jH)).dot(PPred)
+    y     = z.T - zPred
+    S     = jH.dot(PPred).dot(jH.T) + Q
+    K     = PPred.dot(jH.T).dot(np.linalg.inv(S))
+    xEst  = xPred + K.dot(y)
+    PEst  = (np.eye(len(xEst)) - K.dot(jH)).dot(PPred)
 
     return xEst, PEst
-
 
 def plot_covariance_ellipse(xEst, PEst):
     Pxy = PEst[0:2, 0:2]
@@ -154,29 +156,121 @@ def plot_covariance_ellipse(xEst, PEst):
     py = np.array(fx[1, :] + xEst[1, 0]).flatten()
     plt.plot(px, py, "--r")
 
-def gt_ardrone_callback(gt_ardrone):
-    # global drone_x, drone_y, drone_z
-    drone_x = gt_ardrone.pose.position.x
-    drone_y = gt_ardrone.pose.position.y
-    drone_z = gt_ardrone.pose.position.z
-    # rospy.loginfo("\n%f\n%f\n%f", drone_x, drone_y, drone_z)
+def calculate_velocity():
+    global gps_dt, gps_time_stamp, gps_prev_time_stamp
+    global gps_summit_x, gps_summit_y, gps_summit_prev_x, gps_summit_prev_y
+    global gps_summit_vel_x, gps_summit_vel_y
+    gps_dt           = gps_time_stamp - gps_prev_time_stamp;
+    gps_summit_vel_x = (gps_summit_x - gps_summit_prev_x)/gps_dt;
+    gps_summit_vel_y = (gps_summit_y - gps_summit_prev_y)/gps_dt;
+
+    rospy.loginfo("gps_summit_vel_x, gps_summit_vel_y: %f, %f", gps_summit_vel_x, gps_summit_vel_y);
+    gps_summit_prev_x   = gps_summit_x;
+    gps_summit_prev_y   = gps_summit_y;
+    gps_prev_time_stamp = gps_time_stamp;
 
 def gt_summit_callback(gt_summit):
-    # global platform_x, platform_y, platform_z
-    platform_x = gt_summit.pose.position.x
-    platform_y = gt_summit.pose.position.y
-    platform_z = gt_summit.pose.position.z
+    global platform_x, platform_y, platform_z
+    global platform_roll, platform_pitch, platform_yaw
+    platform_x    = gt_summit.pose.position.x
+    platform_y    = gt_summit.pose.position.y
+    platform_z    = gt_summit.pose.position.z
+    orientation_x = gt_summit.pose.orientation.x
+    orientation_y = gt_summit.pose.orientation.y
+    orientation_z = gt_summit.pose.orientation.z
+    orientation_w = gt_summit.pose.orientation.w
+    platform_roll, platform_pitch, platform_yaw = euler_from_quaternion(orientation_x, orientation_y, orientation_z, orientation_w)
     # rospy.loginfo("\n%f\n%f\n%f", platform_x, platform_y, platform_z)
+    # rospy.loginfo("\nOrientation:\nX: %f\nY: %f\nZ: %f\nW: %f", orientation_x, orientation_y, orientation_z, orientation_w)
+    # rospy.loginfo("\nRoll: %f\nPitch: %f\nYaw: %f", platform_roll, platform_pitch, platform_yaw)
+
+def gps_summit_callback(gps_summit):
+    global gps_summit_x, gps_summit_y, gps_yawrate
+    global gps_time_stamp
+    global xTrue
+    gps_summit_x = gps_summit.pose.pose.position.x
+    gps_summit_y = gps_summit.pose.pose.position.y
+    # gps_yawrate = math.atan(gps_summit_y/gps_summit_x)
+    gps_time_stamp = rospy.get_rostime().to_sec()
+    xTrue[0, 0] = gps_summit_x
+    xTrue[1, 0] = gps_summit_y
+    calculate_velocity()
+    # rospy.loginfo("\n%f\n%f", gps_summit_x, gps_summit_y)
+    predict_and_plot()
+
+def euler_from_quaternion(x, y, z, w):
+    """
+    Convert a quaternion into euler angles (roll, pitch, yaw)
+    roll is rotation around x in radians (counterclockwise)
+    pitch is rotation around y in radians (counterclockwise)
+    yaw is rotation around z in radians (counterclockwise)
+    """
+    t0 = +2.0 * (w * x + y * z)
+    t1 = +1.0 - 2.0 * (x * x + y * y)
+    roll_x = math.atan2(t0, t1)
+
+    t2 = +2.0 * (w * y - z * x)
+    t2 = +1.0 if t2 > +1.0 else t2
+    t2 = -1.0 if t2 < -1.0 else t2
+    pitch_y = math.asin(t2)
+
+    t3 = +2.0 * (w * z + x * y)
+    t4 = +1.0 - 2.0 * (y * y + z * z)
+    yaw_z = math.atan2(t3, t4)
+
+    return roll_x, pitch_y, yaw_z # in radians
+
+def predict_and_plot():
+    rospy.loginfo("Predict and Plot")
+    global platform_x, platform_y, platform_z
+    global platform_roll, platform_pitch, platform_yaw
+    global gps_summit_x, gps_summit_y
+    rospy.loginfo("\n%f\n%f\n%f", platform_x, platform_y, platform_z)
+    rospy.loginfo("\n%f\n%f", gps_summit_x, gps_summit_y)
+
+    u = calc_input()
+    # u = np.array([[v, yawrate]]).T
+
+    global xTrue, z, xDR, ud
+    xTrue, z, xDR, ud = observation(xTrue, xDR, u)
+
+    global xEst, PEst
+    xEst, PEst = ekf_estimation(xEst, PEst, z, ud)
+
+    # store data history
+    global hxEst, hxDR, hxTrue, hz
+    hxEst  = np.hstack((hxEst, xEst))
+    hxDR   = np.hstack((hxDR, xDR))
+    hxTrue = np.hstack((hxTrue, xTrue))
+    hz     = np.vstack((hz, z))
+
+    if show_animation:
+        plt.cla()
+        plt.plot(hz[:, 0], hz[:, 1], ".g")
+        plt.plot(hxTrue[0, :].flatten(),
+                hxTrue[1, :].flatten(), "-b")
+        plt.plot(hxDR[0, :].flatten(),
+                hxDR[1, :].flatten(), "-k")
+        plt.plot(hxEst[0, :].flatten(),
+                hxEst[1, :].flatten(), "-r")
+        plot_covariance_ellipse(xEst, PEst)
+        plt.axis("equal")
+        plt.grid(True)
+        plt.pause(0.001)
 
 def main():
     print(__file__ + " start!!")
 
-    rospy.Subscriber("/groundtruth/summit", PoseStamped, gt_summit_callback)
-    rospy.Subscriber("/summit_xl/mavros/gps/odom", Odometry, gps_summit_callback)
+    # time = 0.0
 
-    time = 0.0
+    global gps_prev_time_stamp, gps_summit_prev_x, gps_summit_prev_y
+    gps_prev_time_stamp = 0.0
+    gps_summit_prev_x = 0.0
+    gps_summit_prev_y = 0.0
 
     # State Vector [x y yaw v]'
+    global xTrue, z, xDR, ud
+    global xEst, PEst
     xEst = np.zeros((4, 1))
     xTrue = np.zeros((4, 1))
     PEst = np.eye(4)
@@ -184,39 +278,25 @@ def main():
     xDR = np.zeros((4, 1))  # Dead reckoning
 
     # history
+    global hxEst, hxDR, hxTrue, hz
     hxEst = xEst
     hxTrue = xTrue
     hxDR = xTrue
     hz = np.zeros((1, 2))
 
-    while SIM_TIME >= time:
-        time += DT
-        u = calc_input()
+    rospy.init_node("Extended Kalman Filter", anonymous=True)
 
-        xTrue, z, xDR, ud = observation(xTrue, xDR, u)
+    # Timer for plotting received ground truth
+    # rospy.Timer(rospy.Duration(0.1), predict_and_plot(event))
 
-        xEst, PEst = ekf_estimation(xEst, PEst, z, ud)
+    rospy.Subscriber("/groundtruth/summit", PoseStamped, gt_summit_callback)
+    rospy.Subscriber("/summit_xl/mavros/gps/odom", Odometry, gps_summit_callback)
 
-        # store data history
-        hxEst = np.hstack((hxEst, xEst))
-        hxDR = np.hstack((hxDR, xDR))
-        hxTrue = np.hstack((hxTrue, xTrue))
-        hz = np.vstack((hz, z))
-
-        if show_animation:
-            plt.cla()
-            plt.plot(hz[:, 0], hz[:, 1], ".g")
-            plt.plot(hxTrue[0, :].flatten(),
-                    hxTrue[1, :].flatten(), "-b")
-            plt.plot(hxDR[0, :].flatten(),
-                    hxDR[1, :].flatten(), "-k")
-            plt.plot(hxEst[0, :].flatten(),
-                    hxEst[1, :].flatten(), "-r")
-            plot_covariance_ellipse(xEst, PEst)
-            plt.axis("equal")
-            plt.grid(True)
-            plt.pause(0.001)
-
+    rospy.spin()
 
 if __name__ == '__main__':
-    main()
+    try:
+        # Realtime_2Dplot()
+        main()
+    except rospy.ROSInterruptException:
+        pass
