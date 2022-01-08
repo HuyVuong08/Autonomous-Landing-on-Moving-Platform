@@ -18,12 +18,12 @@ thuat toan du doan input: GPS + OpenCV -> lay intersection giua 2 ket qua du doa
 
 Study about platform_detecting.cpp (OpenCV) [Manh Huy]
 Move to GPS coordinate (relocalize state) [Le Huy]
-Study about platform_tracking.cpp (follow_platform function and height adaptive pid) 
+Study about platform_tracking.cpp (follow_platform function and height adaptive pid)
 
 
 
 ----------------------------------------------------------------------
- 
+
 fix permission deny error [Manh Huy]
 
 * thu tang toc do cua helipad (ve do thi giua do chinh xac cua viec ha canh va toc do cua helipad)
@@ -44,11 +44,11 @@ du doan theo huong (tai nga 3, nga 4)
 
 decrease GPS publish time interval (x5 -> x10)
 
-de giai thuat vao report procedure code 
+de giai thuat vao report procedure code
 
 canny edge & hough transform
 
-contour -> tinh dien tich + bao nhieu edge + boa nhieu vertices (edge detection) -> bo qua dien tich qua nho hoac qua lon so voi helipad (cach loai bo nhieu) (region of insterest), loại bo nhung hinh ko mong muon 
+contour -> tinh dien tich + bao nhieu edge + boa nhieu vertices (edge detection) -> bo qua dien tich qua nho hoac qua lon so voi helipad (cach loai bo nhieu) (region of insterest), loại bo nhung hinh ko mong muon
 
 ten function ngan gon vd:invertImage
 
@@ -56,11 +56,11 @@ ten function ngan gon vd:invertImage
 
 co cac diem ca platform
 
-vd: co 4 diem o qua khu, ve mot duong cong di qua 4 diem 
+vd: co 4 diem o qua khu, ve mot duong cong di qua 4 diem
 
-cho platform di theo duong cong, 
+cho platform di theo duong cong,
 
-**ve duong cong A va B 
+**ve duong cong A va B
 
 *tranh vat can (cuoi thang 1)
 
@@ -68,20 +68,26 @@ cho platform di theo duong cong,
 
 ***ve real-time (quay clip)
 
-*cong thuc dieu kien platform theo duong cong 
+*cong thuc dieu kien platform theo duong cong
 
 
-structure of report 
+structure of report
 
-our proposal system 
+our proposal system
 
 them nhung phan ma minh plan
 
-5 -> conlusion 
+5 -> conlusion
 
-3 cap 
+3 cap
 
+----------------------------------------------------------------------
 
+chuan bi platform
+chuan bi canh may bay
 
+cach nap code vao drone: (drone la mot may tinh chay he dieu hanh ros)
+	+SSH
+	+set IP trong ROS trung voi IP cua drone (ros master)
 
-
+t2 17/1 len lab
