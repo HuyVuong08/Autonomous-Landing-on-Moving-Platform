@@ -1,8 +1,0 @@
-prefix=/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel
-
-Name: ardrone_as
-Description: Description of ardrone_as
-Version: 0.0.0
-Cflags: -I/home/datrg/Autonomous-Landing-on-Moving-Platform/catkin_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: rospy actionlib_msgs

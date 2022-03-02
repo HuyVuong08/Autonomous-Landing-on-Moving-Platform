@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+	<node pkg="neato_move" type="neato_move" name="neato_move" output="screen">
+		<!-- Set linear speed of summit; yaw is set accordingly such that the desired circular trajectory is performed -->
+		<param name="max_linear_speed_x" value="0.2"/>  <!-- Maximum speed of Neato VX-21 is 0.3m/s -->
+		<param name="max_yaw" value="0.05"/>
+		
+		<param name="trajectory" value="backandforth"/> <!-- backandforth, square, circular, random -->
+		
+		<param name="side_square" value="0.5"/> <!-- for square and backandforth -->
+		<param name="radius" value="0.5"/> <!-- for circular -->
+	</node>
+</launch>
