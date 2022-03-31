@@ -1,0 +1,20 @@
+image_width: 960
+image_height: 720
+camera_name: sensor_measurement
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [890.47249, 0, 482.14789, 0, 887.43072, 358.26007, 0, 0, 1]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.053350, 0.051379, -0.0044473, 0.0013790, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [881.54710, 0, 482.34384, 0, 0, 880.49335, 356.20415, 0, 0, 0, 1, 0]
