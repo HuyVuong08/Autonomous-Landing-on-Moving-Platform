@@ -1,0 +1,8 @@
+prefix=/home/tello1804/tello_madswamp_ver2_ws/install
+
+Name: tello_sdk
+Description: Description of tello_sdk
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs roscpp rospy sensor_msgs std_msgs aerostack_msgs tf camera_info_manager
