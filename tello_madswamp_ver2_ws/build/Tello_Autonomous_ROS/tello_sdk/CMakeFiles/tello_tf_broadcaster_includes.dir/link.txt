@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,libtello_tf_broadcaster_includes.so -o /home/tello1804/tello_madswamp_ver2_ws/devel/lib/libtello_tf_broadcaster_includes.so CMakeFiles/tello_tf_broadcaster_includes.dir/src/tello_tf_broadcaster/tello_tf_broadcaster.cpp.o 
