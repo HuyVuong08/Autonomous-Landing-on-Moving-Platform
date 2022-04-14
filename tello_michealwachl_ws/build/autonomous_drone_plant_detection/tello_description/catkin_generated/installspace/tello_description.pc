@@ -1,0 +1,8 @@
+prefix=/home/tello1804/tello_michealwachl_ws/install
+
+Name: tello_description
+Description: Description of tello_description
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
