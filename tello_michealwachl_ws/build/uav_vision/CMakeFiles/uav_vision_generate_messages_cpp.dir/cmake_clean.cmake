@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/uav_vision_generate_messages_cpp"
-  "/home/tello1804/tello_michealwachl_ws/devel/include/uav_vision/TelloStatus.h"
+  "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel/include/uav_vision/TelloStatus.h"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tello1804/tello_michealwachl_ws/src
+CMAKE_SOURCE_DIR = /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tello1804/tello_michealwachl_ws/build
+CMAKE_BINARY_DIR = /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build
 
 # Utility rule file for run_tests_cv_bridge.
 
@@ -63,10 +63,10 @@ vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/build: run_tests
 .PHONY : vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/build
 
 vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/clean:
-	cd /home/tello1804/tello_michealwachl_ws/build/vision_opencv/cv_bridge/test && $(CMAKE_COMMAND) -P CMakeFiles/run_tests_cv_bridge.dir/cmake_clean.cmake
+	cd /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/vision_opencv/cv_bridge/test && $(CMAKE_COMMAND) -P CMakeFiles/run_tests_cv_bridge.dir/cmake_clean.cmake
 .PHONY : vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/clean
 
 vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/depend:
-	cd /home/tello1804/tello_michealwachl_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tello1804/tello_michealwachl_ws/src /home/tello1804/tello_michealwachl_ws/src/vision_opencv/cv_bridge/test /home/tello1804/tello_michealwachl_ws/build /home/tello1804/tello_michealwachl_ws/build/vision_opencv/cv_bridge/test /home/tello1804/tello_michealwachl_ws/build/vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/vision_opencv/cv_bridge/test /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/vision_opencv/cv_bridge/test /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : vision_opencv/cv_bridge/test/CMakeFiles/run_tests_cv_bridge.dir/depend
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from numpy import flip
 import rospy
 import os                                           # added by wachl
 from std_msgs.msg import Empty, UInt8, Bool
@@ -595,8 +596,10 @@ class TelloNode(tello.Tello):
                 # vs blocks, dies on self.stop
                 for frame in container.decode(video=0):
                     img = np.array(frame.to_image())
+                    frame_to_img = cv2.flip(img, 0)
+                    img_flip = np.array(frame_to_img)
                     try:
-                        img_msg = self.bridge.cv2_to_imgmsg(img, 'rgb8')
+                        img_msg = self.bridge.cv2_to_imgmsg(img_flip, 'rgb8')
                         img_msg.header.frame_id = self.caminfo.header.frame_id
                     except CvBridgeError as err:
                         rospy.logerr('fgrab: cv bridge failed - %s' % str(err))
@@ -609,29 +612,6 @@ class TelloNode(tello.Tello):
 
 
 ###################################BEGIN_WACHL#####################################
-    def framegrabber_cv_loop(self):
-        #local_video_port = 11111  # port for receiving video stream
-        #socket_video = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # socket for receiving video stream
-        #socket_video.bind(('', local_video_port))
-        vs = self.get_video_stream()
-        # tello_video = cv2.VideoCapture("udp://@0.0.0.0:1111")
-        tello_video = cv2.VideoCapture(vs)
-        while self.state != self.STATE_QUIT:
-            try:
-                ret, frame = tello_video.read()
-                print(frame.shape)
-                cv2.imshow('frame', frame)
-                try:
-
-                    img_msg = self.bridge.cv2_to_imgmsg(frame, 'rgb8')
-                    img_msg.header.frame_id = self.caminfo.header.frame_id
-                except CvBridgeError as err:
-                    rospy.logerr('fgrab: cv bridge failed - %s' % str(err))
-                    continue
-                self.pub_image_raw_cv.publish(img_msg)
-                self.pub_caminfo.publish(self.caminfo)
-            except BaseException as err:
-                rospy.logerr('fgrab: opencv decoder failed - %s' % str(err))
 
     def cb_file_received(self, event, sender, data):
         self.pub_picture_update.publish("Picture received")

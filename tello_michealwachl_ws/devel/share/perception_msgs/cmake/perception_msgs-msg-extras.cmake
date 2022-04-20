@@ -1,0 +1,2 @@
+set(perception_msgs_MESSAGE_FILES "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/perception_msgs/msg/Marker.msg;/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/perception_msgs/msg/MarkerList.msg;/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/perception_msgs/msg/PointInImage.msg;/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/perception_msgs/msg/LabeledPointInImage.msg")
+set(perception_msgs_SERVICE_FILES "")

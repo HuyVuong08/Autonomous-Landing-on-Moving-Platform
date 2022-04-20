@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "${prefix}/include".split(';') if "${prefix}/i
 PROJECT_CATKIN_DEPENDS = "cv_bridge;image_transport;roscpp;sensor_msgs;std_msgs;geometry_msgs;image_view;tf;std_srvs;message_runtime".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "uav_vision"
-PROJECT_SPACE_DIR = "/home/tello1804/tello_michealwachl_ws/install"
+PROJECT_SPACE_DIR = "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/install"
 PROJECT_VERSION = "0.0.0"

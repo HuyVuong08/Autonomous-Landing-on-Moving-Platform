@@ -1,0 +1,8 @@
+prefix=/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/install
+
+Name: pugixml
+Description: Description of pugixml
+Version: 1.7.1
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lpugixml
+Requires: 

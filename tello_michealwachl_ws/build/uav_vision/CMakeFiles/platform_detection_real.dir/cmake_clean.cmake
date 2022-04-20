@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/platform_detection_real.dir/src/platform_detection_real.cpp.o"
-  "/home/tello1804/tello_michealwachl_ws/devel/lib/uav_vision/platform_detection_real.pdb"
-  "/home/tello1804/tello_michealwachl_ws/devel/lib/uav_vision/platform_detection_real"
+  "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel/lib/uav_vision/platform_detection_real.pdb"
+  "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel/lib/uav_vision/platform_detection_real"
 )
 
 # Per-language clean rules from dependency scanning.

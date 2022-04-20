@@ -67,14 +67,14 @@ set(image_geometry_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(image_geometry_SOURCE_PREFIX /home/tello1804/tello_michealwachl_ws/src/vision_opencv/image_geometry)
-  set(image_geometry_DEVEL_PREFIX /home/tello1804/tello_michealwachl_ws/devel)
+  set(image_geometry_SOURCE_PREFIX /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/vision_opencv/image_geometry)
+  set(image_geometry_DEVEL_PREFIX /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel)
   set(image_geometry_INSTALL_PREFIX "")
   set(image_geometry_PREFIX ${image_geometry_DEVEL_PREFIX})
 else()
   set(image_geometry_SOURCE_PREFIX "")
   set(image_geometry_DEVEL_PREFIX "")
-  set(image_geometry_INSTALL_PREFIX /home/tello1804/tello_michealwachl_ws/install)
+  set(image_geometry_INSTALL_PREFIX /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/install)
   set(image_geometry_PREFIX ${image_geometry_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/tello1804/tello_michealwachl_ws/install/lib;/home/tello1804/workspace/ros/aerostack_catkin_ws/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/install/lib;/home/tello1804/workspace/ros/aerostack_catkin_ws/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

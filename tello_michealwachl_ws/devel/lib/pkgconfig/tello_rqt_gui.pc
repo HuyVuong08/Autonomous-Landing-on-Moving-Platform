@@ -1,4 +1,4 @@
-prefix=/home/tello1804/tello_michealwachl_ws/devel
+prefix=/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel
 
 Name: tello_rqt_gui
 Description: Description of tello_rqt_gui

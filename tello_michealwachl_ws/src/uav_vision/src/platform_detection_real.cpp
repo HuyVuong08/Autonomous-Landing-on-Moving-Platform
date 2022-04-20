@@ -37,12 +37,12 @@ cv::Mat img_hsv;
 
 cv::Mat image;
 
-int H_min = 0;
-int H_max = 179;
-int S_min = 0;
-int S_max = 196;
-int V_min = 0;
-int V_max = 170;
+int H_min = 36;
+int H_max = 70;
+int S_min = 25;
+int S_max = 255;
+int V_min = 25;
+int V_max = 255;
 
 int images_read = 0;
 int times_detected = 0;
@@ -102,7 +102,6 @@ class Platform_Detection
 
 public:
     Platform_Detection();
-    //void height(const ardrone_autonomy::NavdataConstPtr& ardrone_navdata);
     void height(const uav_vision::TelloStatusConstPtr& msg);
     void cam_info(const sensor_msgs::CameraInfo& cam_parameters);
     void angle(const sensor_msgs::ImuConstPtr& hector_imu);
@@ -123,7 +122,6 @@ Platform_Detection::Platform_Detection()
     std::string image_topic_;
     std::string camera_info_topic_;
     std::string platform_position_topic_;
-    //std::string ardrone_navdata_topic_;
     std::string imu_topic_;
 
     //For Tello
@@ -145,11 +143,11 @@ Platform_Detection::Platform_Detection()
     nh_.param("tello_altitude_topic", tello_altitude_topic_, std::string("/tello/status/height_m"));
     nh_.param("imu_topic", imu_topic_, std::string("/tello/imu"));
 
-    nh_.param("H_min", H_min, 100);
-    nh_.param("H_max", H_max, 140);
-    nh_.param("S_min", S_min, 150);
+    nh_.param("H_min", H_min, 36);
+    nh_.param("H_max", H_max, 70);
+    nh_.param("S_min", S_min, 25);
     nh_.param("S_max", S_max, 255);
-    nh_.param("V_min", V_min, 0);
+    nh_.param("V_min", V_min, 25);
     nh_.param("V_max", V_max, 255);
 
     nh_.param("teoric_size", teoric_size, DEFAULT_SIZE);
@@ -202,13 +200,6 @@ Platform_Detection::Platform_Detection()
 
 
 }
-   
-// void Platform_Detection::height(const ardrone_autonomy::NavdataConstPtr& ardrone_navdata)
-// {
-//     altitude_quadrotor = ardrone_navdata->altd; 
-// }
-
-//For Tello 
 
 void Platform_Detection::height(const uav_vision::TelloStatusConstPtr& msg)
 {
@@ -268,9 +259,13 @@ void Platform_Detection::colorDetectionCallback(const sensor_msgs::ImageConstPtr
     cv::Mat img_negated;
     cv::bitwise_not ( img_mask, img_negated );
    
+    cv::Mat img_blured;
+    cv::medianBlur(img_negated, img_blured, 5);
+    // cv::imshow("blur", img_blured);
+
    
     //Find countours on the image
-    cv::findContours(img_negated, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0,0));
+    cv::findContours(img_blured, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0,0));
 
     for (int i = 0; i < contours.size(); i++)
     {
@@ -279,8 +274,8 @@ void Platform_Detection::colorDetectionCallback(const sensor_msgs::ImageConstPtr
         cv::Point pt;
         for(int j=0;j<approx.size();j++)
         {
-            //cv::Point point = approx[i];
-            //ROS_INFO("extracting points X %d Y %d",point.x, point.y);
+            cv::Point point = approx[i];
+            ROS_INFO("extracting points X %d Y %d",point.x, point.y);
 
             if (j == approx.size()-1)
             {

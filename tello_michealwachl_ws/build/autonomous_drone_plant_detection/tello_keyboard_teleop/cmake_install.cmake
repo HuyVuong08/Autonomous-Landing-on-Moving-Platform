@@ -1,8 +1,8 @@
-# Install script for directory: /home/tello1804/tello_michealwachl_ws/src/autonomous_drone_plant_detection/tello_keyboard_teleop
+# Install script for directory: /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/autonomous_drone_plant_detection/tello_keyboard_teleop
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tello1804/tello_michealwachl_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,21 +38,21 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleop.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleop.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tello_keyboard_teleop/cmake" TYPE FILE FILES
-    "/home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleopConfig.cmake"
-    "/home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleopConfig-version.cmake"
+    "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleopConfig.cmake"
+    "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleopConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tello_keyboard_teleop" TYPE FILE FILES "/home/tello1804/tello_michealwachl_ws/src/autonomous_drone_plant_detection/tello_keyboard_teleop/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tello_keyboard_teleop" TYPE FILE FILES "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/autonomous_drone_plant_detection/tello_keyboard_teleop/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/tello_keyboard_teleop" TYPE PROGRAM FILES "/home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleop.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/tello_keyboard_teleop" TYPE PROGRAM FILES "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_keyboard_teleop/catkin_generated/installspace/tello_keyboard_teleop.py")
 endif()
 

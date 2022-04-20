@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/uav_vision_generate_messages_nodejs"
-  "/home/tello1804/tello_michealwachl_ws/devel/share/gennodejs/ros/uav_vision/msg/TelloStatus.js"
+  "/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel/share/gennodejs/ros/uav_vision/msg/TelloStatus.js"
 )
 
 # Per-language clean rules from dependency scanning.

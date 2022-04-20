@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tello1804/tello_michealwachl_ws/src
+CMAKE_SOURCE_DIR = /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tello1804/tello_michealwachl_ws/build
+CMAKE_BINARY_DIR = /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build
 
 # Utility rule file for tello_rqt_gui_generate_messages_py.
 
@@ -63,10 +63,10 @@ autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate
 .PHONY : autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/build
 
 autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/clean:
-	cd /home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_rqt_gui && $(CMAKE_COMMAND) -P CMakeFiles/tello_rqt_gui_generate_messages_py.dir/cmake_clean.cmake
+	cd /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_rqt_gui && $(CMAKE_COMMAND) -P CMakeFiles/tello_rqt_gui_generate_messages_py.dir/cmake_clean.cmake
 .PHONY : autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/clean
 
 autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/depend:
-	cd /home/tello1804/tello_michealwachl_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tello1804/tello_michealwachl_ws/src /home/tello1804/tello_michealwachl_ws/src/autonomous_drone_plant_detection/tello_rqt_gui /home/tello1804/tello_michealwachl_ws/build /home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_rqt_gui /home/tello1804/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/autonomous_drone_plant_detection/tello_rqt_gui /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_rqt_gui /home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/build/autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : autonomous_drone_plant_detection/tello_rqt_gui/CMakeFiles/tello_rqt_gui_generate_messages_py.dir/depend
 

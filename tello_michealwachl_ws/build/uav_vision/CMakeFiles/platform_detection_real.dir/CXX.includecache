@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/tello1804/tello_michealwachl_ws/devel/include/uav_vision/TelloStatus.h
+/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel/include/uav_vision/TelloStatus.h
 string
 -
 vector
@@ -22,7 +22,7 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/home/tello1804/tello_michealwachl_ws/src/uav_vision/src/platform_detection_real.cpp
+/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/uav_vision/src/platform_detection_real.cpp
 ros/ros.h
 -
 image_transport/image_transport.h
@@ -34,9 +34,9 @@ cv_bridge/cv_bridge.h
 sensor_msgs/image_encodings.h
 -
 opencv2/imgproc/imgproc.hpp
-/home/tello1804/tello_michealwachl_ws/src/uav_vision/src/opencv2/imgproc/imgproc.hpp
+/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/uav_vision/src/opencv2/imgproc/imgproc.hpp
 opencv2/highgui/highgui.hpp
-/home/tello1804/tello_michealwachl_ws/src/uav_vision/src/opencv2/highgui/highgui.hpp
+/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/uav_vision/src/opencv2/highgui/highgui.hpp
 iostream
 -
 stdio.h
@@ -64,7 +64,7 @@ std_msgs/Int32.h
 tf/transform_listener.h
 -
 
-/home/tello1804/tello_michealwachl_ws/src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h
+/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h
 sensor_msgs/Image.h
 -
 sensor_msgs/CompressedImage.h
