@@ -2,3 +2,5 @@ catkin_ws/build/
 catkin_ws/devel/
 pablo_uav_system_ws/build
 pablo_uav_system_ws/devel
+tello_madswamp_ver2_ws/build
+tello_madswamp_ver2_ws/devel
