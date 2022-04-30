@@ -1,8 +1,0 @@
-prefix=/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel
-
-Name: aruco
-Description: Description of aruco
-Version: 2.1.3
-Cflags: -I/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/src/aruco_ros/aruco/include
-Libs: -L${prefix}/lib -laruco
-Requires: 

@@ -1,8 +1,0 @@
-prefix=/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/devel
-
-Name: tello_controller
-Description: Description of tello_controller
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

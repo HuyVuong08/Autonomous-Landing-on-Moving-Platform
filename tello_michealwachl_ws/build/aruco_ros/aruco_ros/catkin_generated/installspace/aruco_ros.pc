@@ -1,8 +1,0 @@
-prefix=/home/tello1804/Autonomous-Landing-on-Moving-Platform/tello_michealwachl_ws/install
-
-Name: aruco_ros
-Description: Description of aruco_ros
-Version: 2.1.3
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib -laruco_ros_utils
-Requires: aruco sensor_msgs tf

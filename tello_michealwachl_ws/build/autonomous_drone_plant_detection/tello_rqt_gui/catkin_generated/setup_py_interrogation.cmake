@@ -1,7 +1,0 @@
-set(tello_rqt_gui_SETUP_PY_SETUP_MODULE "distutils.core")
-set(tello_rqt_gui_SETUP_PY_VERSION "0.0.1")
-set(tello_rqt_gui_SETUP_PY_SCRIPTS "")
-set(tello_rqt_gui_SETUP_PY_PACKAGES "$tello_rqt_gui")
-set(tello_rqt_gui_SETUP_PY_PACKAGE_DIRS "src/$tello_rqt_gui")
-set(tello_rqt_gui_SETUP_PY_MODULES "")
-set(tello_rqt_gui_SETUP_PY_MODULE_DIRS "")
