@@ -2,3 +2,6 @@ catkin_ws/build/
 catkin_ws/devel/
 pablo_uav_system_ws/build
 pablo_uav_system_ws/devel
+tello_michealwachl_ws/build
+tello_michealwachl_ws/devel
+*.pyc
