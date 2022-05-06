@@ -5,3 +5,4 @@ pablo_uav_system_ws/devel
 botello_ws/build
 botello_ws/devel
 botello_ws/logs
+*.pyc
