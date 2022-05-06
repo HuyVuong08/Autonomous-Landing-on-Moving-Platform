@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/install
-
-Name: botello_driver
-Description: Description of botello_driver
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

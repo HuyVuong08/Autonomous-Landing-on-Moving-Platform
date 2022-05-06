@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/install
-
-Name: botello_aruco_gridboard
-Description: Description of botello_aruco_gridboard
-Version: 0.0.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: cv_bridge geometry_msgs message_filters image_transport roscpp sensor_msgs std_msgs

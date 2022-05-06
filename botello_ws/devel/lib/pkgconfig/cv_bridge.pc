@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel
-
-Name: cv_bridge
-Description: Description of cv_bridge
-Version: 1.13.0
-Cflags: -I/home/mercedes-benz-s-500/Desktop/botello/botello_ws/src/vision_opencv/cv_bridge/include -I/usr/local/include -I/usr/local/include/opencv
-Libs: -L${prefix}/lib -lcv_bridge /usr/local/lib/libopencv_core.so.3.3.1 /usr/local/lib/libopencv_imgproc.so.3.3.1 /usr/local/lib/libopencv_imgcodecs.so.3.3.1
-Requires: rosconsole sensor_msgs

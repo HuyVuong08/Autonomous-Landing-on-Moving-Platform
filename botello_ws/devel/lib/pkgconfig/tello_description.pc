@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel
-
-Name: tello_description
-Description: Description of tello_description
-Version: 0.1.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
