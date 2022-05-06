@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target botello_navigation_node[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/botello_navigation_node.dir/src/botello_navigation_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_navigation/lib/botello_navigation/botello_navigation_node[0m
+[100%] Built target botello_navigation_node

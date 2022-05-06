@@ -1,0 +1,2 @@
+botello_aruco:botello_aruco_gridboard:botello_driver:botello_localization:botello_movement:botello_navigation:botello_twist_keyboard:tello_description:tello_driver:vision_opencv/cv_bridge:vision_opencv/image_geometry:vision_opencv/opencv_tests:vision_opencv/vision_opencv
+-DCATKIN_DEVEL_PREFIX=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/install -G Unix Makefiles

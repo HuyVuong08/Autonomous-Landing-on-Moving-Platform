@@ -1,0 +1,6 @@
+botello_localization
+/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_localization/cmake.lock /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/./cmake.lock
+/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_localization/share/botello_localization/cmake/botello_localizationConfig.cmake /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/share/botello_localization/cmake/botello_localizationConfig.cmake
+/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_localization/share/botello_localization/cmake/botello_localizationConfig-version.cmake /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/share/botello_localization/cmake/botello_localizationConfig-version.cmake
+/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_localization/lib/pkgconfig/botello_localization.pc /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/lib/pkgconfig/botello_localization.pc
+/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_localization/lib/botello_localization/botello_localization_node /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/lib/botello_localization/botello_localization_node

@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target botello_aruco_node[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/botello_aruco_node.dir/src/botello_aruco_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_aruco/lib/botello_aruco/botello_aruco_node[0m
+[100%] Built target botello_aruco_node

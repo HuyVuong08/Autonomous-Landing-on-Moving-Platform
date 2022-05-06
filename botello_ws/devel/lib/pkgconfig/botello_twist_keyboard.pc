@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel
+
+Name: botello_twist_keyboard
+Description: Description of botello_twist_keyboard
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

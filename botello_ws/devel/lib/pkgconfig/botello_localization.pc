@@ -1,0 +1,8 @@
+prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel
+
+Name: botello_localization
+Description: Description of botello_localization
+Version: 0.0.0
+Cflags: -I/home/mercedes-benz-s-500/Desktop/botello/botello_ws/src/botello_localization/include
+Libs: -L${prefix}/lib 
+Requires: 
