@@ -101,7 +101,7 @@ private:
     // Publishers.
     // ================
     // ros::Publisher mCmdVelPub;
-
+    ros::Publisher goalReachedPub;
     
     // ================
     // Callbacks.

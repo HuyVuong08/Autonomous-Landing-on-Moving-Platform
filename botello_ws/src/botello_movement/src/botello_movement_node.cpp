@@ -121,6 +121,7 @@ void BotelloMovementNode::telloStatusCb(const tello_driver::TelloStatus & msg)
 {
     mTelloStatusIsFlying = msg.is_flying;
     mTelloStatusHeight = msg.height_m;
+    ROS_INFO_STREAM("Height: "<< mTelloStatusHeight);
 }
 
 // Send /cmd_vel msgs to command velocities on the robot.
@@ -203,8 +204,6 @@ double BotelloMovementNode::pid(const std::string & axis,const double & error, c
 {
     // TODO(yoraish): complete the PId.
     double cmd = gains.kp * error;
-
-
     cmd = cmd > 1.0 ? 1.0 : cmd; // default 0.5
     cmd = cmd < -1.0 ? -1.0 : cmd;
     return cmd;
