@@ -30,6 +30,7 @@ private:
     // ================
     // Most recent manual override time.
     ros::Time mManualOverrideStamp;
+    ros::Time mTime2Descend;
 
     // Most recent successful lookup of `goal` frame.
     ros::Time mLastGoalLookupTime;
@@ -89,8 +90,10 @@ private:
     // Publishers.
     // ================
     ros::Publisher mCmdVelPub;
+    ros::Publisher pub_land_;
+    ros::Publisher pub_land_emergency_;
 
-    
+
     // ================
     // Callbacks.
     // ================
