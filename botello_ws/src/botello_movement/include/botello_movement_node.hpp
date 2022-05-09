@@ -79,8 +79,10 @@ private:
     // Publishers.
     // ================
     ros::Publisher mCmdVelPub;
+    ros::Publisher pub_takeoff_, pub_land_;
+    ros::Publisher pub_land_;
 
-    
+
     // ================
     // Callbacks.
     // ================

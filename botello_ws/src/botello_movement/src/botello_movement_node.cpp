@@ -201,3 +201,19 @@ int main(int argc, char **argv)
     }
     return 0;
 }
+/*
+ * ros::Publisher pub_takeoff_, pub_land_;
+ *
+ * pub_takeoff_ = nh_.advertise<std_msgs::Empty>("/tello/takeoff", 1);
+ * pub_land_ = nh_.advertise<std_msgs::Empty>("/tello/land", 1);
+ *
+ * void Takeoff::takeoff() {
+ *     ROS_INFO("Takeoff...");
+ *     pub_takeoff_.publish(std_msgs::Empty());
+ * }
+ *
+ * void Takeoff::land() {
+ *     ROS_INFO("Land...");
+ *     pub_land_.publish(std_msgs::Empty());
+ * }
+ */
