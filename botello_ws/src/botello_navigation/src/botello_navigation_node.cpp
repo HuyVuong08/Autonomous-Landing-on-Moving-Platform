@@ -29,6 +29,11 @@ BotelloNavigationNode::~BotelloNavigationNode()
 bool BotelloNavigationNode::getParamsFromParamServer()
 {
     ros::NodeHandle pnh("botello_navigation_node"); // To fetch params from the private namespace. I think that "~" is similar.
+    
+    ros::Publisher goalReachedPub = pnh.advertise<std_msgs::Bool>("/botello/goal_reached_flag", 1000); //Publish goal_reached_flag
+    goal_reached_msg.data = isGoalReached();
+    goalReachedPub.publish(goal_reached_msg);
+
     if (!pnh.param<std::string>("waypoints_yaml_path", mWaypointsYamlPath, ""))
     {
         ROS_ERROR_STREAM("Using default value for param waypoints_yaml_path");
@@ -132,6 +137,7 @@ void BotelloNavigationNode::updateCurrentWaypointIx()
     // Check if the current waypoint has been reached.
     if (isGoalReached())
     {
+        
         mCurrentWaypointIx += 1;
         mCurrentWaypointIx = mCurrentWaypointIx % mWaypoints.size();
     }

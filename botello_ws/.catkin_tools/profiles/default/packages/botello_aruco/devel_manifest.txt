@@ -1,6 +1,0 @@
-botello_aruco
-/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_aruco/cmake.lock /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/./cmake.lock
-/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_aruco/share/botello_aruco/cmake/botello_arucoConfig.cmake /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/share/botello_aruco/cmake/botello_arucoConfig.cmake
-/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_aruco/share/botello_aruco/cmake/botello_arucoConfig-version.cmake /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/share/botello_aruco/cmake/botello_arucoConfig-version.cmake
-/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_aruco/lib/botello_aruco/botello_aruco_node /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/lib/botello_aruco/botello_aruco_node
-/home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/.private/botello_aruco/lib/pkgconfig/botello_aruco.pc /home/mercedes-benz-s-500/Desktop/botello/botello_ws/devel/lib/pkgconfig/botello_aruco.pc

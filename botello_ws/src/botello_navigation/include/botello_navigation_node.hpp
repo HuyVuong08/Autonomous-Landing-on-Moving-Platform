@@ -1,5 +1,5 @@
-
 #include <std_msgs/Empty.h>
+#include <std_msgs/Bool.h>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "nav_msgs/Odometry.h"
@@ -65,6 +65,8 @@ private:
     std::string mWaypointsYamlPath;
     // The frame in which waypoints are specified.
     std::string mWaypointsFrame;
+    // Goal_reached_flag to publish 
+    std_msgs::Bool goal_reached_msg;
 
     // ================
     // Methods.
