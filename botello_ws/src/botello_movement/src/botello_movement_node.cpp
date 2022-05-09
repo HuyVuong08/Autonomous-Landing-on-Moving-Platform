@@ -186,10 +186,13 @@ void BotelloMovementNode::controlVelocity()
     //double cmdVelZ = pid("z", errZ, mZGains);
     double cmdVelZ = 0;
     double cmdVelYaw = pid("yaw", errYaw, mYawGains);
+
     
     ROS_INFO_STREAM("Errors of goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
 
     //Height control and landing system
+
+
 
 
     // Tello commands are not right-handed.
@@ -200,7 +203,9 @@ double BotelloMovementNode::pid(const std::string & axis,const double & error, c
 {
     // TODO(yoraish): complete the PId.
     double cmd = gains.kp * error;
-    cmd = cmd > 1.0 ? 1.0 : cmd;
+
+
+    cmd = cmd > 1.0 ? 1.0 : cmd; // default 0.5
     cmd = cmd < -1.0 ? -1.0 : cmd;
     return cmd;
 }
@@ -211,10 +216,10 @@ int main(int argc, char **argv)
 {
     // ROS set-ups.
     // Node name.
-    ros::init(argc, argv, "botello_movement_node"); 
+    ros::init(argc, argv, "botello_movement_node");
     ros::NodeHandle nh;
     botello_movement::BotelloMovementNode botelloMovementNode(nh);
-    
+
     ros::Rate rate(30);
     while( ros::ok())
     {
