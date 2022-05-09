@@ -20,6 +20,8 @@ BotelloMovementNode::BotelloMovementNode(const ros::NodeHandle & nh)
 
     // Publish command velocities.
     mCmdVelPub = mnh.advertise<geometry_msgs::Twist>("/tello/cmd_vel", 1);
+    pub_land_ = nh_.advertise<std_msgs::Empty>("/tello/land", 1);
+    pub_land_emergency_ = nh_.advertise<std_msgs::Empty>("/tello/emergency", 1);
 
     // Get params from server.
     getParamsFromParamServer();
@@ -187,13 +189,13 @@ void BotelloMovementNode::controlVelocity()
     double cmdVelZ = 0;
     double cmdVelYaw = pid("yaw", errYaw, mYawGains);
 
-    
     ROS_INFO_STREAM("Errors of goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
 
     //Height control and landing system
-
-
-
+    if (errX < 0.35 ) {
+        cmdVelZ = -0.1;
+        mTime2Descend
+    }
 
     // Tello commands are not right-handed.
     commandVelocity(-cmdVelY, cmdVelX , cmdVelZ, -cmdVelYaw);
@@ -229,18 +231,16 @@ int main(int argc, char **argv)
     }
     return 0;
 }
+
 /*
  * ros::Publisher pub_takeoff_, pub_land_;
  *
- * pub_takeoff_ = nh_.advertise<std_msgs::Empty>("/tello/takeoff", 1);
- * pub_land_ = nh_.advertise<std_msgs::Empty>("/tello/land", 1);
- *
- * void Takeoff::takeoff() {
- *     ROS_INFO("Takeoff...");
- *     pub_takeoff_.publish(std_msgs::Empty());
+ * void BotelloMovementNode::land_emergency() {
+ *     ROS_INFO("land_emergency...");
+ *     pub_land_emergency_.publish(std_msgs::Empty());
  * }
  *
- * void Takeoff::land() {
+ * void BotelloMovementNode::land() {
  *     ROS_INFO("Land...");
  *     pub_land_.publish(std_msgs::Empty());
  * }
