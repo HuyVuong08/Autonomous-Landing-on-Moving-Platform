@@ -1,4 +1,5 @@
 #include <std_msgs/Empty.h>
+#include <std_msgs/Bool.h>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "nav_msgs/Odometry.h"
@@ -55,6 +56,13 @@ private:
     // Number of seconds allowed to pass without successful goal-frame lookups before a stop signal gets sent.
     double mNoGoalsMaxTime;
 
+    //Goal reach flag
+    bool mGoalReachFlag;
+
+    // Tello status.
+    bool mTelloStatusIsFlying;
+    double mTelloStatusHeight;
+
     // ================
     // Methods.
     // ================
@@ -74,6 +82,8 @@ private:
     // Listeners.
     // ================
     ros::Subscriber mManualOverrideSub;
+    ros::Subscriber mGoalReachedFlagSub;
+    ros::Subscriber mTelloStatusSub;
 
     // ================
     // Publishers.
@@ -85,6 +95,8 @@ private:
     // Callbacks.
     // ================
     void manualOverrideCb(const std_msgs::Empty & msg);
+    void GoalReachedCb(const std_msgs::Bool & msg);
+    void telloStatusCb(const tello_driver::TelloStatus & msg);
 
 
 public:

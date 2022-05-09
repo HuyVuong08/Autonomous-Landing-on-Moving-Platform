@@ -12,6 +12,12 @@ BotelloMovementNode::BotelloMovementNode(const ros::NodeHandle & nh)
     // Listen to manual override messages.
     mManualOverrideSub = mnh.subscribe("/botello/manual_override", 1, & BotelloMovementNode::manualOverrideCb, this);
 
+    // Subscribe to goal_reached_flag
+    mGoalReachedFlagSub = mnh.subscribe("/botello/goal_reached_flag", 1 ,&BotelloMovementNode::GoalReachedCb, this);
+
+    // Subscribe to tello status messages to get Tello's height
+    mTelloStatusSub = mnh.subscribe("/tello/status", 1, &BotelloMovementNode::telloStatusCb, this);
+
     // Publish command velocities.
     mCmdVelPub = mnh.advertise<geometry_msgs::Twist>("/tello/cmd_vel", 1);
 
@@ -106,6 +112,17 @@ void BotelloMovementNode::manualOverrideCb(const std_msgs::Empty & msg)
     mManualOverrideStamp = ros::Time::now();
 }
 
+void BotelloMovementNode::GoalReachedCb(const std_msgs::Bool & msg)
+{
+    mGoalReachFlag = msg.data;
+}
+
+void BotelloMovementNode::telloStatusCb(const tello_driver::TelloStatus & msg)
+{
+    mTelloStatusIsFlying = msg.is_flying;
+    mTelloStatusHeight = msg.height_m;
+}
+
 // Send /cmd_vel msgs to command velocities on the robot.
 void BotelloMovementNode::commandVelocity(const double & vx,
                                           const double & vy,
@@ -125,11 +142,16 @@ void BotelloMovementNode::commandVelocity(const double & vx,
     msg.angular.z = vt;
 
     mCmdVelPub.publish(msg);
-    }
+    ROS_INFO_STREAM("Cmd vel of x y z yaw: " << vx << " " << vy << " " << vz << " " << vt <<"\n");
+
+}
+
+//ControlAltitude
 
 void BotelloMovementNode::controlVelocity()
 {
 
+    // Main flying control system
     // Find the error transform. It is goal in the base_link frame.
     static tf::TransformListener tfListener;
     tf::StampedTransform goalInBaselink;
@@ -158,23 +180,28 @@ void BotelloMovementNode::controlVelocity()
     double errY = goalInBaselink.getOrigin().getY();
     double errZ = 0; // Do not control height for now.
     double errYaw = tf::getYaw(goalInBaselink.getRotation());
+
     double cmdVelX = pid("x", errX, mXGains);
     double cmdVelY = pid("y", errY, mYGains);
-    double cmdVelZ = pid("z", errZ, mZGains);
+    //double cmdVelZ = pid("z", errZ, mZGains);
+    double cmdVelZ = 0;
     double cmdVelYaw = pid("yaw", errYaw, mYawGains);
     
-    ROS_INFO_STREAM("Errors ot goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
+    ROS_INFO_STREAM("Errors of goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
+
+    //Height control and landing system
+
 
     // Tello commands are not right-handed.
-    commandVelocity(-cmdVelY, cmdVelX , 0, -cmdVelYaw);
+    commandVelocity(-cmdVelY, cmdVelX , cmdVelZ, -cmdVelYaw);
 }
 
 double BotelloMovementNode::pid(const std::string & axis,const double & error, const PidGains & gains)
 {
     // TODO(yoraish): complete the PId.
     double cmd = gains.kp * error;
-    cmd = cmd > 0.5 ? 0.5 : cmd;
-    cmd = cmd < -0.5 ? -0.5 : cmd;
+    cmd = cmd > 1.0 ? 1.0 : cmd;
+    cmd = cmd < -1.0 ? -1.0 : cmd;
     return cmd;
 }
 } // End namespace botello_movement.

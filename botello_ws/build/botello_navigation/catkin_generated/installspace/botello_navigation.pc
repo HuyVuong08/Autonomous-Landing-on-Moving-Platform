@@ -1,8 +1,0 @@
-prefix=/home/mercedes-benz-s-500/Desktop/botello/botello_ws/install
-
-Name: botello_navigation
-Description: Description of botello_navigation
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: 
