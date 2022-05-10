@@ -132,7 +132,7 @@ void BotelloMovementNode::commandLanding(double & vz)
     // Only allow autonomous commands if enough time has passed since a manual override.
     if ((ros::Time::now() - mDescendPeriodStamp).toSec() <= mDescendPeriodTimeout)
     {
-        vz = -0.1;
+        vz = -0.2;
         return;
     }
     //Publish emergency landing after 3 second desending
@@ -184,7 +184,8 @@ void BotelloMovementNode::controlVelocity()
         if ((ros::Time::now() - mLastGoalLookupTime).toSec() > mNoGoalsMaxTime)
         {
             if (isLanding == true) {
-                pub_land_emergency_.publish(std_msgs::Empty());
+                commandVelocity(0,0,0,0);
+                pub_land_.publish(std_msgs::Empty());
                 ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
             } else {
                 ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
@@ -214,11 +215,19 @@ void BotelloMovementNode::controlVelocity()
     // isLanding = false;
 
     //Height control and landing system
-    if (errX < 0.35 ) {
+    if (errX < 0.5 ) {
         // mDescendPeriodStamp = ros::Time::now();
         // commandLanding(cmdVelZ);
-        isLanding = true;
-        cmdVelZ = -1.0;
+        // isLanding = true;
+        // 
+        if(mTelloStatusHeight < 0.2){
+            pub_land_.publish(std_msgs::Empty());
+            ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
+        }else{
+            cmdVelZ = -0.5;
+            ROS_INFO_STREAM("SLOW LANDING INITITATED"<<"\n");
+        }
+        
     }
 
     // Tello commands are not right-handed.
@@ -229,8 +238,8 @@ double BotelloMovementNode::pid(const std::string & axis,const double & error, c
 {
     // TODO(yoraish): complete the PId.
     double cmd = gains.kp * error;
-    cmd = cmd > 0.5 ? 0.5 : cmd; // default 0.5
-    cmd = cmd < -0.5 ? -0.5 : cmd;
+    cmd = cmd > 1.0 ? 1.0 : cmd; // default 0.5
+    cmd = cmd < -1.0 ? -1.0 : cmd;
     return cmd;
 }
 } // End namespace botello_movement.
