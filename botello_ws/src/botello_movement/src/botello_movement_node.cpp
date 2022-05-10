@@ -237,7 +237,7 @@ void BotelloMovementNode::controlVelocity()
 double BotelloMovementNode::pid(const std::string & axis,const double & error, const PidGains & gains)
 {
     // TODO(yoraish): complete the PId.
-    double cmd = gains.kp * error;
+    double cmd = gains.kp * error + 0.1;
     cmd = cmd > 1.0 ? 1.0 : cmd; // default 0.5
     cmd = cmd < -1.0 ? -1.0 : cmd;
     return cmd;
