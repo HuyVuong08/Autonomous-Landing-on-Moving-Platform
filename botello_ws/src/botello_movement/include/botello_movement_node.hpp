@@ -47,13 +47,15 @@ private:
     PidGains mZGains;
     PidGains mYawGains;
 
+    // land flag
+    bool isLanding = false;
 
     // ================
     // Parameters.
     // ================
     // How long to disable autonomous command after a manual override msg.
     double mManualOverrideCooldownTimeout;
-    // How long to descend drone 
+    // How long to descend drone
     double mDescendPeriodTimeout = 3.0;
 
     // Number of seconds allowed to pass without successful goal-frame lookups before a stop signal gets sent.

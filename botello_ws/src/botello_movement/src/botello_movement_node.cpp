@@ -183,8 +183,13 @@ void BotelloMovementNode::controlVelocity()
         // If could not find a transform to goal, then change nothing about the control velocities. Unless a long time has passed since the most recent goal transform successful lookup, in which case, command a zero velocity on all axes.
         if ((ros::Time::now() - mLastGoalLookupTime).toSec() > mNoGoalsMaxTime)
         {
-            ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
-            commandVelocity(0,0,0,0);
+            if (isLanding == true) {
+                pub_land_emergency_.publish(std_msgs::Empty());
+                ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
+            } else {
+                ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
+                commandVelocity(0,0,0,0);
+            }
         }
         return;
     }
@@ -206,10 +211,13 @@ void BotelloMovementNode::controlVelocity()
 
     ROS_INFO_STREAM("Errors of goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
 
+    // isLanding = false;
+
     //Height control and landing system
     if (errX < 0.35 ) {
         // mDescendPeriodStamp = ros::Time::now();
         // commandLanding(cmdVelZ);
+        isLanding = true;
         cmdVelZ = -1.0;
     }
 
