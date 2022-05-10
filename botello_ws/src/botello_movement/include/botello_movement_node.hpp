@@ -31,7 +31,7 @@ private:
     // Most recent manual override time.
     ros::Time mManualOverrideStamp;
     ros::Time mTime2Descend;
-
+    ros::Time mDescendPeriodStamp;
     // Most recent successful lookup of `goal` frame.
     ros::Time mLastGoalLookupTime;
 
@@ -53,6 +53,8 @@ private:
     // ================
     // How long to disable autonomous command after a manual override msg.
     double mManualOverrideCooldownTimeout;
+    // How long to descend drone 
+    double mDescendPeriodTimeout = 3.0;
 
     // Number of seconds allowed to pass without successful goal-frame lookups before a stop signal gets sent.
     double mNoGoalsMaxTime;
@@ -68,7 +70,8 @@ private:
     // Methods.
     // ================
     bool getParamsFromParamServer();
-
+    //Landing control system
+    void commandLanding(double & vz);
     // Send /cmd_vel msgs to command velocities on the robot.
     void commandVelocity(const double & vx,
                          const double & vy,

@@ -20,8 +20,8 @@ BotelloMovementNode::BotelloMovementNode(const ros::NodeHandle & nh)
 
     // Publish command velocities.
     mCmdVelPub = mnh.advertise<geometry_msgs::Twist>("/tello/cmd_vel", 1);
-    pub_land_ = nh_.advertise<std_msgs::Empty>("/tello/land", 1);
-    pub_land_emergency_ = nh_.advertise<std_msgs::Empty>("/tello/emergency", 1);
+    pub_land_ = mnh.advertise<std_msgs::Empty>("/tello/land", 1);
+    pub_land_emergency_ = mnh.advertise<std_msgs::Empty>("/tello/emergency", 1);
 
     // Get params from server.
     getParamsFromParamServer();
@@ -126,7 +126,22 @@ void BotelloMovementNode::telloStatusCb(const tello_driver::TelloStatus & msg)
     ROS_INFO_STREAM("Height: "<< mTelloStatusHeight);
 }
 
-// Send /cmd_vel msgs to command velocities on the robot.
+// Landing control system
+void BotelloMovementNode::commandLanding(double & vz)
+{
+    // Only allow autonomous commands if enough time has passed since a manual override.
+    if ((ros::Time::now() - mDescendPeriodStamp).toSec() <= mDescendPeriodTimeout)
+    {
+        vz = -0.1;
+        return;
+    }
+    //Publish emergency landing after 3 second desending
+    pub_land_emergency_.publish(std_msgs::Empty());
+    ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
+
+
+}
+
 void BotelloMovementNode::commandVelocity(const double & vx,
                                           const double & vy,
                                           const double & vz,
@@ -147,9 +162,8 @@ void BotelloMovementNode::commandVelocity(const double & vx,
     mCmdVelPub.publish(msg);
     ROS_INFO_STREAM("Cmd vel of x y z yaw: " << vx << " " << vy << " " << vz << " " << vt <<"\n");
 
-}
 
-//ControlAltitude
+}
 
 void BotelloMovementNode::controlVelocity()
 {
@@ -194,8 +208,9 @@ void BotelloMovementNode::controlVelocity()
 
     //Height control and landing system
     if (errX < 0.35 ) {
-        cmdVelZ = -0.1;
-        mTime2Descend
+        // mDescendPeriodStamp = ros::Time::now();
+        // commandLanding(cmdVelZ);
+        cmdVelZ = -1.0;
     }
 
     // Tello commands are not right-handed.
@@ -206,8 +221,8 @@ double BotelloMovementNode::pid(const std::string & axis,const double & error, c
 {
     // TODO(yoraish): complete the PId.
     double cmd = gains.kp * error;
-    cmd = cmd > 1.0 ? 1.0 : cmd; // default 0.5
-    cmd = cmd < -1.0 ? -1.0 : cmd;
+    cmd = cmd > 0.5 ? 0.5 : cmd; // default 0.5
+    cmd = cmd < -0.5 ? -0.5 : cmd;
     return cmd;
 }
 } // End namespace botello_movement.
