@@ -183,14 +183,16 @@ void BotelloMovementNode::controlVelocity()
         // If could not find a transform to goal, then change nothing about the control velocities. Unless a long time has passed since the most recent goal transform successful lookup, in which case, command a zero velocity on all axes.
         if ((ros::Time::now() - mLastGoalLookupTime).toSec() > mNoGoalsMaxTime)
         {
-            if (isLanding == true) {
-                commandVelocity(0,0,0,0);
-                pub_land_.publish(std_msgs::Empty());
-                ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
-            } else {
-                ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
-                commandVelocity(0,0,0,0);
-            }
+            /*
+                * if (isLanding == true) {
+                *     commandVelocity(0,0,0,0);
+                *     pub_land_.publish(std_msgs::Empty());
+                *     ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
+                * } else {
+                */
+            ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
+            commandVelocity(0,0,0,0);
+            // }
         }
         return;
     }
@@ -215,19 +217,20 @@ void BotelloMovementNode::controlVelocity()
     // isLanding = false;
 
     //Height control and landing system
-    if (errX < 0.5 ) {
+    if (errX < 0.5) {
         // mDescendPeriodStamp = ros::Time::now();
         // commandLanding(cmdVelZ);
         // isLanding = true;
-        // 
-        if(mTelloStatusHeight < 0.2){
-            pub_land_.publish(std_msgs::Empty());
+        //
+        if(mTelloStatusHeight < 0.5){
+            // pub_land_.publish(std_msgs::Empty());
             ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
+            cmdVelZ = -10;
         }else{
-            cmdVelZ = -0.5;
+            cmdVelZ = -10;
             ROS_INFO_STREAM("SLOW LANDING INITITATED"<<"\n");
         }
-        
+
     }
 
     // Tello commands are not right-handed.
@@ -237,9 +240,9 @@ void BotelloMovementNode::controlVelocity()
 double BotelloMovementNode::pid(const std::string & axis,const double & error, const PidGains & gains)
 {
     // TODO(yoraish): complete the PId.
-    double cmd = gains.kp * error + 0.1;
-    cmd = cmd > 1.0 ? 1.0 : cmd; // default 0.5
-    cmd = cmd < -1.0 ? -1.0 : cmd;
+    double cmd = gains.kp * error;
+    cmd = cmd > 0.7 ? 0.7 : cmd; // default 0.5
+    cmd = cmd < -0.7 ? -0.7 : cmd;
     return cmd;
 }
 } // End namespace botello_movement.
