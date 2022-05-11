@@ -190,8 +190,14 @@ void BotelloMovementNode::controlVelocity()
                 *     ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
                 * } else {
                 */
-            ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
-            commandVelocity(0,0,0,0);
+            // ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
+            ROS_INFO_STREAM("RELOCALIZATION"<< "\n");
+            double cmdVelZReloc = pid("z",2.0,mZGains);
+            if(mTelloStatusHeight >= 2.0){
+                commandVelocity(0,0,0,0.5);
+            }else{
+                commandVelocity(0,0,cmdVelZReloc,0.5);
+            }
             // }
         }
         return;
@@ -203,13 +209,13 @@ void BotelloMovementNode::controlVelocity()
     // Compute velocities based on the error.
     double errX = goalInBaselink.getOrigin().getX();
     double errY = goalInBaselink.getOrigin().getY();
-    double errZ = 0; // Do not control height for now.
+    double errZ = goalInBaselink.getOrigin().getZ(); // defulat is 0
     double errYaw = tf::getYaw(goalInBaselink.getRotation());
 
     double cmdVelX = pid("x", errX, mXGains);
     double cmdVelY = pid("y", errY, mYGains);
-    //double cmdVelZ = pid("z", errZ, mZGains);
-    double cmdVelZ = 0;
+    double cmdVelZ = pid("z", errZ, mZGains);
+    //double cmdVelZ = 0;
     double cmdVelYaw = pid("yaw", errYaw, mYawGains);
 
     ROS_INFO_STREAM("Errors of goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
@@ -222,15 +228,8 @@ void BotelloMovementNode::controlVelocity()
         // commandLanding(cmdVelZ);
         // isLanding = true;
         //
-        if(mTelloStatusHeight < 0.5){
-            // pub_land_.publish(std_msgs::Empty());
-            ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
             cmdVelZ = -10;
-        }else{
-            cmdVelZ = -10;
-            ROS_INFO_STREAM("SLOW LANDING INITITATED"<<"\n");
-        }
-
+            ROS_INFO_STREAM("LANDING INITITATED"<<"\n");
     }
 
     // Tello commands are not right-handed.
