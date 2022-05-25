@@ -25,4 +25,5 @@
 
 	<node type="rviz" name="rviz" pkg="rviz" args="-d $(find botello_driver)/cfg/config.rviz" />
 
+
 </launch>
