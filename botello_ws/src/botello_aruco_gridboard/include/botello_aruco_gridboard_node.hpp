@@ -109,6 +109,7 @@ private:
     // ================
     // Publish (on a topic) landmark observations. Child frame: landmark (specified by name). Parent frame: base_link (implicit). Botello localization can use that information, alongside the pose of the landmark on the map, to localize the robot (by tweaking odomInMap TF).
     ros::Publisher mLandmarkPub;
+    ros::Publisher mBaseLinkPub;
 
     
     // ================

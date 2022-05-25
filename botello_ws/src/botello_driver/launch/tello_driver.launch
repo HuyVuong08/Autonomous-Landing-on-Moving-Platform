@@ -46,7 +46,7 @@
 	<!--
 		BOTELLO MOVEMENT.
 	 -->
-	 <include file="$(find botello_movement)/launch/botello_movement.launch" />
+	 <!-- <include file="$(find botello_movement)/launch/botello_movement.launch" /> -->
 
 
 
@@ -73,6 +73,12 @@
 	<!-- <include file="$(find botello_twist_keyboard)/launch/botello_twist_keyboard.launch" /> -->
 
   <!-- <include file="$(find tello_description)/launch/description.launch" /> -->
+
+	<!--
+		PID CONTROLLER
+	 -->
+
+    <!-- <include file="$(find robotec_pid)/launch/pid.launch" /> -->
 
   <!-- Start Rviz -->
   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find botello_driver)/cfg/config.rviz" />

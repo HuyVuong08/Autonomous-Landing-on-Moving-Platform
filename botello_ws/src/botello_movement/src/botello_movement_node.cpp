@@ -18,6 +18,12 @@ BotelloMovementNode::BotelloMovementNode(const ros::NodeHandle & nh)
     // Subscribe to tello status messages to get Tello's height
     mTelloStatusSub = mnh.subscribe("/tello/status", 1, &BotelloMovementNode::telloStatusCb, this);
 
+    //Subscribe to PID controller output
+    mPidOutputXSub = mnh.subscribe("/pid_output_x_vel", 1, &BotelloMovementNode::pidForXVelCb, this);
+    mPidOutputYSub = mnh.subscribe("/pid_output_y_vel", 1, &BotelloMovementNode::pidForYVelCb, this);
+    mPidOutputZSub = mnh.subscribe("/pid_output_z_vel", 1, &BotelloMovementNode::pidForZVelCb, this);
+    mPidOutputYawSub = mnh.subscribe("/pid_output_yaw_vel", 1, &BotelloMovementNode::pidForYawVelCb, this);
+
     // Publish command velocities.
     mCmdVelPub = mnh.advertise<geometry_msgs::Twist>("/tello/cmd_vel", 1);
     pub_land_ = mnh.advertise<std_msgs::Empty>("/tello/land", 1);
@@ -63,6 +69,23 @@ bool BotelloMovementNode::getParamsFromParamServer()
     {
         ROS_ERROR_STREAM("Using default value for param pid_gains/x/kd");
     }
+    if (!pnh.param<double>("pid_gains/x/minOutput", mXGains.minOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/x/minOutput");
+    }
+    if (!pnh.param<double>("pid_gains/x/maxOutput", mXGains.maxOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/x/maxOutput");
+    }
+    if (!pnh.param<double>("pid_gains/x/integratorMin", mXGains.integratorMin, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/x/integratorMin");
+    }
+    if (!pnh.param<double>("pid_gains/x/integratorMax", mXGains.integratorMax, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/x/integratorMax");
+    }
+    
 
     // Y axis PID gains.
     if (!pnh.param<double>("pid_gains/y/kp", mYGains.kp, 1.0))
@@ -76,6 +99,22 @@ bool BotelloMovementNode::getParamsFromParamServer()
     if (!pnh.param<double>("pid_gains/y/kd", mYGains.kd, 1.0))
     {
         ROS_ERROR_STREAM("Using default value for param pid_gains/y/kd");
+    }
+    if (!pnh.param<double>("pid_gains/y/minOutput", mYGains.minOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/y/minOutput");
+    }
+    if (!pnh.param<double>("pid_gains/y/maxOutput", mYGains.maxOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/y/maxOutput");
+    }
+    if (!pnh.param<double>("pid_gains/y/integratorMin", mYGains.integratorMin, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/y/integratorMin");
+    }
+    if (!pnh.param<double>("pid_gains/y/integratorMax", mYGains.integratorMax, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/y/integratorMax");
     }
 
     // Z axis PID gains.
@@ -91,6 +130,22 @@ bool BotelloMovementNode::getParamsFromParamServer()
     {
         ROS_ERROR_STREAM("Using default value for param pid_gains/z/kd");
     }
+    if (!pnh.param<double>("pid_gains/z/minOutput", mZGains.minOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/z/minOutput");
+    }
+    if (!pnh.param<double>("pid_gains/z/maxOutput", mZGains.maxOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/z/maxOutput");
+    }
+    if (!pnh.param<double>("pid_gains/z/integratorMin", mZGains.integratorMin, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/z/integratorMin");
+    }
+    if (!pnh.param<double>("pid_gains/z/integratorMax", mZGains.integratorMax, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/z/integratorMax");
+    }
 
     // Yaw axis PID gains.
     if (!pnh.param<double>("pid_gains/yaw/kp", mYawGains.kp, 1.0))
@@ -104,6 +159,22 @@ bool BotelloMovementNode::getParamsFromParamServer()
     if (!pnh.param<double>("pid_gains/yaw/kd", mYawGains.kd, 1.0))
     {
         ROS_ERROR_STREAM("Using default value for param pid_gains/yaw/kd");
+    }
+    if (!pnh.param<double>("pid_gains/yaw/minOutput", mYawGains.minOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/yaw/minOutput");
+    }
+    if (!pnh.param<double>("pid_gains/yaw/maxOutput", mYawGains.maxOutput, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/yaw/maxOutput");
+    }
+    if (!pnh.param<double>("pid_gains/yaw/integratorMin", mYawGains.integratorMin, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/yaw/integratorMin");
+    }
+    if (!pnh.param<double>("pid_gains/yaw/integratorMax", mYawGains.integratorMax, 1.0))
+    {
+        ROS_ERROR_STREAM("Using default value for param pid_gains/yaw/integratorMax");
     }
 }
 
@@ -123,24 +194,26 @@ void BotelloMovementNode::telloStatusCb(const tello_driver::TelloStatus & msg)
 {
     mTelloStatusIsFlying = msg.is_flying;
     mTelloStatusHeight = msg.height_m;
-    ROS_INFO_STREAM("Height: "<< mTelloStatusHeight);
+    //ROS_INFO_STREAM("Height: "<< mTelloStatusHeight);
+}
+
+void BotelloMovementNode::pidForXVelCb(const std_msgs::Float64 & msg){
+    pidCmdVelX = msg.data;
+}
+
+void BotelloMovementNode::pidForYVelCb(const std_msgs::Float64 & msg){
+    pidCmdVelY = msg.data;
+}
+
+void BotelloMovementNode::pidForZVelCb(const std_msgs::Float64 & msg){
+    pidCmdVelZ = msg.data;
+}
+
+void BotelloMovementNode::pidForYawVelCb(const std_msgs::Float64 & msg){
+    pidCmdVelYaw = msg.data;
 }
 
 // Landing control system
-void BotelloMovementNode::commandLanding(double & vz)
-{
-    // Only allow autonomous commands if enough time has passed since a manual override.
-    if ((ros::Time::now() - mDescendPeriodStamp).toSec() <= mDescendPeriodTimeout)
-    {
-        vz = -0.2;
-        return;
-    }
-    //Publish emergency landing after 3 second desending
-    pub_land_emergency_.publish(std_msgs::Empty());
-    ROS_INFO_STREAM("EMERGENCY LANDING INITIATED"<<"\n");
-
-
-}
 
 void BotelloMovementNode::commandVelocity(const double & vx,
                                           const double & vy,
@@ -191,49 +264,60 @@ void BotelloMovementNode::controlVelocity()
                 * } else {
                 */
             // ROS_INFO_STREAM("Could not find goal transform for " << (ros::Time::now() - mLastGoalLookupTime).toSec() << " seconds. Exception:" << ex.what() << "\n");
+            // }
+            commandVelocity(0, 0, 0, 0);
+            pub_land_emergency_.publish(std_msgs::Empty());
             ROS_INFO_STREAM("RELOCALIZATION"<< "\n");
-            double cmdVelZReloc = pid("z",2.0,mZGains);
-            if(mTelloStatusHeight >= 2.0){
-                commandVelocity(0,0,0,0.5);
-            }else{
-                commandVelocity(0,0,cmdVelZReloc,0.5);
-            }
+            // pub_land_.publish(std_msgs::Empty());
+            // double cmdVelZReloc = pid("z",2.0,mZGains);
+            // if(mTelloStatusHeight >= 2.0){
+            //     commandVelocity(0,0,0,0.5);
+            // }else{
+            //     commandVelocity(0,0,cmdVelZReloc,0.5);
             // }
         }
         return;
     }
 
+
     // Note that we have found a transform to goal.
     mLastGoalLookupTime = ros::Time::now();
 
     // Compute velocities based on the error.
-    double errX = goalInBaselink.getOrigin().getX();
-    double errY = goalInBaselink.getOrigin().getY();
-    double errZ = goalInBaselink.getOrigin().getZ(); // defulat is 0
-    double errYaw = tf::getYaw(goalInBaselink.getRotation());
+    errX = goalInBaselink.getOrigin().getX();
+    errY = goalInBaselink.getOrigin().getY();
+    errZ = goalInBaselink.getOrigin().getZ(); // default is 0
+    errYaw = tf::getYaw(goalInBaselink.getRotation());
+    ROS_INFO_STREAM("Errors of goal x y yaw: x=" << errX << " y=" << errY << " z=" << errZ << " yaw= "<< errYaw << "\n");
+    // double cmdVelX = new_pid(errorPidX,errX, mXGains);
+    // double cmdVelY = new_pid(errorPidY,errY, mYGains);
+    // double cmdVelZ = new_pid(errorPidZ,errZ, mZGains); //default is 0
+    // double cmdVelYaw = new_pid(errorPidYaw,errYaw, mYawGains);
+    double cmdVelX;
+    double cmdVelY;
+    double cmdVelZ;
+    double cmdVelYaw;
 
-    double cmdVelX = pid("x", errX, mXGains);
-    double cmdVelY = pid("y", errY, mYGains);
-    double cmdVelZ = pid("z", errZ, mZGains);
-    //double cmdVelZ = 0;
-    double cmdVelYaw = pid("yaw", errYaw, mYawGains);
+    cmdVelX= new_pid_with_limiter(errorPidX,errX, mXGains);
+    cmdVelY = new_pid_with_limiter(errorPidY,errY, mYGains);
+    cmdVelYaw = new_pid_with_limiter(errorPidYaw,errYaw, mYawGains);
+    cmdVelZ = new_pid_with_limiter(errorPidZ,errZ, mZGains);
 
-    ROS_INFO_STREAM("Errors of goal x y yaw: " << errX << " " << errY << " " << errYaw << "\n");
-
-    // isLanding = false;
-
-    //Height control and landing system
-    if (errX < 0.5) {
-        // mDescendPeriodStamp = ros::Time::now();
-        // commandLanding(cmdVelZ);
-        // isLanding = true;
-        //
-            cmdVelZ = -10;
-            ROS_INFO_STREAM("LANDING INITITATED"<<"\n");
+    if(errZ < -0.3){
+        commandVelocity(0, 0 , cmdVelZ, -cmdVelYaw);
+        return;
     }
-
-    // Tello commands are not right-handed.
-    commandVelocity(-cmdVelY, cmdVelX , cmdVelZ, -cmdVelYaw);
+    if(errX < 0.5 && errY >=-0.15 && errY<0.15){
+        //cmdVelZ =-10.0;
+        //pub_land_emergency_.publish(std_msgs::Empty());
+        commandVelocity(0, 0, 0, 0);
+        pub_land_emergency_.publish(std_msgs::Empty());
+        // pub_land_.publish(std_msgs::Empty());
+        ROS_INFO("LANDING INITIATED...");
+        return;
+    }else{
+        commandVelocity(-cmdVelY, cmdVelX , cmdVelZ, -cmdVelYaw);
+    }
 }
 
 double BotelloMovementNode::pid(const std::string & axis,const double & error, const PidGains & gains)
@@ -242,8 +326,46 @@ double BotelloMovementNode::pid(const std::string & axis,const double & error, c
     double cmd = gains.kp * error;
     cmd = cmd > 0.7 ? 0.7 : cmd; // default 0.5
     cmd = cmd < -0.7 ? -0.7 : cmd;
+    
     return cmd;
 }
+
+double BotelloMovementNode::new_pid(ErrorForPid error_pid,const double & error, const PidGains & gains)
+{
+    error_pid.error_int += error;
+    if (error_pid.error_prev == 0){
+        error_pid.error_prev = error;
+    }
+    error_pid.error_deriv = error - error_pid.error_prev;
+    
+    double cmd = gains.kp*error + gains.ki*error_pid.error_int + gains.kd*error_pid.error_deriv;
+    // cmd = cmd > 0.7 ? 0.7 : cmd; // speed limiter default 0.5
+    // cmd = cmd < -0.7 ? -0.7 : cmd;
+    error_pid.error_prev = error;//maybe switch it to the end
+    return cmd;
+}
+
+double BotelloMovementNode::new_pid_with_limiter(ErrorForPid error_pid,const double & error, const PidGains & gains)
+{
+    double time = ros::Time::now().toSec();
+    double dt = time - error_pid.previousTime;
+
+    error_pid.error_int += error * dt;
+    error_pid.error_int = std::max(std::min(error_pid.error_int,gains.integratorMax),gains.integratorMin);
+    if (error_pid.error_prev == 0){
+        error_pid.error_prev = error;
+    }
+    if(dt > 0){
+        error_pid.error_deriv = (error - error_pid.error_prev)/dt;
+    }
+    
+    double temp = gains.kp*error + gains.ki*error_pid.error_int + gains.kd*error_pid.error_deriv;
+    error_pid.error_prev = error;
+    error_pid.previousTime = time;
+    double cmd = std::max(std::min(temp,gains.maxOutput),gains.minOutput);
+    return cmd;
+}
+
 } // End namespace botello_movement.
 
 

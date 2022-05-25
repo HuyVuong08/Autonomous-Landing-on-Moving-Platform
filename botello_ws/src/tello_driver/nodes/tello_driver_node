@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+from numpy import flip
 import rospy
 from std_msgs.msg import Empty, UInt8, Bool
 from std_msgs.msg import UInt8MultiArray
@@ -19,6 +20,7 @@ from tellopy._internal import error
 from tellopy._internal import protocol
 from tellopy._internal import logger
 
+import cv2 
 ######################################BEGIN#######################################
 
 #### Additional module imports (Jordy) ####
@@ -490,6 +492,8 @@ class TelloNode(tello.Tello):
                 # vs blocks, dies on self.stop
                 for frame in container.decode(video=0):
                     img = np.array(frame.to_image())
+                    frame_to_img = cv2.flip(img, 0)
+                    img_flip = np.array(frame_to_img)
                     try:
                         img_msg = self.bridge.cv2_to_imgmsg(img, 'rgb8')
                         img_msg.header.frame_id = self.caminfo.header.frame_id

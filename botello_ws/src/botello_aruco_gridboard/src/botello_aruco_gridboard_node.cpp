@@ -15,6 +15,7 @@ BotelloArucoGridboardNode::BotelloArucoGridboardNode(const ros::NodeHandle & nh)
     
     // Publish
     mLandmarkPub = mnh.advertise<geometry_msgs::TransformStamped>("/botello/landmark", 1);
+    mBaseLinkPub = mnh.advertise<geometry_msgs::TransformStamped>("/botello/base_link_in_tag", 1);
 
     // Get params from server.
     getParamsFromParamServer();
@@ -212,7 +213,9 @@ void BotelloArucoGridboardNode::imageCb(const sensor_msgs::ImageConstPtr & image
         geometry_msgs::Quaternion p_quat = tf::createQuaternionMsgFromRollPitchYaw(eulerAngles[0], eulerAngles[1], eulerAngles[2]);
 
         // Publish robot pose.
-        tf::Quaternion qFrontCamInBaselink(-0.5, 0.5, -0.5, 0.5);
+        tf::Quaternion qFrontCamInBaselink(-0.5, 0.5, -0.5, 0.5); //for front camera
+        //tf::Quaternion qFrontCamInBaselink(-0.7071066, -0.0005631, 0.7071065, 0.0005631);
+        //tf::Quaternion qFrontCamInBaselink(0.9999994, 0.0007963, 0.0007963,0); //for bottom camera
         tf::Matrix3x3 rotFrontCamInBaselink(qFrontCamInBaselink);
         tf::Vector3 tFrontCamInBaselink(0.03, 0, 0);
         tf::Transform  camInBaselink = tf::Transform(rotFrontCamInBaselink, tFrontCamInBaselink);
@@ -226,9 +229,12 @@ void BotelloArucoGridboardNode::imageCb(const sensor_msgs::ImageConstPtr & image
 
         // Publish the landmark detection on the landmarks topic.
         geometry_msgs::TransformStamped tagInBaselinkMsg;
+        geometry_msgs::TransformStamped baseLinkInTagMsg;
         // TODO(yoraish): get the landmark frame from the detection itself. Remove the hardcoded tag0.
         tf::transformStampedTFToMsg(tf::StampedTransform(tagInBaselink, ros::Time::now(), "base_link", "tag0"), tagInBaselinkMsg);
         mLandmarkPub.publish(tagInBaselinkMsg);
+        tf::transformStampedTFToMsg(tf::StampedTransform(tagInBaselink, ros::Time::now(), "base_link", "tag0"), baseLinkInTagMsg);
+        mBaseLinkPub.publish(baseLinkInTagMsg);
 
         // Publish a debug tf.
         mbr.sendTransform(tf::StampedTransform(tagInBaselink, ros::Time::now(), "base_link", "tag0_obs"));

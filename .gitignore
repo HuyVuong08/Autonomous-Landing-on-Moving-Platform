@@ -6,3 +6,4 @@ botello_ws/build
 botello_ws/devel
 botello_ws/logs
 *.pyc
+.vscode/

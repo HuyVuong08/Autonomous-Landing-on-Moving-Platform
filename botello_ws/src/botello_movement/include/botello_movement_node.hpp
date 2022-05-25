@@ -1,5 +1,6 @@
-#include <std_msgs/Empty.h>
-#include <std_msgs/Bool.h>
+#include "std_msgs/Empty.h"
+#include "std_msgs/Bool.h"
+#include "std_msgs/Float64.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "nav_msgs/Odometry.h"
@@ -9,7 +10,7 @@
 #include <tf/transform_listener.h>
 #include <sstream>
 #include "tello_driver/TelloStatus.h"
-
+#include <algorithm>
 #pragma once
 
 namespace botello_movement
@@ -20,7 +21,20 @@ struct PidGains
     double kp;
     double ki;
     double kd;
+    double minOutput;
+    double maxOutput;
+    double integratorMin;
+    double integratorMax;
 };
+
+struct ErrorForPid
+{
+    double error_int = 0;
+    double error_prev = 0;
+    double error_deriv = 0;
+    double previousTime = 0;
+};
+
 
 class BotelloMovementNode
 {
@@ -34,7 +48,7 @@ private:
     ros::Time mDescendPeriodStamp;
     // Most recent successful lookup of `goal` frame.
     ros::Time mLastGoalLookupTime;
-
+    
     // Node handle.
     ros::NodeHandle mnh;
 
@@ -46,6 +60,11 @@ private:
     PidGains mYGains;
     PidGains mZGains;
     PidGains mYawGains;
+
+    ErrorForPid errorPidX;
+    ErrorForPid errorPidY;
+    ErrorForPid errorPidZ;
+    ErrorForPid errorPidYaw;
 
     // land flag
     bool isLanding = false;
@@ -67,13 +86,21 @@ private:
     // Tello status.
     bool mTelloStatusIsFlying;
     double mTelloStatusHeight;
+    double errX;
+    double errY;
+    double errZ ; // default is 0
+    double errYaw ;
+    //PID controller output
+    double pidCmdVelX;
+    double pidCmdVelY;
+    double pidCmdVelZ;
+    double pidCmdVelYaw;
 
     // ================
     // Methods.
     // ================
     bool getParamsFromParamServer();
     //Landing control system
-    void commandLanding(double & vz);
     // Send /cmd_vel msgs to command velocities on the robot.
     void commandVelocity(const double & vx,
                          const double & vy,
@@ -83,13 +110,19 @@ private:
 
     // Get a velocity command from an axis, gains, and error.
     double pid(const std::string & axis,const double & error, const PidGains & gains);
-
+    double new_pid(ErrorForPid error_pid,const double & error, const PidGains & gains);
+    double new_pid_with_limiter(ErrorForPid error_pid,const double & error, const PidGains & gains);
     // ================
     // Listeners.
     // ================
     ros::Subscriber mManualOverrideSub;
     ros::Subscriber mGoalReachedFlagSub;
     ros::Subscriber mTelloStatusSub;
+
+    ros::Subscriber mPidOutputXSub;
+    ros::Subscriber mPidOutputYSub;
+    ros::Subscriber mPidOutputZSub;
+    ros::Subscriber mPidOutputYawSub;
 
     // ================
     // Publishers.
@@ -98,7 +131,6 @@ private:
     ros::Publisher pub_land_;
     ros::Publisher pub_land_emergency_;
 
-
     // ================
     // Callbacks.
     // ================
@@ -106,13 +138,19 @@ private:
     void GoalReachedCb(const std_msgs::Bool & msg);
     void telloStatusCb(const tello_driver::TelloStatus & msg);
 
-
+    void pidForXVelCb(const std_msgs::Float64 & msg);
+    void pidForYVelCb(const std_msgs::Float64 & msg);
+    void pidForZVelCb(const std_msgs::Float64 & msg);
+    void pidForYawVelCb(const std_msgs::Float64 & msg);
+    void setErrorSumToZero(const std::string &axis);
+    void setErrorDerivativeToZero();
 public:
     BotelloMovementNode(const ros::NodeHandle & nh);
     ~BotelloMovementNode();
 
     // Get the current error between base_link and goal, and translate that to velocity commands via a PID controller.
     void controlVelocity();
+    void publishSetpoint();
 };
 
 } // namespace botello_movement

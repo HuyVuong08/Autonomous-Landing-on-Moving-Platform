@@ -2,4 +2,66 @@
     <node pkg="botello_movement" name="botello_movement_node" type="botello_movement_node" output="screen">	
         <rosparam command="load" file="$(find botello_movement)/config/botello_movement.yaml" /> 
 	</node>
+
+
+    <!-- <node name="controller" pkg="pid" type="controller" ns="x_vel_ns" output="screen" >
+      <param name="node_name" value="x_vel_pid" />
+      <param name="Kp" value="-0.5" />
+      <param name="Ki" value="0.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1.5" />
+      <param name="lower_limit" value="-1.5" />
+      <param name="windup_limit" value="1.5" />
+      <param name="max_loop_frequency" value="100.0" />
+      <param name="min_loop_frequency" value="100.0" />
+      <remap from="setpoint" to="/tello/goal_x" />
+      <remap from="state" to="/tello/error_x" />
+      <remap from="control_effort" to="/pid_output_x_vel" />
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="y_vel_ns" output="screen" >
+      <param name="node_name" value="y_vel_pid" />
+      <param name="Kp" value="0.5" />
+      <param name="Ki" value="0.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1.5" />
+      <param name="lower_limit" value="-1.5" />
+      <param name="windup_limit" value="1.5" />
+      <param name="max_loop_frequency" value="100.0" />
+      <param name="min_loop_frequency" value="100.0" />
+      <remap from="setpoint" to="/tello/goal_y" />
+      <remap from="state" to="/tello/error_y" />
+      <remap from="control_effort" to="/pid_output_y_vel" />
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="z_vel_ns" output="screen" >
+      <param name="node_name" value="z_vel_pid" />
+      <param name="Kp" value="-0.5" />
+      <param name="Ki" value="0.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1.5" />
+      <param name="lower_limit" value="-1.5" />
+      <param name="windup_limit" value="1.5" />
+      <param name="max_loop_frequency" value="100.0" />
+      <param name="min_loop_frequency" value="100.0" />
+      <remap from="setpoint" to="/tello/goal_z" />
+      <remap from="state" to="/tello/error_z" />
+      <remap from="control_effort" to="/pid_output_z_vel" />
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="yaw_vel_ns" output="screen" >
+      <param name="node_name" value="yaw_vel_pid" />
+      <param name="Kp" value="0.5" />-
+      <param name="Ki" value="0.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1.5" />
+      <param name="lower_limit" value="-1.5" />
+      <param name="windup_limit" value="1.5" />
+      <param name="max_loop_frequency" value="100.0" />
+      <param name="min_loop_frequency" value="100.0" />
+      <remap from="setpoint" to="/tello/goal_yaw" />
+      <remap from="state" to="/tello/error_yaw" />
+      <remap from="control_effort" to="/pid_output_yaw_vel" /> 
+    </node>-->
+
 </launch>

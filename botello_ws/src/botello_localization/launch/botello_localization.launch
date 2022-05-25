@@ -7,5 +7,6 @@
 
     <!-- Publish locations of landmarks. TODO(yoraish): move those to a yaml and publish from the node. -->
 	<node pkg="tf" type="static_transform_publisher" name="map_to_tag0" output="screen" args="0 0 0 1.57 0 1.57 map tag0 100" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map_to_tag0" output="screen" args="0 0 0 0 0 0 map tag0 100" /> -->
 
 </launch>

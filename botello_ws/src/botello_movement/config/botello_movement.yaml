@@ -2,18 +2,38 @@ manual_override_cooldown_timeout: 5.0 # Seconds between a manual override and al
 no_goals_max_time: 60.0 # Max seconds without goals. Send stop signal after this timeout.
 pid_gains:
   x:
-    kp: 1.3
-    ki: 1
-    kd: 1
+    kp: 1.0
+    ki: 0.0
+    kd: 0.1
+
+    minOutput: -1.0
+    maxOutput: 1.0
+    integratorMin: -0.1
+    integratorMax: 0.1
   y:
-    kp: 1.3
-    ki: 1
-    kd: 1
+    kp: 1.0
+    ki: 0.5
+    kd: 0.1
+
+    minOutput: -1.0
+    maxOutput: 1.0
+    integratorMin: -0.1
+    integratorMax: 0.1
   z:
-    kp: 1.3
-    ki: 1
-    kd: 1
+    kp: 1.5
+    ki: 0.0
+    kd: 0.1
+
+    minOutput: -0.5
+    maxOutput: 0.5
+    integratorMin: -0.1
+    integratorMax: 0.1
   yaw:
-    kp: 1
-    ki: 1
-    kd: 1
+    kp: 1.0
+    ki: 0.0
+    kd: 0.1
+
+    minOutput: -0.5
+    maxOutput: 0.5
+    integratorMin: -0.1
+    integratorMax: 0.1
